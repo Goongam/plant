@@ -7,8 +7,6 @@ interface Props {
   handleSelect: (select: string) => void;
 }
 export default function HomeCategories({ select, handleSelect }: Props) {
-  console.log(select);
-
   return (
     <section className="w-full h-20 bg-neutral-200 sticky top-0 flex justify-center items-center gap-5">
       {CATEGORIES.map((cateogry) => (
