@@ -1,6 +1,7 @@
 "use client";
 
 import Filter from "@/components/Filter";
+import GroupList from "@/components/GroupList";
 import HomeCategories from "@/components/HomeCategories";
 import { useState } from "react";
 
@@ -49,7 +50,7 @@ export default function Home() {
           setSelectRegion={setSelectRegion}
         />
 
-        <section>여기에 방 목록들 나옴</section>
+        <GroupList />
       </div>
     </main>
   );
