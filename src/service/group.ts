@@ -11,6 +11,7 @@ export interface Group {
   createAt: Date;
   users: User[];
   posts?: Post[];
+  category: "운동" | "자기계발" | "취미" | "여행";
 }
 
 export function createGroup(name: string) {
@@ -21,6 +22,7 @@ export function createGroup(name: string) {
     end_date: "2023-09-01",
     users: [],
     posts: [],
+    category: "여행",
   });
 
   return newGroup

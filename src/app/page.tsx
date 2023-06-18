@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <main>
       <HomeCategories select={select} handleSelect={setSelect} />
-      <div className="flex flex-row w-full h-full">
+      <div className="flex flex-col md:flex-row w-full h-full">
         <Filter
           date={date}
           selectFee={selectFee}

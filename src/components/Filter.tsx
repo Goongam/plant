@@ -25,7 +25,6 @@ export default function Filter({
   setSelectOff,
   setSelectRegion,
 }: Props) {
-    
   const clearFilter = useCallback(() => {
     setSelectFee(AdmissionFees[0]);
     setSelectOff(offlineMeetings[0]);
@@ -38,7 +37,7 @@ export default function Filter({
   }, [clearFilter]);
 
   return (
-    <section className="border-r border-b border-black w-52 flex flex-col justify-center gap-3 p-2">
+    <section className="border-r border-b border-black w-52 flex flex-col gap-3 p-2">
       <div className="flex justify-between">
         <span>필터</span>
         <button onClick={clearFilter}>필터초기화</button>
