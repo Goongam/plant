@@ -31,6 +31,7 @@ export default function RootLayout({
             {children}
           </QueryProvierContext>
         </AuthContext>
+        <div id="portal" />
       </body>
     </html>
   );

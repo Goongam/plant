@@ -12,6 +12,11 @@ export interface Group {
   users: User[];
   posts?: Post[];
   category: "운동" | "자기계발" | "취미" | "여행";
+  max_user: number;
+  createBy: User;
+  isOffline: boolean;
+  inweek: number;
+  isSecret: boolean;
 }
 
 export function createGroup(name: string) {

@@ -10,6 +10,16 @@ const GroupSchema = new mongoose.Schema<Group, GroupModel>({
   createAt: { type: Date, default: Date.now },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  category: { type: String, required: true },
+  max_user: { type: Number, required: true },
+  createBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    require: true,
+  },
+  inweek: { type: Number, required: true },
+  isOffline: { type: Boolean, required: true },
+  isSecret: { type: Boolean, required: true },
 });
 
 export default (mongoose.models.Group as GroupModel) ||
