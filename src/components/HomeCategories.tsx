@@ -15,7 +15,7 @@ export default function HomeCategories({ select, handleSelect }: Props) {
           onClick={(e) => {
             handleSelect(e.currentTarget.value);
           }}
-          className={`w-24 h-full text-2xl border-black ${
+          className={`w-24 h-full text-xl md:text-2xl border-black ${
             cateogry === select && "border-b"
           }`}
           value={cateogry}

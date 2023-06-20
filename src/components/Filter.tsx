@@ -37,84 +37,88 @@ export default function Filter({
   }, [clearFilter]);
 
   return (
-    <section className="border-r border-b border-black w-52 flex flex-col gap-3 p-2">
-      <div className="flex justify-between">
-        <span>필터</span>
-        <button onClick={clearFilter}>필터초기화</button>
-      </div>
-
-      <h2 className={titleStyle}>일시</h2>
+    <section className="border-r border-b border-black w-full h-fit md:w-52 flex flex-col gap-3 p-2">
       <div>
-        <input
-          type="date"
-          onChange={(e) => {
-            setDate(e.target.value);
-          }}
-          value={date}
-        />
-        까지
-      </div>
+        <div className="flex justify-between">
+          <span>필터</span>
+          <button onClick={clearFilter}>필터초기화</button>
+        </div>
 
-      <h2 className={titleStyle}>참가비용</h2>
-      <div>
-        <ul>
-          {AdmissionFees.map((fee) => {
-            return (
-              <li key={fee}>
+        <h2 className={titleStyle}>일시</h2>
+        <div className="w-full flex gap-2">
+          <input
+            className="flex-1"
+            type="date"
+            onChange={(e) => {
+              setDate(e.target.value);
+            }}
+            value={date}
+          />
+          까지
+        </div>
+
+        <h2 className={titleStyle}>참가비용</h2>
+        <div>
+          <ul>
+            {AdmissionFees.map((fee) => {
+              return (
+                <li key={fee}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="fee"
+                      key={fee}
+                      value={fee}
+                      checked={fee === selectFee}
+                      onChange={(e) => {
+                        setSelectFee(e.target.value);
+                      }}
+                    />
+                    <span className="ml-2">{fee}</span>
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <h2 className={titleStyle}>지역</h2>
+        <div>
+          <select
+            className="w-full"
+            onChange={(e) => {
+              setSelectRegion(e.target.value);
+            }}
+            value={selectRegion}
+          >
+            {regions.map((r) => (
+              <option key={r}>{r}</option>
+            ))}
+          </select>
+        </div>
+
+        <h2 className={titleStyle}>오프라인 미팅 유무</h2>
+        <div>
+          <ul>
+            {offlineMeetings.map((off) => (
+              <li key={off}>
                 <label>
                   <input
                     type="radio"
-                    name="fee"
-                    key={fee}
-                    value={fee}
-                    checked={fee === selectFee}
+                    name="offline"
+                    key={off}
+                    value={off}
+                    checked={off === selectOff}
                     onChange={(e) => {
-                      setSelectFee(e.target.value);
+                      setSelectOff(e.target.value);
                     }}
                   />
-                  <span className="ml-2">{fee}</span>
+                  <span className="ml-2">{off}</span>
                 </label>
               </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      <h2 className={titleStyle}>지역</h2>
-      <div>
-        <select
-          onChange={(e) => {
-            setSelectRegion(e.target.value);
-          }}
-          value={selectRegion}
-        >
-          {regions.map((r) => (
-            <option key={r}>{r}</option>
-          ))}
-        </select>
-      </div>
-
-      <h2 className={titleStyle}>오프라인 미팅 유무</h2>
-      <div>
-        <ul>
-          {offlineMeetings.map((off) => (
-            <li key={off}>
-              <label>
-                <input
-                  type="radio"
-                  name="offline"
-                  key={off}
-                  value={off}
-                  checked={off === selectOff}
-                  onChange={(e) => {
-                    setSelectOff(e.target.value);
-                  }}
-                />
-                <span className="ml-2">{off}</span>
-              </label>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

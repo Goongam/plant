@@ -18,12 +18,23 @@ export default function GroupListCard({ group }: Props) {
           setOpenModal(true);
         }}
       >
-        <h2 className="font-semibold text-2xl">{group.name}</h2>
-        <p className="text-neutral-600">{group.description}</p>
-        <p className="text-2xl mt-2">{`${group.users.length} / ${group.max_user}`}</p>
-        <div className="mt-auto">
-          <span className="rounded-xl bg-white p-1 mr-2">{group.category}</span>
-          <span>{`${dateFormat(group.end_date)}까지`}</span>
+        <h2 className="font-semibold text-2xl line-clamp-1">{group.name}</h2>
+
+        <p className="w-full h-15 text-neutral-600 break-words line-clamp-2">
+          {
+            "group.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.description"
+          }
+        </p>
+        <p className="text-2xl mt-2">{`${group.users.length} / ${
+          group.max_user ?? 0
+        }`}</p>
+        <div className="flex items-end mt-auto">
+          {group.category && (
+            <span className="rounded-xl bg-white p-1 mr-2">
+              {group.category}
+            </span>
+          )}
+          <span className="ml-auto">{`${dateFormat(group.end_date)}까지`}</span>
         </div>
       </div>
       {openModal && (
@@ -31,7 +42,6 @@ export default function GroupListCard({ group }: Props) {
           <ModalBackground
             onClose={() => {
               setOpenModal(false);
-              console.log("close");
             }}
           >
             <GroupDetail group={group} />
