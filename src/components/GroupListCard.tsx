@@ -10,6 +10,8 @@ interface Props {
 }
 export default function GroupListCard({ group }: Props) {
   const [openModal, setOpenModal] = useState(false);
+  const { category, end_date, max_user, name, users, description } = group;
+
   return (
     <>
       <div
@@ -18,23 +20,19 @@ export default function GroupListCard({ group }: Props) {
           setOpenModal(true);
         }}
       >
-        <h2 className="font-semibold text-2xl line-clamp-1">{group.name}</h2>
+        <h2 className="font-semibold text-2xl line-clamp-1">{name}</h2>
 
         <p className="w-full h-15 text-neutral-600 break-words line-clamp-2">
           {
             "group.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.description"
           }
         </p>
-        <p className="text-2xl mt-2">{`${group.users.length} / ${
-          group.max_user ?? 0
-        }`}</p>
+        <p className="text-2xl mt-2">{`${users.length} / ${max_user ?? 0}`}</p>
         <div className="flex items-end mt-auto">
-          {group.category && (
-            <span className="rounded-xl bg-white p-1 mr-2">
-              {group.category}
-            </span>
+          {category && (
+            <span className="rounded-xl bg-white p-1 mr-2">{category}</span>
           )}
-          <span className="ml-auto">{`${dateFormat(group.end_date)}까지`}</span>
+          <span className="ml-auto">{`${dateFormat(end_date)}까지`}</span>
         </div>
       </div>
       {openModal && (

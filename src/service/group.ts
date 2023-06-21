@@ -10,6 +10,7 @@ export interface Group {
   end_date: Date;
   createAt: Date;
   users: User[];
+  leader: User;
   posts?: Post[];
   category: "운동" | "자기계발" | "취미" | "여행";
   max_user: number;

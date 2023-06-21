@@ -4,12 +4,13 @@ import mongoose, { Model } from "mongoose";
 interface GroupModel extends Model<Group> {}
 
 const GroupSchema = new mongoose.Schema<Group, GroupModel>({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
+  name: { type: String, required: true, maxlength: 50, trim: true },
+  description: { type: String, required: true, maxlength: 1000, trim: true },
   end_date: { type: Date, required: true },
   createAt: { type: Date, default: Date.now },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  leader: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   category: { type: String, required: true },
   max_user: { type: Number, required: true },
   createBy: {

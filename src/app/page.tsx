@@ -5,7 +5,14 @@ import GroupList from "@/components/GroupList";
 import HomeCategories from "@/components/HomeCategories";
 import { useState } from "react";
 
-export const CATEGORIES = ["전체", "운동", "자기계발", "취미", "여행"];
+export type Category = "전체" | "운동" | "자기계발" | "취미" | "여행";
+export const CATEGORIES: Category[] = [
+  "전체",
+  "운동",
+  "자기계발",
+  "취미",
+  "여행",
+];
 export const AdmissionFees = ["전체", "무료", "유료"];
 export const regions = [
   "전체",
@@ -35,9 +42,13 @@ export default function Home() {
   const [selectRegion, setSelectRegion] = useState("");
   const [date, setDate] = useState("");
 
+  const handleSelect = (select: string) => {
+    setSelect(select as Category);
+  };
   return (
-    <main>
-      <HomeCategories select={select} handleSelect={setSelect} />
+    <>
+      <HomeCategories select={select} handleSelect={handleSelect} />
+
       <div className="flex flex-col md:flex-row w-full h-full">
         <Filter
           date={date}
@@ -50,8 +61,8 @@ export default function Home() {
           setSelectRegion={setSelectRegion}
         />
 
-        <GroupList />
+        <GroupList selectCategory={select} />
       </div>
-    </main>
+    </>
   );
 }
