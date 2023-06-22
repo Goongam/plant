@@ -9,13 +9,14 @@ export interface User {
 }
 
 interface OauthUser {
+  id: string;
   email: string;
   name: string;
   image?: string | null;
 }
 
 const ADMIN_EMAIL = "dlwjddn341@naver.com";
-export async function AddUser({ name, email, image }: OauthUser) {
+export async function AddUser({ id, name, email, image }: OauthUser) {
   connect();
   const findUser = await UserSchema.exists({ email });
   if (!findUser) {
@@ -34,4 +35,9 @@ export async function AddUser({ name, email, image }: OauthUser) {
         return err;
       });
   }
+}
+
+export async function getUserIdbyEmail(email: string) {
+  const userId = await UserSchema.findOne({ email }, "_id");
+  return userId;
 }

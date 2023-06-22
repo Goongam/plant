@@ -1,7 +1,8 @@
 import { connect } from "@/lib/mongoose";
 import { Post } from "./post";
-import { User } from "./user";
+import { User, getUserIdbyEmail } from "./user";
 import GroupSchema from "@/schema/group";
+import mongoose from "mongoose";
 
 export interface Group {
   id: string;
@@ -44,5 +45,30 @@ export async function getGroup() {
   connect();
   return GroupSchema.find({}, "", {
     sort: "createAt",
-  }).lean();
+  })
+    .populate("users")
+    .lean()
+    .then((results) =>
+      results.map((result) => {
+        return { ...result, id: result._id };
+      })
+    );
+}
+
+export async function joinGroup(email: string, groupId: string) {
+  connect();
+  const id = await getUserIdbyEmail(email);
+
+  //방안에 유저 체크
+  const inuser = await GroupSchema.findOne({ _id: groupId }, "")
+    .where("users")
+    .in([id?._id]);
+
+  console.log(inuser);
+
+  if (inuser) throw new Error("Already join this group");
+
+  return GroupSchema.findByIdAndUpdate(groupId, {
+    $push: { users: id },
+  });
 }
