@@ -2,6 +2,8 @@
 
 import { AdmissionFees, offlineMeetings, regions } from "@/app/page";
 import { useState, useEffect, useCallback } from "react";
+import DropdownIcon from "./ui/icons/DropdownIcon";
+import DropUpIcon from "./ui/icons/DropUpIcon";
 
 const titleStyle = "font-bold text-xl mt-5";
 
@@ -25,6 +27,7 @@ export default function Filter({
   setSelectOff,
   setSelectRegion,
 }: Props) {
+  const [openFilter, setOpenFilter] = useState(false);
   const clearFilter = useCallback(() => {
     setSelectFee(AdmissionFees[0]);
     setSelectOff(offlineMeetings[0]);
@@ -37,11 +40,28 @@ export default function Filter({
   }, [clearFilter]);
 
   return (
-    <section className="border-r border-b border-black w-full h-fit md:w-52 flex flex-col gap-3 p-2">
+    <section
+      className={`border-b border-neutral-200 md:border-0 w-full md:w-52 flex flex-col gap-3 p-2 ${
+        openFilter ? "h-fit" : "h-10 overflow-hidden"
+      } md:h-fit`}
+    >
+      <div className="flex justify-between md:hidden">
+        <span className="md:hidden">필터</span>
+        <button
+          className="ml-auto"
+          onClick={() => {
+            setOpenFilter(!openFilter);
+          }}
+        >
+          {openFilter ? <DropUpIcon /> : <DropdownIcon />}
+        </button>
+      </div>
       <div>
-        <div className="flex justify-between">
-          <span>필터</span>
-          <button onClick={clearFilter}>필터초기화</button>
+        <div className="flex content-between">
+          <span className="hidden md:block">필터</span>
+          <button onClick={clearFilter} className="ml-auto">
+            필터초기화
+          </button>
         </div>
 
         <h2 className={titleStyle}>일시</h2>

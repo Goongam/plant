@@ -23,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={sans.className}>
+    <html lang="en" style={{ scrollbarGutter: "stable", overflowY: "scroll" }}>
+      <body className={`${sans.className}`}>
         <AuthContext>
           <QueryProvierContext>
             <Header />
