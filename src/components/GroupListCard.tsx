@@ -23,9 +23,7 @@ export default function GroupListCard({ group }: Props) {
         <h2 className="font-semibold text-2xl line-clamp-1">{name}</h2>
 
         <p className="w-full h-15 text-neutral-600 break-words line-clamp-2">
-          {
-            "group.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.descriptiongroup.description"
-          }
+          {description}
         </p>
         <p className="text-2xl mt-2">{`${users.length} / ${max_user ?? 0}`}</p>
         <div className="flex items-end mt-auto">

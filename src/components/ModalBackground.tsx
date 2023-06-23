@@ -1,8 +1,13 @@
 interface Props {
   children: React.ReactNode;
   onClose: () => void;
+  type?: "full" | "side";
 }
-export default function ModalBackground({ children, onClose }: Props) {
+export default function ModalBackground({
+  children,
+  onClose,
+  type = "full",
+}: Props) {
   return (
     <section
       className="fixed top-0 left-0 flex flex-col justify-center items-center w-full h-full z-50 bg-slate-900/70"
