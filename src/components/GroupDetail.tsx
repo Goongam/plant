@@ -1,62 +1,31 @@
+"use client";
+
 import { Group } from "@/service/group";
-import { dateFormat } from "@/util/dayjs";
-import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useQuery } from "react-query";
+import Avatar from "./Avatar";
 
 interface Props {
-  group: Group;
+  groupId: string;
 }
-export default function GroupDetail({ group }: Props) {
+
+const fetcher = (groupId: string) =>
+  fetch(`/api/group/${groupId}`).then((res) => res.json());
+
+export default function GroupDetail({ groupId }: Props) {
   const {
-    id,
-    category,
-    createAt,
-    description,
-    end_date,
-    max_user,
-    name,
-    users,
-  } = group;
+    data: group,
+    isLoading,
+    isError,
+  } = useQuery<Group>(["group-data", groupId], () => fetcher(groupId));
 
-  const u = useSession();
+  if (isLoading) return <>loading...</>;
 
-  const isAlreadyJoin = users.filter(
-    (user) => user.email === u.data?.user.email
-  );
-
-  // TODO: 입장시 방으로 이동
-  const joinHandler = () => {
-    fetch("/api/group/join", {
-      method: "post",
-      body: JSON.stringify({
-        groupId: id,
-      }),
-    });
-  };
   return (
-    <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3">
-      <p className="text-neutral-500 ml-auto">{dateFormat(createAt)}생성</p>
-      <div className="flex flex-col h-full w-full gap-2 overflow-x-auto scrollbar-hide">
-        <h2 className="font-semibold text-2xl">{name}</h2>
-        <p className="w-full break-words flex-1">{description}</p>
-
-        <div>
-          <div>여기에 방장 표시</div>
-          <div>
-            {users.length}/{max_user ?? 0} 참여
-          </div>
-          <div>여기에 참여인원 표시</div>
-        </div>
-
-        <p>{dateFormat(end_date)}까지</p>
-
-        <button
-          className={`mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
-          onClick={joinHandler}
-          disabled={!!isAlreadyJoin.length}
-        >
-          참가하기
-        </button>
-      </div>
+    <section>
+      {group?.users.map((user) => (
+        <Avatar image={user.image} key={user.email} size="s" />
+      ))}
     </section>
   );
 }

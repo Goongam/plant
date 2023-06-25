@@ -41,7 +41,7 @@ export function createGroup(name: string) {
     });
 }
 
-export async function getGroup() {
+export async function getGroups() {
   connect();
   return GroupSchema.find({}, "", {
     sort: "createAt",
@@ -53,6 +53,13 @@ export async function getGroup() {
         return { ...result, id: result._id };
       })
     );
+}
+
+export async function getGroup(groupId: string) {
+  connect();
+  return await GroupSchema.findOne({ _id: groupId }, "")
+    .populate("users")
+    .lean();
 }
 
 export async function joinGroup(email: string, groupId: string) {

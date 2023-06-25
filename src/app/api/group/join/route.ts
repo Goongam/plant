@@ -1,4 +1,4 @@
-import { createGroup, getGroup, joinGroup } from "@/service/group";
+import { createGroup, getGroups, joinGroup } from "@/service/group";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { AuthOption } from "../../auth/[...nextauth]/route";

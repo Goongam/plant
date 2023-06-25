@@ -1,6 +1,6 @@
 "use client";
 
-import { Group, getGroup } from "@/service/group";
+import { Group, getGroups } from "@/service/group";
 import { useQuery } from "react-query";
 import GroupListCard from "./GroupListCard";
 import Loading from "./ui/Loading";

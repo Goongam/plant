@@ -4,7 +4,7 @@ import { dateFormat } from "@/util/dayjs";
 import { useState } from "react";
 import ModalPortal from "./ModalPortal";
 import ModalBackground from "./ModalBackground";
-import GroupDetail from "./GroupDetail";
+import GroupModalDetail from "./GroupModalDetail";
 interface Props {
   group: Group;
 }
@@ -40,7 +40,7 @@ export default function GroupListCard({ group }: Props) {
               setOpenModal(false);
             }}
           >
-            <GroupDetail group={group} />
+            <GroupModalDetail group={group} />
           </ModalBackground>
         </ModalPortal>
       )}
