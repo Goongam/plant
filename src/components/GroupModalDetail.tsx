@@ -1,6 +1,7 @@
 import { Group } from "@/service/group";
 import { dateFormat } from "@/util/dayjs";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 interface Props {
   group: Group;
@@ -49,13 +50,21 @@ export default function GroupModalDetail({ group }: Props) {
 
         <p>{dateFormat(end_date)}까지</p>
 
-        <button
-          className={`mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
-          onClick={joinHandler}
-          disabled={!!isAlreadyJoin.length}
-        >
-          참가하기
-        </button>
+        {!!isAlreadyJoin.length ? (
+          <Link
+            className={`mt-auto bg-green-200 rounded-lg w-full h-10 disabled:bg-slate-600 flex justify-center items-center`}
+            href={`/group/${id}`}
+          >
+            그룹으로 이동하기
+          </Link>
+        ) : (
+          <button
+            className={`mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
+            onClick={joinHandler}
+          >
+            참가하기
+          </button>
+        )}
       </div>
     </section>
   );
