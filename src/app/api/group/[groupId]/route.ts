@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, context: Context) {
   return withSession((user) => {
     return getGroup(groupId)
       .then((groupData) => {
-        const isJoin = groupData?.users.find((u) => user.email === u.email);
+        const isJoin = groupData?.users.find((u) => user.id === u.id);
         if (isJoin) return NextResponse.json(groupData);
         else return new Response("you don't join this group", { status: 401 });
       })

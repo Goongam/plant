@@ -26,7 +26,7 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
       {day}
       {todayPosts?.map((todayPost) => (
         <div key={todayPost._id}>
-          <Avatar image={todayPost.author.image} size="s" />
+          <Avatar image={todayPost.author?.image} size="s" />
         </div>
       ))}
     </div>

@@ -11,10 +11,11 @@ export const AuthOption: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session({ session, user }) {
+    session({ session, token }) {
       session.user = {
         ...session.user,
         admin: session.user.email === "dlwjddn341@naver.com",
+        id: token.id as string,
       };
       return session;
     },
@@ -23,6 +24,13 @@ export const AuthOption: NextAuthOptions = {
 
       AddUser({ id, email, name, image });
       return true;
+    },
+
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
     },
   },
 };

@@ -4,6 +4,8 @@ import { Group } from "@/service/group";
 import { useQuery } from "react-query";
 import Calander from "./Calander";
 import GroupPosts from "./GroupPosts";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 interface Props {
   groupId: string;
@@ -19,6 +21,8 @@ export default function GroupDetail({ groupId }: Props) {
     isError,
   } = useQuery<Group>(["group-data", groupId], () => fetcher(groupId));
 
+  const router = useRouter();
+
   const testPost = () => {
     fetch("/api/post/new", {
       method: "post",
@@ -29,6 +33,13 @@ export default function GroupDetail({ groupId }: Props) {
       }),
     });
   };
+  if (isError) {
+    console.log("에러");
+    //TODO: 로그인페이지 따로 생성
+    // router.push("/login");
+
+    // signIn();
+  }
   if (isLoading || !group) return <>loading...</>;
 
   const { name } = group;
@@ -41,7 +52,7 @@ export default function GroupDetail({ groupId }: Props) {
       <div className="flex flex-row mt-3 gap-4">
         <div className="flex flex-col flex-1">
           {/* {group?.users.map((user) => (
-        <Avatar image={user.image} key={user.email} size="s" />
+        <Avatar image={user.image} key={user.id} size="s" />
       ))} */}
 
           <div>

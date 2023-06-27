@@ -1,4 +1,4 @@
-import { User, getUserIdbyEmail } from "./user";
+import { User, getUserIdbyOauthId } from "./user";
 import PostSchema from "@/schema/post";
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
@@ -27,7 +27,7 @@ export async function AddPost(
 ) {
   connect();
 
-  const id = await getUserIdbyEmail(author.email);
+  const id = await getUserIdbyOauthId(author.id);
 
   const newPost = new PostSchema({
     author: id,

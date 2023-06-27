@@ -21,11 +21,13 @@ export default function GroupModalDetail({ group }: Props) {
     users,
   } = group;
 
-  const u = useSession();
+  const { data } = useSession();
   const router = useRouter();
-  const isAlreadyJoin = users.filter(
-    (user) => user.email === u.data?.user.email
-  );
+  const isAlreadyJoin = data?.user
+    ? users.find((user) => user.id === data?.user.id)
+    : false;
+
+  console.log(data?.user);
 
   // TODO: 입장시 방으로 이동
   const joinHandler = () => {
@@ -57,16 +59,20 @@ export default function GroupModalDetail({ group }: Props) {
 
         <p>{dateFormat(end_date)}까지</p>
 
-        {!!isAlreadyJoin.length ? (
+        {!!isAlreadyJoin ? (
           <Link
-            className={`mt-auto bg-green-200 rounded-lg w-full h-10 disabled:bg-slate-600 flex justify-center items-center`}
+            className={`${
+              data?.user ?? "hidden"
+            } mt-auto bg-green-200 rounded-lg w-full h-10 disabled:bg-slate-600 flex justify-center items-center`}
             href={`/group/${id}`}
           >
             그룹으로 이동하기
           </Link>
         ) : (
           <button
-            className={`mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
+            className={`${
+              data?.user ?? "hidden"
+            } mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
             onClick={joinHandler}
           >
             참가하기

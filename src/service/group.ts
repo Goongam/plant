@@ -1,6 +1,6 @@
 import { connect } from "@/lib/mongoose";
 import { Post } from "./post";
-import { User, getUserIdbyEmail } from "./user";
+import { User, getUserIdbyOauthId } from "./user";
 import GroupSchema from "@/schema/group";
 import mongoose from "mongoose";
 
@@ -56,9 +56,9 @@ export async function getGroup(groupId: string) {
     .lean();
 }
 
-export async function joinGroup(email: string, groupId: string) {
+export async function joinGroup(oauthid: string, groupId: string) {
   connect();
-  const id = await getUserIdbyEmail(email);
+  const id = await getUserIdbyOauthId(oauthid);
 
   //방안에 유저 체크
   const inuser = await GroupSchema.findOne({ _id: groupId }, "")

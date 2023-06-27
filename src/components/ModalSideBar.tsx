@@ -14,7 +14,7 @@ const BUTTON_STYLE = "flex justify-start items-center gap-2";
 
 export default function ModalSideBar({ user }: Props) {
   return (
-    <section className="absolute top-16 right-3 bg-white w-40 h-fit flex flex-col items-start p-3">
+    <section className="fixed top-16 right-3 bg-white w-40 h-fit flex flex-col items-start p-3">
       <p className="w-full border-b border-neutral-200 p-2">{user?.name}</p>
 
       <div className="w-full flex flex-col gap-2 items-start p-1 pt-3">
