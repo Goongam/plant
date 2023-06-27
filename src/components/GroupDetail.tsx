@@ -1,10 +1,9 @@
 "use client";
 
 import { Group } from "@/service/group";
-import Image from "next/image";
 import { useQuery } from "react-query";
-import Avatar from "./Avatar";
 import Calander from "./Calander";
+import GroupPosts from "./GroupPosts";
 
 interface Props {
   groupId: string;
@@ -20,6 +19,16 @@ export default function GroupDetail({ groupId }: Props) {
     isError,
   } = useQuery<Group>(["group-data", groupId], () => fetcher(groupId));
 
+  const testPost = () => {
+    fetch("/api/post/new", {
+      method: "post",
+      body: JSON.stringify({
+        title: "testPost",
+        content: "testPostcontent",
+        groupId,
+      }),
+    });
+  };
   if (isLoading || !group) return <>loading...</>;
 
   const { name } = group;
@@ -36,9 +45,14 @@ export default function GroupDetail({ groupId }: Props) {
       ))} */}
 
           <div>
-            <Calander />
+            <Calander groupId={groupId} />
+          </div>
+          <div>
+            new Post Test:
+            <button onClick={testPost}>테스트</button>
           </div>
           <div>00월 00일</div>
+          <GroupPosts groupId={groupId} />
         </div>
         <div className="w-36 h-fit hidden md:block">
           <div>참여자</div>

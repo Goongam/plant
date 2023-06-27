@@ -11,9 +11,19 @@ import CalanderCell from "./CalanderCell";
 import { useState } from "react";
 import PreviousIcon from "./ui/icons/PreviousIcon";
 import NextIcon from "./ui/icons/NextIcon";
+import { useQueryClient } from "react-query";
+import { Post } from "@/service/post";
+import { usePosts } from "@/hooks/post";
 
-export default function Calander() {
+interface Props {
+  groupId: string;
+}
+export default function Calander({ groupId }: Props) {
   const [selectDate, setSelectDate] = useState(new Date());
+
+  const { isError, isLoading, posts } = usePosts(groupId);
+
+  console.log(posts);
 
   const monthStart = startOfMonth(selectDate);
   const monthEnd = endOfMonth(monthStart);
@@ -65,6 +75,7 @@ export default function Calander() {
               key={i}
               date={date}
               isSameMonth={isSameMonth(date, monthStart)}
+              posts={posts}
             />
           ))
         )}

@@ -27,17 +27,12 @@ export async function AddUser({ id, name, email, image }: OauthUser) {
       name,
     });
 
-    return newUser
-      .save()
-      .then((docs: any) => docs)
-      .catch((err: Error) => {
-        console.error(err);
-        return err;
-      });
+    return newUser.save();
   }
 }
 
 export async function getUserIdbyEmail(email: string) {
+  connect();
   const userId = await UserSchema.findOne({ email }, "_id");
   return userId;
 }

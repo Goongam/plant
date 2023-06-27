@@ -18,8 +18,6 @@ export default function GroupList({ selectCategory }: Props) {
     fetch("/api/group").then((res) => res.json())
   );
 
-  console.log(groupList);
-
   if (isLoading) {
     return <Loading />;
   }

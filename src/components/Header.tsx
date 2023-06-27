@@ -12,7 +12,6 @@ import Avatar from "./Avatar";
 export default function Header() {
   const { data: session } = useSession();
   const [openModal, setOpenModal] = useState(false);
-  console.log(session?.user);
 
   return (
     <header className="flex items-center justify-center w-full h-16 border-b-[1px] border-neutral-400 bg-white sticky top-0">

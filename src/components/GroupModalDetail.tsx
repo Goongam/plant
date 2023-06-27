@@ -1,7 +1,10 @@
+"use client";
+
 import { Group } from "@/service/group";
 import { dateFormat } from "@/util/dayjs";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Props {
   group: Group;
@@ -19,7 +22,7 @@ export default function GroupModalDetail({ group }: Props) {
   } = group;
 
   const u = useSession();
-
+  const router = useRouter();
   const isAlreadyJoin = users.filter(
     (user) => user.email === u.data?.user.email
   );
@@ -31,7 +34,11 @@ export default function GroupModalDetail({ group }: Props) {
       body: JSON.stringify({
         groupId: id,
       }),
-    });
+    })
+      .then(() => {
+        router.push(`/group/${id}`);
+      })
+      .catch(() => {}); //TODO:에러처리
   };
   return (
     <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3">

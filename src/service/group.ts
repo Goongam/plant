@@ -32,13 +32,7 @@ export function createGroup(name: string) {
     category: "여행",
   });
 
-  return newGroup
-    .save()
-    .then((docs: any) => docs)
-    .catch((err: Error) => {
-      console.error(err);
-      return err;
-    });
+  return newGroup.save();
 }
 
 export async function getGroups() {
@@ -70,8 +64,6 @@ export async function joinGroup(email: string, groupId: string) {
   const inuser = await GroupSchema.findOne({ _id: groupId }, "")
     .where("users")
     .in([id?._id]);
-
-  console.log(inuser);
 
   if (inuser) throw new Error("Already join this group");
 
