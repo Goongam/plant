@@ -19,7 +19,7 @@ export const AuthOption: NextAuthOptions = {
       return session;
     },
     async signIn({ user: { id, name, email, image } }) {
-      if (!email || !name) return false;
+      // if (!email || !name) return true;
 
       AddUser({ id, email, name, image });
       return true;

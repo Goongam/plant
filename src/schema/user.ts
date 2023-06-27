@@ -4,9 +4,10 @@ import { SchemaDefinitionProperty } from "mongoose";
 interface UserModel extends Model<User> {}
 
 const UserSchema = new mongoose.Schema<User, UserModel>({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  image: { type: String, required: true },
+  id: { type: String, required: true, unique: true },
+  name: { type: String, required: false },
+  email: { type: String, required: false },
+  image: { type: String, required: false },
   admin: { type: Boolean, default: false },
 });
 
