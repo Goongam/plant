@@ -1,6 +1,6 @@
 interface Props {
   image: string;
-  size?: "s" | "m" | "l";
+  size?: "xs" | "s" | "m" | "l";
   onClick?: () => void;
 }
 export default function Avatar({ image, size = "m", onClick }: Props) {
@@ -17,6 +17,8 @@ export default function Avatar({ image, size = "m", onClick }: Props) {
 
 function getSize(size: string) {
   switch (size) {
+    case "xs":
+      return "w-5 h-5";
     case "s":
       return "w-10 h-10";
     case "m":
