@@ -36,7 +36,7 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
     else setHoverName("");
   };
   // const aa = todayPosts?.map((todayPost) => [todayPost._id, todayPost]);
-  const uniqueUsers = [...getUniqueUser(todayPosts)];
+  const uniqueUsers = getUniqueUser(todayPosts);
 
   return (
     <div

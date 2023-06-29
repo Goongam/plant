@@ -5,6 +5,7 @@ import { dateFormat } from "@/util/dayjs";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Props {
   group: Group;
@@ -21,16 +22,19 @@ export default function GroupModalDetail({ group }: Props) {
     users,
   } = group;
 
+  const [joinLoading, setJoinLoading] = useState(false);
   const { data } = useSession();
   const router = useRouter();
   const isAlreadyJoin = data?.user
     ? users.find((user) => user.id === data?.user.id)
     : false;
 
-  console.log(data?.user);
-
-  // TODO: 입장시 방으로 이동
   const joinHandler = () => {
+    //TODO: 클릭시 로딩...
+    if (joinLoading) return;
+
+    setJoinLoading(true);
+
     fetch("/api/group/join", {
       method: "post",
       body: JSON.stringify({
@@ -40,7 +44,9 @@ export default function GroupModalDetail({ group }: Props) {
       .then(() => {
         router.push(`/group/${id}`);
       })
-      .catch(() => {}); //TODO:에러처리
+      .catch(() => {
+        setJoinLoading(false);
+      }); //TODO:에러처리, 로딩해제
   };
   return (
     <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3">
@@ -75,7 +81,7 @@ export default function GroupModalDetail({ group }: Props) {
             } mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
             onClick={joinHandler}
           >
-            참가하기
+            {joinLoading ? "..." : "참가하기"}
           </button>
         )}
       </div>

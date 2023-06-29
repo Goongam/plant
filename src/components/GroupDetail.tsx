@@ -36,6 +36,8 @@ export default function GroupDetail({ groupId }: Props) {
   if (isError) {
     console.log("에러");
     //TODO: 로그인페이지 따로 생성
+    //TODO: 로그인X -> 로그인 페이지
+    //TODO: 로그인O, joinX -> alert후 메인으로 이동
     // router.push("/login");
 
     // signIn();

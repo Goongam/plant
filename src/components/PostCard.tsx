@@ -1,5 +1,6 @@
 import { Post } from "@/service/post";
 import Avatar from "./Avatar";
+import { dateFormat } from "@/util/dayjs";
 
 interface Props {
   post: Post;
@@ -19,6 +20,7 @@ export default function PostCard({ post }: Props) {
       </div>
       <h2>{title}</h2>
       <div>{content}</div>
+      <div>{dateFormat(createAt)}</div>
       <div>코멘트...</div>
     </div>
   );
