@@ -14,7 +14,7 @@ export default function Header() {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <header className="flex items-center justify-center w-full h-16 border-b-[1px] border-neutral-400 bg-white sticky top-0">
+    <header className="flex items-center justify-center w-full h-16 border-b-[1px] border-neutral-400 bg-white sticky top-0 z-30">
       <div className="flex justify-between items-center w-full mx-4">
         <Image src="/vercel.svg" alt="logo" width={150} height={100} />
 
