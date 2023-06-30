@@ -23,8 +23,6 @@ export default function Calander({ groupId }: Props) {
 
   const { isError, isLoading, posts } = usePosts(groupId);
 
-  console.log(posts);
-
   const monthStart = startOfMonth(selectDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);

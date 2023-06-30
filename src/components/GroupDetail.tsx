@@ -6,22 +6,18 @@ import Calander from "./Calander";
 import GroupPosts from "./GroupPosts";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import useMe from "@/hooks/me";
+import { useGroup } from "@/hooks/group";
 
 interface Props {
   groupId: string;
 }
 
-const fetcher = (groupId: string) =>
-  fetch(`/api/group/${groupId}`).then((res) => res.json());
-
 export default function GroupDetail({ groupId }: Props) {
-  const {
-    data: group,
-    isLoading,
-    isError,
-  } = useQuery<Group>(["group-data", groupId], () => fetcher(groupId));
+  const { group, isLoading, isError } = useGroup(groupId);
 
   const router = useRouter();
+  const user = useMe();
 
   const testPost = () => {
     fetch("/api/post/new", {
@@ -33,15 +29,24 @@ export default function GroupDetail({ groupId }: Props) {
       }),
     });
   };
+
+  if (!user)
+    return (
+      <button
+        onClick={() => {
+          signIn();
+        }}
+      >
+        로그인 하러가기
+      </button>
+    );
   if (isError) {
     console.log("에러");
-    //TODO: 로그인페이지 따로 생성
-    //TODO: 로그인X -> 로그인 페이지
-    //TODO: 로그인O, joinX -> alert후 메인으로 이동
-    // router.push("/login");
-
-    // signIn();
+    //TODO: 로그인O, joinX -> 가입 신청 페이지로 이동
+    alert("이 그룹에 가입되어 있지 않습니다");
+    router.push("/");
   }
+
   if (isLoading || !group) return <>loading...</>;
 
   const { name } = group;

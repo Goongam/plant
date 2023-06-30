@@ -56,16 +56,40 @@ export async function getGroup(groupId: string) {
     .lean();
 }
 
+export async function getIsJoinGroup(
+  groupId: string,
+  userId: mongoose.Types.ObjectId
+) {
+  connect();
+  const inuser = await GroupSchema.findOne({ _id: groupId }, "")
+    .where("users")
+    .in([userId]);
+
+  return !!inuser ? true : false;
+}
+
+// export async function checkJoinGroupByOauthId(
+//   oauthId: string,
+//   groupId: string
+// ) {
+//   const id = await getUserIdbyOauthId(oauthId);
+//   if (!id?._id) return;
+
+//   const isJoin = await getIsJoinGroup(groupId, id?._id);
+
+//   return isJoin;
+// }
+
 export async function joinGroup(oauthid: string, groupId: string) {
   connect();
   const id = await getUserIdbyOauthId(oauthid);
 
-  //방안에 유저 체크
-  const inuser = await GroupSchema.findOne({ _id: groupId }, "")
-    .where("users")
-    .in([id?._id]);
+  if (!id?._id) throw new Error("User not Found");
 
-  if (inuser) throw new Error("Already join this group");
+  //방안에 유저 체크
+  const isJoin = await getIsJoinGroup(groupId, id._id);
+
+  if (isJoin) throw new Error("Already join this group");
 
   return GroupSchema.findByIdAndUpdate(groupId, {
     $push: { users: id },

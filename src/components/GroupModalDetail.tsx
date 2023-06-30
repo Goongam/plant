@@ -1,8 +1,8 @@
 "use client";
 
+import useMe from "@/hooks/me";
 import { Group } from "@/service/group";
 import { dateFormat } from "@/util/dayjs";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,10 +23,10 @@ export default function GroupModalDetail({ group }: Props) {
   } = group;
 
   const [joinLoading, setJoinLoading] = useState(false);
-  const { data } = useSession();
+  const user = useMe();
   const router = useRouter();
-  const isAlreadyJoin = data?.user
-    ? users.find((user) => user.id === data?.user.id)
+  const isAlreadyJoin = user
+    ? users.find((user) => user.id === user.id)
     : false;
 
   const joinHandler = () => {
@@ -68,7 +68,7 @@ export default function GroupModalDetail({ group }: Props) {
         {!!isAlreadyJoin ? (
           <Link
             className={`${
-              data?.user ?? "hidden"
+              user ?? "hidden"
             } mt-auto bg-green-200 rounded-lg w-full h-10 disabled:bg-slate-600 flex justify-center items-center`}
             href={`/group/${id}`}
           >
@@ -77,7 +77,7 @@ export default function GroupModalDetail({ group }: Props) {
         ) : (
           <button
             className={`${
-              data?.user ?? "hidden"
+              user ?? "hidden"
             } mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
             onClick={joinHandler}
           >
