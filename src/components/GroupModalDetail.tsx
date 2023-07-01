@@ -41,12 +41,13 @@ export default function GroupModalDetail({ group }: Props) {
         groupId: id,
       }),
     })
-      .then(() => {
-        router.push(`/group/${id}`);
+      .then((res) => {
+        if(res.ok) router.push(`/group/${id}`);
+        else throw new Error();
       })
       .catch(() => {
         setJoinLoading(false);
-      }); //TODO:에러처리, 로딩해제
+      });
   };
   return (
     <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3">

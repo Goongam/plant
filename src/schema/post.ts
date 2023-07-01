@@ -10,9 +10,9 @@ const PostSchema = new mongoose.Schema<Post, PostModel>({
     require: true,
   },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-  content: { type: String, maxlength: 500, required: true },
-  image: { type: String },
-  title: { type: String, required: true },
+  // content: { type: String, maxlength: 500, required: true },
+  image: [{ type: String }],
+  // title: { type: String, required: true },
   createAt: { type: Date, default: Date.now },
   group: { type: mongoose.Schema.Types.ObjectId, ref: "Group" },
 });
