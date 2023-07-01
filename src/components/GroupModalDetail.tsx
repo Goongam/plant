@@ -25,9 +25,7 @@ export default function GroupModalDetail({ group }: Props) {
   const [joinLoading, setJoinLoading] = useState(false);
   const user = useMe();
   const router = useRouter();
-  const isAlreadyJoin = user
-    ? users.find((user) => user.id === user.id)
-    : false;
+  const isAlreadyJoin = user ? users.find((u) => user.id === u.id) : false;
 
   const joinHandler = () => {
     //TODO: 클릭시 로딩...
@@ -42,7 +40,7 @@ export default function GroupModalDetail({ group }: Props) {
       }),
     })
       .then((res) => {
-        if(res.ok) router.push(`/group/${id}`);
+        if (res.ok) router.push(`/group/${id}`);
         else throw new Error();
       })
       .catch(() => {
