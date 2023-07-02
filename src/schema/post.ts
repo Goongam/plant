@@ -14,7 +14,7 @@ const PostSchema = new mongoose.Schema<Post, PostModel>({
   image: [{ type: String }],
   // title: { type: String, required: true },
   createAt: { type: Date, default: Date.now },
-  group: { type: mongoose.Schema.Types.ObjectId, ref: "Group" },
+  group: { type: mongoose.Schema.Types.ObjectId, ref: "Group", required: true },
 });
 
 export default (mongoose.models.Post as PostModel) ||

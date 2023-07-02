@@ -13,7 +13,7 @@ export default function PostCard({ post }: Props) {
     return;
   }
   return (
-    <div className="w-[452px] h-52 flex flex-col rounded-md shadow-md">
+    <div className="w-full max-w-[452px] h-52 flex flex-col rounded-md shadow-md">
       <div className="flex flex-row items-center gap-4">
         <Avatar image={author?.image} size="s" />
         {author?.name}
