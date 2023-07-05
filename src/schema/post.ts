@@ -11,7 +11,7 @@ const PostSchema = new mongoose.Schema<Post, PostModel>({
   },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   // content: { type: String, maxlength: 500, required: true },
-  image: [{ type: String }],
+  images: [{ type: String }],
   // title: { type: String, required: true },
   createAt: { type: Date, default: Date.now },
   group: { type: mongoose.Schema.Types.ObjectId, ref: "Group", required: true },

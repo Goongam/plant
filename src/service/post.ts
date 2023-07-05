@@ -14,7 +14,7 @@ export interface Post {
   title: string;
   content: string;
   createAt: Date;
-  image: string;
+  images: string[];
   comments: Comment[];
   group: Group;
 }
@@ -28,11 +28,12 @@ export async function AddPost(
   connect();
 
   const id = await getUserIdbyOauthId(author.id);
+  console.log(images);
 
   const newPost = new PostSchema({
     author: id,
     group: groupId,
-    image: images,
+    images: images,
     comments: [comment],
   });
 

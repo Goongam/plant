@@ -131,7 +131,7 @@ export default function NewPost({ groupId }: Props) {
   return (
     <section className="w-full flex-col items-center">
       {mutating && (
-        <div className="w-full h-full absolute bg-slate-300/75 flex justify-center items-center">
+        <div className="w-full h-full absolute bg-slate-300/75 flex justify-center items-center z-50">
           <Loading />
         </div>
       )}

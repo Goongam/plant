@@ -14,6 +14,7 @@
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
     "autoprefixer": "10.4.14",
+    "better-react-carousel": "^1.1.1",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.8",
     "eslint": "8.42.0",
