@@ -26,6 +26,7 @@ export default function Header() {
           onClick={() => {
             router.push("/");
           }}
+          className="cursor-pointer"
         />
 
         {user ? (

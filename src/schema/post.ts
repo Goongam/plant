@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema<Post, PostModel>({
     require: true,
   },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-  // content: { type: String, maxlength: 500, required: true },
+  content: { type: String, maxlength: 500, required: true },
   images: [{ type: String }],
   // title: { type: String, required: true },
   createAt: { type: Date, default: Date.now },

@@ -38,9 +38,9 @@ export async function POST(req: Request) {
         files.map((image) => uploadImage(image))
       );
       const imageLinks: string[] = images.map((image) => image.data.link);
-      const commentDocs = await AddComment(user.id, comment);
+      // const commentDocs = await AddComment(user.id, comment);
 
-      return AddPost(user, group, commentDocs._id, imageLinks)
+      return AddPost(user, group, comment, imageLinks)
         .then((result) => NextResponse.json(result))
         .catch((err) => new Response(err, { status: 400 }));
     } catch (error) {

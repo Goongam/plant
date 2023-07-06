@@ -16,7 +16,7 @@ export default function PostImages({ images }: { images: string[] }) {
       {images.map((image, idx) => (
         <Carousel.Item key={`${image}${idx}`}>
           <img
-            className="w-full object-cover aspect-square"
+            className="w-full object-contain aspect-square rounded-sm"
             // width="100%"
             src={image}
           />

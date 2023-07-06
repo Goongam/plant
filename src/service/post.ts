@@ -22,19 +22,18 @@ export interface Post {
 export async function AddPost(
   author: User,
   groupId: string,
-  comment: mongoose.Types.ObjectId,
+  content: string,
   images?: string[]
 ) {
   connect();
 
   const id = await getUserIdbyOauthId(author.id);
-  console.log(images);
 
   const newPost = new PostSchema({
     author: id,
     group: groupId,
-    images: images,
-    comments: [comment],
+    images,
+    content,
   });
 
   return newPost.save();
