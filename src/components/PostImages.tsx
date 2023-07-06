@@ -10,7 +10,7 @@ export default function PostImages({ images }: { images: string[] }) {
       loop
       hideArrow={isOneImage}
       // style={{margi}}
-      containerStyle={{ backgroundColor: "black", margin: 0 }}
+      containerStyle={{ margin: 0 }}
       showDots={!isOneImage}
     >
       {images.map((image, idx) => (

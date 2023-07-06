@@ -2,14 +2,20 @@ interface Props {
   image: string;
   size?: "xs" | "s" | "m" | "l";
   onClick?: () => void;
+  customClass?: string;
 }
-export default function Avatar({ image, size = "m", onClick }: Props) {
+export default function Avatar({
+  image,
+  size = "m",
+  onClick,
+  customClass,
+}: Props) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={image}
       alt="avatar"
-      className={`${getSize(size)} rounded-full`}
+      className={`${getSize(size)} rounded-full ${customClass}`}
       onClick={onClick}
     />
   );
