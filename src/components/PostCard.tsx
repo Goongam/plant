@@ -9,16 +9,22 @@ import CommentIcon from "./ui/icons/CommentIcon";
 import ModalPortal from "./ModalPortal";
 import ModalBackground from "./ModalBackground";
 import CommentModalDetail from "./CommentModalDetail";
+import { useComment } from "@/hooks/comment";
 
 interface Props {
   post: Post;
 }
 export default function PostCard({ post }: Props) {
-  const { author, comments, createAt, content, title, images } = post;
+  const { author, createAt, content, title, images, comments } = post;
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMore, setIsMore] = useState(false);
   const [isClickMore, setIsClickMore] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  // const {
+  //   comments,
+  //   isLoading: commentLoading,
+  //   isError: commentError,
+  // } = useComment(post._id);
 
   useEffect(() => {
     const current = contentRef.current;
@@ -83,7 +89,7 @@ export default function PostCard({ post }: Props) {
           className="flex flex-row items-center gap-1 py-1 my-1 cursor-pointer"
           onClick={handleComment}
         >
-          {comments.length}
+          {comments?.length ?? 0}
           <CommentIcon />
         </div>
       </div>
@@ -121,7 +127,7 @@ export default function PostCard({ post }: Props) {
       {images && <PostImages images={post.images} />}
 
       <div className="flex flex-row items-center gap-1">
-        {comments.length}
+        {/* {comments.length} */}
         <CommentIcon />
       </div>
     </div>

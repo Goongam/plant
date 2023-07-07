@@ -6,6 +6,13 @@ import { AddComment } from "@/service/comment";
 
 export async function POST(req: Request) {
   return withSession(async (user) => {
-    console.log("post!!");
+    const { comment, postId } = await req.json();
+
+    if (!comment || !postId)
+      return new Response("Bad Request", { status: 401 });
+
+    return AddComment(user.id, comment, postId)
+      .then((result) => NextResponse.json(result))
+      .catch((err) => new Response("ERROR", { status: 500 }));
   });
 }

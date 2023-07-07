@@ -14,11 +14,17 @@ export async function AddComment(
     author: id._id,
     content: comment,
     postId,
-  }).save();
+  })
+    .save()
+    .then((res) =>
+      PostSchema.findByIdAndUpdate(postId, {
+        $push: { comments: res._id },
+      })
+    );
 }
 
 export async function getComments(postId: string) {
-  return CommentSchema.find({ postId }, "", {
-    sort: "createAt",
-  }).populate("author");
+  return CommentSchema.find({ postId }, "")
+    .sort({ createAt: "desc" })
+    .populate("author");
 }

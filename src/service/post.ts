@@ -1,10 +1,13 @@
 import { User, getUserIdbyOauthId } from "./user";
 import PostSchema from "@/schema/post";
+import CommentSchema from "@/schema/comment";
+
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
 import mongoose from "mongoose";
 
 export interface Comment {
+  _id: string;
   author: User;
   content: string;
   postId: Post;

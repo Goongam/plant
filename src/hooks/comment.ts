@@ -1,14 +1,65 @@
 import { Comment } from "@/service/post";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import useMe from "./me";
 
 const fetcher = (postid: string) =>
   fetch("/api/comment/" + postid).then((res) => res.json());
+
+const AddComment = ({ comment, postId }: { comment: string; postId: string }) =>
+  fetch(`/api/comment/new`, {
+    method: "post",
+    body: JSON.stringify({
+      postId,
+      comment,
+    }),
+  }).then((res) => res.json());
 export function useComment(postId: string) {
+  const quertClient = useQueryClient();
+  const me = useMe();
+
   const {
     data: comments,
     isLoading,
     isError,
   } = useQuery<Comment[]>(["comment", postId], () => fetcher(postId));
 
-  return { comments, isLoading, isError };
+  const { mutate: updateComment } = useMutation(
+    ["comment", postId],
+    AddComment,
+    {
+      onMutate(variables) {
+        if (!me) return;
+        quertClient.cancelQueries(["comment", postId]);
+
+        const prevCommentData = quertClient.getQueriesData(["comment", postId]);
+
+        quertClient.setQueryData(["comment", postId], (old) => {
+          const oldData = old as Comment[];
+          return [
+            ...oldData,
+            {
+              _id: new Date(),
+              author: me,
+              content: variables.comment,
+              createAt: new Date(),
+              postId: variables.postId,
+            },
+          ];
+        });
+
+        return { prevCommentData };
+      },
+      onError(error, variables, context) {
+        if (context?.prevCommentData) {
+          quertClient.setQueryData(["todos"], [...context.prevCommentData]);
+        }
+      },
+
+      onSettled: () => {
+        quertClient.invalidateQueries({ queryKey: ["comment", postId] });
+      },
+    }
+  );
+
+  return { comments, isLoading, isError, updateComment };
 }
