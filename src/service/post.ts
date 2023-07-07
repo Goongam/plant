@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 export interface Comment {
   author: User;
   content: string;
+  postId: Post;
+  createAt: Date;
 }
 export interface Post {
   _id: string;

@@ -10,6 +10,8 @@ const CommentSchema = new mongoose.Schema<Comment, CommentModel>({
     require: true,
   },
   content: { type: String, required: true, maxlength: 200 },
+  postId: { type: mongoose.Schema.Types.ObjectId, ref: "Post", require: true },
+  createAt: { type: Date, default: Date.now },
 });
 
 export default (mongoose.models.Comment as CommentModel) ||

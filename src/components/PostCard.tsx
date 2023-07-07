@@ -6,6 +6,9 @@ import PostImages from "./PostImages";
 import { getTimeAgo } from "@/util/timeago";
 import { useRef, useEffect, useState } from "react";
 import CommentIcon from "./ui/icons/CommentIcon";
+import ModalPortal from "./ModalPortal";
+import ModalBackground from "./ModalBackground";
+import CommentModalDetail from "./CommentModalDetail";
 
 interface Props {
   post: Post;
@@ -15,6 +18,7 @@ export default function PostCard({ post }: Props) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMore, setIsMore] = useState(false);
   const [isClickMore, setIsClickMore] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const current = contentRef.current;
@@ -36,7 +40,7 @@ export default function PostCard({ post }: Props) {
     setIsMore(false);
   };
   const handleComment = () => {
-    //TODO: 코멘트 모달열기
+    setOpenModal(true);
   };
   //TODO: 탈퇴한 사용자 처리
   if (!author) {
@@ -83,6 +87,18 @@ export default function PostCard({ post }: Props) {
           <CommentIcon />
         </div>
       </div>
+
+      {openModal && (
+        <ModalPortal>
+          <ModalBackground
+            onClose={() => {
+              setOpenModal(false);
+            }}
+          >
+            <CommentModalDetail post={post} />
+          </ModalBackground>
+        </ModalPortal>
+      )}
     </div>
   );
   return (
