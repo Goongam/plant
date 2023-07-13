@@ -2,6 +2,8 @@ import { Comment } from "@/service/post";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useMe from "./me";
 
+type ErrorCallback = () => void;
+
 const fetcher = (postid: string) =>
   fetch("/api/comment/" + postid).then((res) => res.json());
 
@@ -13,7 +15,11 @@ const AddComment = ({ comment, postId }: { comment: string; postId: string }) =>
       comment,
     }),
   }).then((res) => res.json());
-export function useComment(postId: string) {
+
+export function useComment(
+  postId: string,
+  commentErrorHandler?: ErrorCallback
+) {
   const quertClient = useQueryClient();
   const me = useMe();
 
@@ -23,7 +29,7 @@ export function useComment(postId: string) {
     isError,
   } = useQuery<Comment[]>(["comment", postId], () => fetcher(postId));
 
-  const { mutate: updateComment } = useMutation(
+  const { mutate: updateComment, isError: updateError } = useMutation(
     ["comment", postId],
     AddComment,
     {
@@ -36,7 +42,6 @@ export function useComment(postId: string) {
         quertClient.setQueryData(["comment", postId], (old) => {
           const oldData = old as Comment[];
           return [
-            ...oldData,
             {
               _id: new Date(),
               author: me,
@@ -44,6 +49,7 @@ export function useComment(postId: string) {
               createAt: new Date(),
               postId: variables.postId,
             },
+            ...oldData,
           ];
         });
 
@@ -61,5 +67,5 @@ export function useComment(postId: string) {
     }
   );
 
-  return { comments, isLoading, isError, updateComment };
+  return { comments, isLoading, isError, updateComment, updateError };
 }

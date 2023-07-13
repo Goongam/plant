@@ -9,7 +9,9 @@ import AddCommentInput from "./AddCommentInput";
 import CommentLine from "./CommentLine";
 
 export default function CommentModalDetail({ post }: { post: Post }) {
-  const { comments, isError, isLoading, updateComment } = useComment(post._id);
+  const errorHandler = () => {};
+  const { comments, isError, isLoading, updateComment, updateError } =
+    useComment(post._id, errorHandler);
 
   return (
     <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3">
@@ -22,6 +24,11 @@ export default function CommentModalDetail({ post }: { post: Post }) {
         ) : (
           <div>
             <AddCommentInput post={post} updateComment={updateComment} />
+            {updateError && (
+              <div className="w-full h-10 flex justify-center items-center bg-red-400 rounded-md text-white font-bold my-2 ">
+                코멘트 추가 중 에러가 발생하였습니다. 잠시후 다시 시도해주세요
+              </div>
+            )}
             <div className="flex flex-col flex-1 gap-2">
               {comments?.map((comment) => (
                 <CommentLine key={comment._id} comment={comment} />
