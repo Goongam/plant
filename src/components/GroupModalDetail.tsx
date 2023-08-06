@@ -6,6 +6,8 @@ import { dateFormat } from "@/util/dayjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import PulseLoading from "./ui/PulseLoader";
+import Loading from "./ui/Loading";
 
 interface Props {
   group: Group;
@@ -80,7 +82,11 @@ export default function GroupModalDetail({ group }: Props) {
             } mt-auto bg-blue-300 rounded-lg w-full h-10 disabled:bg-slate-600`}
             onClick={joinHandler}
           >
-            {joinLoading ? "..." : "참가하기"}
+            {joinLoading ? (
+              <Loading type="Pulse" size={10} color="#369fb6" />
+            ) : (
+              "참가하기"
+            )}
           </button>
         )}
       </div>

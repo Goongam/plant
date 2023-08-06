@@ -36,10 +36,13 @@ export default function NewPost({ groupId }: Props) {
   const { group, isError, isLoading } = useGroup(groupId);
   const [dragging, setDragging] = useState(false);
   const [images, setImages] = useState<File[]>([]);
+  const [isSuccess, setIsSuccess] = useState(false);
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const {
     isLoading: mutating,
+    isIdle,
+    isPaused,
     mutate,
     isError: mutateError,
   } = useMutation(
@@ -49,7 +52,11 @@ export default function NewPost({ groupId }: Props) {
         body: formdata,
       }).then((res) => res.json()),
     {
+      onMutate(variables) {
+        console.log("onmu");
+      },
       onSuccess() {
+        setIsSuccess(true);
         router.push(`/group/${groupId}`);
       },
       onError() {
@@ -57,6 +64,8 @@ export default function NewPost({ groupId }: Props) {
       },
     }
   );
+
+  console.log(isIdle, isPaused);
 
   const router = useRouter();
   // const imgArray = Array.from(images ?? []);
@@ -129,10 +138,10 @@ export default function NewPost({ groupId }: Props) {
     setImages(deletedImages);
   };
   return (
-    <section className="w-full flex-col items-center">
-      {mutating && (
-        <div className="w-full h-full absolute bg-slate-300/75 flex justify-center items-center z-50">
-          <Loading />
+    <section className="w-full h-full flex-col items-center">
+      {(mutating || isSuccess) && (
+        <div className="absolute w-full h-full top-0 bg-slate-300/75 flex justify-center items-center z-50">
+          <Loading type="Moon" size={30} />
         </div>
       )}
       <h2 className="border-b-4 border-gray-400 p-4 pb-8 mx-2 mb-10 font-bold text-2xl">

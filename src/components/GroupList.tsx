@@ -19,7 +19,9 @@ export default function GroupList({ selectCategory }: Props) {
   );
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <Loading type="GridLoader" size={20} customStyle="mt-4" color="#04656c" />
+    );
   }
   if (error) {
     return <div>error</div>;
