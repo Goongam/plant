@@ -9,6 +9,7 @@ import { signIn } from "next-auth/react";
 import useMe from "@/hooks/me";
 import { useGroup } from "@/hooks/group";
 import Link from "next/link";
+import Loading from "./ui/Loading";
 
 interface Props {
   groupId: string;
@@ -31,7 +32,7 @@ export default function GroupDetail({ groupId }: Props) {
     });
   };
 
-  if (isLoading || !group) return <>loading...</>;
+  if (isLoading || !group) return <Loading type="Moon" />;
 
   if (isError) {
     if (!user)

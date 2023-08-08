@@ -7,6 +7,7 @@ import { useRef } from "react";
 import useMe from "@/hooks/me";
 import AddCommentInput from "./AddCommentInput";
 import CommentLine from "./CommentLine";
+import Loading from "./ui/Loading";
 
 export default function CommentModalDetail({ post }: { post: Post }) {
   const errorHandler = () => {};
@@ -20,7 +21,7 @@ export default function CommentModalDetail({ post }: { post: Post }) {
       </h2>
       <div className="overflow-y-scroll scrollbar-hide">
         {isLoading ? (
-          "loading..."
+          <Loading type={"Moon"} size={20} />
         ) : (
           <div>
             <AddCommentInput post={post} updateComment={updateComment} />

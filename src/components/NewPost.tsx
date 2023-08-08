@@ -52,20 +52,15 @@ export default function NewPost({ groupId }: Props) {
         body: formdata,
       }).then((res) => res.json()),
     {
-      onMutate(variables) {
-        console.log("onmu");
-      },
       onSuccess() {
         setIsSuccess(true);
         router.push(`/group/${groupId}`);
       },
-      onError() {
-        console.log("에러처리");
-      },
+      // onError() {
+      //   console.log("에러처리");
+      // },
     }
   );
-
-  console.log(isIdle, isPaused);
 
   const router = useRouter();
   // const imgArray = Array.from(images ?? []);
@@ -123,8 +118,6 @@ export default function NewPost({ groupId }: Props) {
     formdata.append("comment", comment);
 
     formdata.append("group", groupId);
-
-    //TODO: 에러처리, 전송 로딩
 
     mutate(formdata);
   };

@@ -57,7 +57,7 @@ export function useComment(
       },
       onError(error, variables, context) {
         if (context?.prevCommentData) {
-          quertClient.setQueryData(["todos"], [...context.prevCommentData]);
+          quertClient.setQueryData(["comment"], [...context.prevCommentData]);
         }
       },
 

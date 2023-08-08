@@ -5,6 +5,7 @@ import CommentSchema from "@/schema/comment";
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
 import mongoose from "mongoose";
+import { showPostCount } from "@/app/api/post/[groupId]/[page]/route";
 
 export interface Comment {
   _id: string;
@@ -30,7 +31,7 @@ export async function AddPost(
   content: string,
   images?: string[]
 ) {
-  connect();
+  await connect();
 
   const id = await getUserIdbyOauthId(author.id);
 
@@ -44,10 +45,27 @@ export async function AddPost(
   return newPost.save();
 }
 
-export async function getPosts(groupId: string) {
-  return PostSchema.find({ group: groupId }, "", { sort: "createAt" }).populate(
-    "author"
-  );
+export async function getPosts(groupId: string, page?: number) {
+  await connect();
+
+  if (page) {
+    return PostSchema.find({ group: groupId }, "", {
+      sort: { createAt: -1 },
+      limit: showPostCount,
+      skip: (page - 1) * showPostCount,
+    })
+      .populate("author")
+      .then((posts) => {
+        return {
+          next: posts.length < 5 ? null : page + 1,
+          posts: [...posts],
+        };
+      });
+  } else {
+    return PostSchema.find({ group: groupId }, "", {
+      sort: { createAt: -1 },
+    }).populate("author");
+  }
 }
 
 export async function uploadImage(image: Blob) {
