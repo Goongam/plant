@@ -1,7 +1,10 @@
 "use client";
 
-import { CATEGORIES, Category } from "@/app/page";
+import { Category } from "@/types/Category";
 
+// import { Category } from "@/app/Category";
+
+const CATEGORIES: Category[] = ["전체", "여행", "운동", "자기계발", "취미"];
 interface Props {
   select: string;
   handleSelect: (select: string) => void;

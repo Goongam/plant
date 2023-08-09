@@ -3,12 +3,15 @@
 import { Group, getGroups } from "@/service/group";
 import { useQuery } from "react-query";
 import GroupListCard from "./GroupListCard";
-import Loading from "./ui/Loading";
-import { Category } from "@/app/page";
+// import Loading from "./ui/Loading";
+import { Category } from "@/types/Category";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
 interface Props {
   selectCategory: Category;
 }
+
 export default function GroupList({ selectCategory }: Props) {
   const {
     data: groupList,
@@ -17,6 +20,10 @@ export default function GroupList({ selectCategory }: Props) {
   } = useQuery<Group[]>(["groups"], () =>
     fetch("/api/group").then((res) => res.json())
   );
+
+  const Loading = dynamic(() => import("./ui/Loading"), {
+    ssr: false,
+  });
 
   if (isLoading) {
     return (

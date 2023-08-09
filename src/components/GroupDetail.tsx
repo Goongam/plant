@@ -21,17 +21,6 @@ export default function GroupDetail({ groupId }: Props) {
   const router = useRouter();
   const user = useMe();
 
-  const testPost = () => {
-    fetch("/api/post/new", {
-      method: "post",
-      body: JSON.stringify({
-        title: "testPost",
-        content: "testPostcontent",
-        groupId,
-      }),
-    });
-  };
-
   if (isLoading || !group) return <Loading type="Moon" />;
 
   if (isError) {

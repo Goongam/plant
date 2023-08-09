@@ -1,6 +1,6 @@
 "use client";
 
-import { AdmissionFees, offlineMeetings, regions } from "@/app/page";
+import { AdmissionFees, offlineMeetings, regions } from "@/constants";
 import { useState, useEffect, useCallback } from "react";
 import DropdownIcon from "./ui/icons/DropdownIcon";
 import DropUpIcon from "./ui/icons/DropUpIcon";

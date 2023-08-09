@@ -4,38 +4,18 @@ import Filter from "@/components/Filter";
 import GroupList from "@/components/GroupList";
 import HomeCategories from "@/components/HomeCategories";
 import { useState } from "react";
+import { Category } from "../types/Category";
 
-export type Category = "전체" | "운동" | "자기계발" | "취미" | "여행";
-export const CATEGORIES: Category[] = [
-  "전체",
-  "운동",
-  "자기계발",
-  "취미",
-  "여행",
-];
-export const AdmissionFees = ["전체", "무료", "유료"];
-export const regions = [
-  "전체",
-  "서울",
-  "경기/인천",
-  "부산",
-  "울산",
-  "경남",
-  "대구",
-  "경북",
-  "충청",
-  "대전",
-  "세종",
-  "전라",
-  "광주",
-  "강원도",
-  "제주도",
-  "기타",
-];
-export const offlineMeetings = ["전체", "유", "무"];
+// export const CATEGORIES: Category[] = [
+//   "전체",
+//   "운동",
+//   "자기계발",
+//   "취미",
+//   "취미",
+// ];
 
 export default function Home() {
-  const [select, setSelect] = useState(CATEGORIES[0]);
+  const [select, setSelect] = useState<Category>("전체");
 
   const [selectFee, setSelectFee] = useState("");
   const [selectOff, setSelectOff] = useState("");

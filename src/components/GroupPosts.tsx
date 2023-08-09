@@ -6,6 +6,9 @@ import { useInfiniteQuery } from "react-query";
 import InfiniteScroll from "react-infinite-scroller";
 import Loading from "./ui/Loading";
 import { queryKey } from "@/constants";
+import { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { postFilterState } from "@/state";
 
 interface Props {
   groupId: string;
@@ -16,8 +19,10 @@ const postFetcher = (url: string) => {
 };
 
 export default function GroupPosts({ groupId }: Props) {
-  // const { isError, isLoading, posts } = usePosts(groupId);
-  // const url = `/api/post/${groupId}`;
+  const setFilter = useSetRecoilState(postFilterState);
+  const { postFilterDate: filterDate, postFilterUser: filterUser } =
+    useRecoilValue(postFilterState);
+
   const {
     data, //데이터
     fetchNextPage, //pageParam에 저장된 다음url을 불러옴
@@ -27,16 +32,31 @@ export default function GroupPosts({ groupId }: Props) {
     error,
     isFetching,
   } = useInfiniteQuery(
-    ["posts-infinity", groupId], //쿼리키
-    ({ pageParam = `/api/post/${groupId}/1` }) => postFetcher(pageParam), //실제 데이터 불러옴
+    ["posts-infinity", groupId, filterDate, filterUser], //쿼리키
+    ({
+      pageParam = `/api/post/${groupId}/1?${
+        filterDate && `date=${filterDate}&`
+      }${filterUser && `id=${filterUser}&`}`,
+    }) => postFetcher(pageParam), //실제 데이터 불러옴
     {
       getNextPageParam: (lastPage) =>
-        lastPage.next ? `/api/post/${groupId}/${lastPage.next}` : undefined, //pageParam 관리함수
+        lastPage.next
+          ? `/api/post/${groupId}/${lastPage.next}?${
+              filterDate && `date=${filterDate}&`
+            }${filterUser && `id=${filterUser}&`}`
+          : undefined, //pageParam 관리함수
     }
   );
 
   return (
     <>
+      <button
+        onClick={() => {
+          setFilter({ postFilterDate: "2023-08-08" });
+        }}
+      >
+        recoiltest
+      </button>
       {data && (
         <InfiniteScroll
           loadMore={() => {
