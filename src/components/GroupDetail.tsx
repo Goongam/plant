@@ -10,6 +10,8 @@ import useMe from "@/hooks/me";
 import { useGroup } from "@/hooks/group";
 import Link from "next/link";
 import Loading from "./ui/Loading";
+import { useRecoilValue } from "recoil";
+import { postFilterState } from "@/state";
 
 interface Props {
   groupId: string;
@@ -20,6 +22,9 @@ export default function GroupDetail({ groupId }: Props) {
 
   const router = useRouter();
   const user = useMe();
+
+  const { postFilterDate: filterDate, postFilterUser: filterUser } =
+    useRecoilValue(postFilterState);
 
   if (isLoading || !group) return <Loading type="Moon" />;
 
@@ -61,7 +66,17 @@ export default function GroupDetail({ groupId }: Props) {
           <div>
             <Calander groupId={groupId} />
           </div>
-          <div>00월 00일</div>
+          {(filterDate || filterUser) && (
+            <div className="font-bold text-2xl my-2 p-2 border-b border-black flex">
+              <p className={`${filterUser && 'after:content-["·"]'}`}>
+                {filterDate &&
+                  `${new Date(filterDate).getMonth() + 1}월 ${new Date(
+                    filterDate
+                  ).getDate()}일`}
+              </p>
+              <p>{filterUser && `${filterUser.name}`}</p>
+            </div>
+          )}
           <GroupPosts groupId={groupId} />
         </div>
         <div className="w-36 h-fit hidden md:block">

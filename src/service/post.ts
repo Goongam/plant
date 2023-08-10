@@ -54,11 +54,12 @@ export async function getPosts(
   await connect();
 
   const searchDate = date ? new Date(date) : undefined;
+  const author_id = id ? await getUserIdbyOauthId(id) : undefined;
 
-  let filter: { group: string; author?: string; createAt?: any } = {
+  let filter: { group: string; author?: any; createAt?: any } = {
     group: groupId,
   };
-  if (id) filter.author = id;
+  if (author_id) filter.author = author_id;
 
   if (searchDate) {
     const nextDay = new Date(searchDate);

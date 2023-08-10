@@ -32,18 +32,23 @@ export default function GroupPosts({ groupId }: Props) {
     error,
     isFetching,
   } = useInfiniteQuery(
-    ["posts-infinity", groupId, filterDate, filterUser], //쿼리키
+    [
+      "posts-infinity",
+      groupId,
+      filterDate ? filterDate : "",
+      filterUser ? filterUser.id : "",
+    ], //쿼리키
     ({
       pageParam = `/api/post/${groupId}/1?${
-        filterDate && `date=${filterDate}&`
-      }${filterUser && `id=${filterUser}&`}`,
+        filterDate ? `date=${filterDate}&` : ""
+      }${filterUser ? `id=${filterUser.id}&` : ""}`,
     }) => postFetcher(pageParam), //실제 데이터 불러옴
     {
       getNextPageParam: (lastPage) =>
         lastPage.next
           ? `/api/post/${groupId}/${lastPage.next}?${
-              filterDate && `date=${filterDate}&`
-            }${filterUser && `id=${filterUser}&`}`
+              filterDate ? `date=${filterDate}&` : ""
+            }${filterUser ? `id=${filterUser.id}&` : ""}`
           : undefined, //pageParam 관리함수
     }
   );
