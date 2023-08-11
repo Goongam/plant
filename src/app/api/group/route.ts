@@ -1,4 +1,4 @@
-import { createGroup, getGroups } from "@/service/group";
+import { getGroups } from "@/service/group";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {

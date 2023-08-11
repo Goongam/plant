@@ -1,4 +1,5 @@
 import { Group } from "@/service/group";
+import { day_now } from "@/util/dayjs";
 import mongoose, { Model } from "mongoose";
 
 interface GroupModel extends Model<Group> {}
@@ -6,8 +7,8 @@ interface GroupModel extends Model<Group> {}
 const GroupSchema = new mongoose.Schema<Group, GroupModel>({
   name: { type: String, required: true, maxlength: 50, trim: true },
   description: { type: String, required: true, maxlength: 1000, trim: true },
-  end_date: { type: Date, required: true },
-  createAt: { type: Date, default: Date.now },
+  end_date: { type: String, required: true },
+  createAt: { type: String, default: day_now() },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", unique: true }],
   leader: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

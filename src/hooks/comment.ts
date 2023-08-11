@@ -1,6 +1,7 @@
 import { Comment } from "@/service/post";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useMe from "./me";
+import { day_now } from "@/util/dayjs";
 
 type ErrorCallback = () => void;
 
@@ -46,7 +47,7 @@ export function useComment(
               _id: new Date(),
               author: me,
               content: variables.comment,
-              createAt: new Date(),
+              createAt: day_now(),
               postId: variables.postId,
             },
             ...oldData,

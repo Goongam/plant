@@ -1,4 +1,5 @@
 import { Comment } from "@/service/post";
+import { day_now } from "@/util/dayjs";
 import mongoose, { Model } from "mongoose";
 
 interface CommentModel extends Model<Comment> {}
@@ -11,7 +12,7 @@ const CommentSchema = new mongoose.Schema<Comment, CommentModel>({
   },
   content: { type: String, required: true, maxlength: 200 },
   postId: { type: mongoose.Schema.Types.ObjectId, ref: "Post", require: true },
-  createAt: { type: Date, default: Date.now },
+  createAt: { type: String, default: day_now() },
 });
 
 export default (mongoose.models.Comment as CommentModel) ||

@@ -8,8 +8,8 @@ export interface Group {
   id: string;
   name: string;
   description: string;
-  end_date: Date;
-  createAt: Date;
+  end_date: string;
+  createAt: string;
   users: User[];
   leader: User;
   posts?: Post[];
@@ -21,8 +21,8 @@ export interface Group {
   isSecret: boolean;
 }
 
-export function createGroup(name: string) {
-  connect();
+export async function createGroup(name: string) {
+  await connect();
   const newGroup = new GroupSchema({
     name,
     description: "설명",
@@ -36,7 +36,7 @@ export function createGroup(name: string) {
 }
 
 export async function getGroups() {
-  connect();
+  await connect();
   return GroupSchema.find({}, "", {
     sort: "createAt",
   })
@@ -50,7 +50,7 @@ export async function getGroups() {
 }
 
 export async function getGroup(groupId: string) {
-  connect();
+  await connect();
   return await GroupSchema.findOne({ _id: groupId }, "")
     .populate("users")
     .lean();
@@ -60,7 +60,7 @@ export async function getIsJoinGroup(
   groupId: string,
   userId: mongoose.Types.ObjectId
 ) {
-  connect();
+  await connect();
   const inuser = await GroupSchema.findOne({ _id: groupId }, "")
     .where("users")
     .in([userId]);
@@ -81,7 +81,7 @@ export async function getIsJoinGroup(
 // }
 
 export async function joinGroup(oauthid: string, groupId: string) {
-  connect();
+  await connect();
   const id = await getUserIdbyOauthId(oauthid);
 
   if (!id?._id) throw new Error("User not Found");

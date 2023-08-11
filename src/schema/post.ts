@@ -1,4 +1,5 @@
 import { Post } from "@/service/post";
+import { day_now } from "@/util/dayjs";
 import mongoose, { Model } from "mongoose";
 
 interface PostModel extends Model<Post> {}
@@ -13,7 +14,7 @@ const PostSchema = new mongoose.Schema<Post, PostModel>({
   content: { type: String, maxlength: 500, required: true },
   images: [{ type: String }],
   // title: { type: String, required: true },
-  createAt: { type: Date, default: Date.now },
+  createAt: { type: String, default: day_now() },
   group: { type: mongoose.Schema.Types.ObjectId, ref: "Group", required: true },
 });
 

@@ -7,6 +7,7 @@ import ArticleIcon from "./ui/icons/ArticleIcon";
 import { useState, MouseEvent } from "react";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
+import CalanderAvatar from "./CalanderAvatar";
 
 interface Props {
   date: Date;
@@ -23,8 +24,6 @@ function getUniqueUser(todayPosts: Post[] | undefined): User[] {
   return [...map.values()];
 }
 export default function CalanderCell({ date, isSameMonth, posts }: Props) {
-  const [hoverName, setHoverName] = useState("");
-
   const setFilter = useSetRecoilState(postFilterState);
 
   const day = date.getDate();
@@ -34,11 +33,15 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
     return dateFormat(post.createAt) === today;
   });
 
+  // console.log();
+  posts?.forEach((post) => {
+    if (post._id === "64a5a0dc29192b5c5288cfe9") {
+      console.log(post);
+      console.log(post.createAt);
+    }
+  });
+
   // const handleHover = (e: MouseEvent<HTMLDivElement, MouseEvent>) => {};
-  const hoverHandle = (e: MouseEvent<HTMLDivElement>, name: string) => {
-    if (e.type === "mousemove") setHoverName(name);
-    else setHoverName("");
-  };
 
   const handleClickDate = () => {
     setFilter({
@@ -56,13 +59,11 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
     });
   };
 
-  // const aa = todayPosts?.map((todayPost) => [todayPost._id, todayPost]);
   const uniqueUsers = getUniqueUser(todayPosts);
-  // console.log(uniqueUsers[0]?.);
 
   return (
     <div
-      className={`flex flex-col w-full h-20 border border-gray-200 ${
+      className={`flex flex-col relative w-full h-20 border border-gray-200 ${
         !isSameMonth && "text-gray-200"
       }`}
     >
@@ -85,25 +86,14 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
             </div>
           )}
         </div>
-        <div className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap bg-gray-800 px-1 text-sm text-gray-100 rounded-md">
-          {hoverName}
-        </div>
       </div>
       <div className="block gap-1 w-full h-full overflow-y-auto scrollbar-hide px-1">
         {uniqueUsers?.map((uniqueUser) => (
-          <div
+          <CalanderAvatar
             key={uniqueUser.id}
-            className="inline-block m-[2px]"
-            onMouseOut={(e) => hoverHandle(e, uniqueUser.name)}
-            onMouseMove={(e) => hoverHandle(e, uniqueUser.name)}
-            onClick={() => {
-              handleClickUser(uniqueUser.id, uniqueUser.name);
-            }}
-          >
-            <div className="group flex relative">
-              <Avatar image={uniqueUser.image} size="xs" />
-            </div>
-          </div>
+            handleClickUser={handleClickUser}
+            uniqueUser={uniqueUser}
+          />
         ))}
       </div>
     </div>

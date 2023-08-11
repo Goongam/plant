@@ -10,12 +10,15 @@ import useMe from "@/hooks/me";
 import { useGroup } from "@/hooks/group";
 import Link from "next/link";
 import Loading from "./ui/Loading";
-import { useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { postFilterState } from "@/state";
 
 interface Props {
   groupId: string;
 }
+
+const POST_HEADER =
+  "my-2 p-2 border-b border-black flex justify-between items-center";
 
 export default function GroupDetail({ groupId }: Props) {
   const { group, isLoading, isError } = useGroup(groupId);
@@ -25,7 +28,7 @@ export default function GroupDetail({ groupId }: Props) {
 
   const { postFilterDate: filterDate, postFilterUser: filterUser } =
     useRecoilValue(postFilterState);
-
+  const setFilter = useSetRecoilState(postFilterState);
   if (isLoading || !group) return <Loading type="Moon" />;
 
   if (isError) {
@@ -44,6 +47,9 @@ export default function GroupDetail({ groupId }: Props) {
     router.push("/");
   }
 
+  const showAllPost = () => {
+    setFilter({ postFilterDate: undefined, postFilterUser: undefined });
+  };
   const { name } = group;
   return (
     <section className="p-5">
@@ -66,15 +72,22 @@ export default function GroupDetail({ groupId }: Props) {
           <div>
             <Calander groupId={groupId} />
           </div>
-          {(filterDate || filterUser) && (
-            <div className="font-bold text-2xl my-2 p-2 border-b border-black flex">
-              <p className={`${filterUser && 'after:content-["·"]'}`}>
-                {filterDate &&
-                  `${new Date(filterDate).getMonth() + 1}월 ${new Date(
-                    filterDate
-                  ).getDate()}일`}
-              </p>
-              <p>{filterUser && `${filterUser.name}`}</p>
+          {filterDate || filterUser ? (
+            <div className={POST_HEADER}>
+              <div className="flex font-bold text-2xl ">
+                <p className={`${filterUser && 'after:content-["·"]'}`}>
+                  {filterDate &&
+                    `${new Date(filterDate).getMonth() + 1}월 ${new Date(
+                      filterDate
+                    ).getDate()}일`}
+                </p>
+                <p>{filterUser && `${filterUser.name}`}</p>
+              </div>
+              <div onClick={showAllPost}>전체보기</div>
+            </div>
+          ) : (
+            <div className={POST_HEADER}>
+              <div className="flex font-bold text-2xl ">전체 포스트</div>
             </div>
           )}
           <GroupPosts groupId={groupId} />

@@ -18,7 +18,7 @@ interface OauthUser {
 
 const ADMIN_EMAIL = "dlwjddn341@naver.com";
 export async function AddUser({ id, name, email, image }: OauthUser) {
-  connect();
+  await connect();
 
   const findUser = await UserSchema.exists({ id });
   if (!findUser) {
@@ -35,7 +35,7 @@ export async function AddUser({ id, name, email, image }: OauthUser) {
 }
 
 export async function getUserIdbyOauthId(id: string) {
-  connect();
+  await connect();
   const userId = await UserSchema.findOne({ id }, "_id");
   return userId;
 }

@@ -55,13 +55,6 @@ export default function GroupPosts({ groupId }: Props) {
 
   return (
     <>
-      <button
-        onClick={() => {
-          setFilter({ postFilterDate: "2023-08-08" });
-        }}
-      >
-        recoiltest
-      </button>
       {data && (
         <InfiniteScroll
           loadMore={() => {

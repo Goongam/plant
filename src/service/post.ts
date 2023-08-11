@@ -4,22 +4,24 @@ import CommentSchema from "@/schema/comment";
 
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
-import mongoose from "mongoose";
+import mongoose, { now } from "mongoose";
 import { showPostCount } from "@/app/api/post/[groupId]/[page]/route";
+import { dateFormat, day_now, timeFormat } from "@/util/dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface Comment {
   _id: string;
   author: User;
   content: string;
   postId: Post;
-  createAt: Date;
+  createAt: Date | string;
 }
 export interface Post {
   _id: string;
   author: User;
   title: string;
   content: string;
-  createAt: Date;
+  createAt: string;
   images: string[];
   comments: Comment[];
   group: Group;
@@ -53,7 +55,7 @@ export async function getPosts(
 ) {
   await connect();
 
-  const searchDate = date ? new Date(date) : undefined;
+  // const searchDate = date ? dayjs(date) : undefined;
   const author_id = id ? await getUserIdbyOauthId(id) : undefined;
 
   let filter: { group: string; author?: any; createAt?: any } = {
@@ -61,13 +63,18 @@ export async function getPosts(
   };
   if (author_id) filter.author = author_id;
 
-  if (searchDate) {
-    const nextDay = new Date(searchDate);
-    nextDay.setDate(searchDate.getDate() + 1);
+  if (date) {
+    // searchDate.setHours(searchDate.getHours() + 2);
+
+    // const nextDay = new Date(searchDate);
+
+    // console.log(day_now());
+    // console.log(dayjs(date).format("YYYY-MM-DD"));
+    // console.log(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
 
     filter.createAt = {
-      $gte: searchDate,
-      $lt: nextDay.toISOString(),
+      $gte: dayjs(date).format("YYYY-MM-DD"),
+      $lt: dayjs(date).add(1, "day").format("YYYY-MM-DD"),
     };
   }
   // console.log(filter);
