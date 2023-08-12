@@ -1,10 +1,8 @@
 import { Post } from "@/service/post";
 import { dateFormat } from "@/util/dayjs";
-import Avatar from "./Avatar";
 import { User } from "@/service/user";
 import PersonIcon from "./ui/icons/PersonIcon";
 import ArticleIcon from "./ui/icons/ArticleIcon";
-import { useState, MouseEvent } from "react";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
 import CalanderAvatar from "./CalanderAvatar";
@@ -32,16 +30,6 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
   const todayPosts = posts?.filter((post) => {
     return dateFormat(post.createAt) === today;
   });
-
-  // console.log();
-  posts?.forEach((post) => {
-    if (post._id === "64a5a0dc29192b5c5288cfe9") {
-      console.log(post);
-      console.log(post.createAt);
-    }
-  });
-
-  // const handleHover = (e: MouseEvent<HTMLDivElement, MouseEvent>) => {};
 
   const handleClickDate = () => {
     setFilter({
@@ -78,7 +66,6 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
                 <span>{uniqueUsers.length}</span>
                 <PersonIcon />
               </div>
-              {/* TODO: 실제 글 개수와 표시되는 글 개수가 맞지 않음 */}
               <div className="flex justify-center items-center">
                 <span className="">{todayPosts.length}</span>
                 <ArticleIcon />

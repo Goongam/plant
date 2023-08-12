@@ -1,13 +1,12 @@
 import { User, getUserIdbyOauthId } from "./user";
 import PostSchema from "@/schema/post";
-import CommentSchema from "@/schema/comment";
 
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
-import mongoose, { now } from "mongoose";
+
 import { showPostCount } from "@/app/api/post/[groupId]/[page]/route";
-import { dateFormat, day_now, timeFormat } from "@/util/dayjs";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import { day_now } from "@/util/dayjs";
 
 export interface Comment {
   _id: string;
@@ -42,6 +41,7 @@ export async function AddPost(
     group: groupId,
     images,
     content,
+    createAt: day_now(),
   });
 
   return newPost.save();

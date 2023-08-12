@@ -1,6 +1,7 @@
 import { getUserIdbyOauthId } from "./user";
 import CommentSchema from "@/schema/comment";
 import PostSchema from "@/schema/post";
+import { day_now } from "@/util/dayjs";
 
 export async function AddComment(
   oauthId: string,
@@ -14,6 +15,7 @@ export async function AddComment(
     author: id._id,
     content: comment,
     postId,
+    createAt: day_now(),
   })
     .save()
     .then((res) =>

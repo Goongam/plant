@@ -3,6 +3,7 @@ import { Post } from "./post";
 import { User, getUserIdbyOauthId } from "./user";
 import GroupSchema from "@/schema/group";
 import mongoose from "mongoose";
+import { day_now } from "@/util/dayjs";
 
 export interface Group {
   id: string;
@@ -29,6 +30,7 @@ export async function createGroup(name: string) {
     end_date: "2023-09-01",
     users: [],
     posts: [],
+    createAt: day_now(),
     category: "여행",
   });
 

@@ -1,7 +1,5 @@
 "use client";
 
-import { Group } from "@/service/group";
-import { useQuery } from "react-query";
 import Calander from "./Calander";
 import GroupPosts from "./GroupPosts";
 import { useRouter } from "next/navigation";
@@ -12,13 +10,12 @@ import Link from "next/link";
 import Loading from "./ui/Loading";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { postFilterState } from "@/state";
+import Participant from "./Participant";
+import PostContainer from "./PostContainer";
 
 interface Props {
   groupId: string;
 }
-
-const POST_HEADER =
-  "my-2 p-2 border-b border-black flex justify-between items-center";
 
 export default function GroupDetail({ groupId }: Props) {
   const { group, isLoading, isError } = useGroup(groupId);
@@ -72,28 +69,16 @@ export default function GroupDetail({ groupId }: Props) {
           <div>
             <Calander groupId={groupId} />
           </div>
-          {filterDate || filterUser ? (
-            <div className={POST_HEADER}>
-              <div className="flex font-bold text-2xl ">
-                <p className={`${filterUser && 'after:content-["·"]'}`}>
-                  {filterDate &&
-                    `${new Date(filterDate).getMonth() + 1}월 ${new Date(
-                      filterDate
-                    ).getDate()}일`}
-                </p>
-                <p>{filterUser && `${filterUser.name}`}</p>
-              </div>
-              <div onClick={showAllPost}>전체보기</div>
-            </div>
-          ) : (
-            <div className={POST_HEADER}>
-              <div className="flex font-bold text-2xl ">전체 포스트</div>
-            </div>
-          )}
-          <GroupPosts groupId={groupId} />
+          <PostContainer
+            groupId={groupId}
+            showAllPost={showAllPost}
+            filterDate={filterDate}
+            filterUser={filterUser}
+          />
         </div>
         <div className="w-36 h-fit hidden md:block">
           <div>참여자</div>
+          <Participant users={group.users} />
           <div>채팅</div>
         </div>
       </div>

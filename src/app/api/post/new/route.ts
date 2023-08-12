@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { withSession } from "@/util/session";
 import { AddPost, Post, uploadImage } from "@/service/post";
 import { AddComment } from "@/service/comment";
+import { day_now } from "@/util/dayjs";
 
 export async function POST(req: Request) {
   return withSession(async (user) => {
@@ -12,6 +13,7 @@ export async function POST(req: Request) {
     // if (!datastring) {
     //   return new Response("Bad Requset", { status: 400 });
     // }
+
     const form = await req.formData();
 
     const values = form.values();

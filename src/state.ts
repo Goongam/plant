@@ -1,11 +1,13 @@
 import { atom } from "recoil";
 
+export type postFilterDate = string;
+export interface postFilterUser {
+  id: string;
+  name: string;
+}
 export interface IContentTypes {
-  postFilterDate?: string;
-  postFilterUser?: {
-    id: string;
-    name: string;
-  };
+  postFilterDate?: postFilterDate;
+  postFilterUser?: postFilterUser;
 }
 
 //recoil state 생성

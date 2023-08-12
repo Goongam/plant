@@ -17,7 +17,7 @@ export default function CalanderAvatar({ uniqueUser, handleClickUser }: Props) {
   return (
     <div
       key={uniqueUser.id}
-      className="inline-block m-[2px]"
+      className="inline-block m-[2px] cursor-pointer"
       onMouseOut={(e) => hoverHandle(e, uniqueUser.name)}
       onMouseMove={(e) => hoverHandle(e, uniqueUser.name)}
       onClick={() => {

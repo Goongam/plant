@@ -5,11 +5,9 @@ export function dateFormat(date: string | Date) {
 }
 
 export function day_now() {
-  return dayjs().format("YYYY-MM-DD hh:mm:ss");
+  return dayjs().format("YYYY-MM-DD HH:mm:ss");
 }
 
 export function timeFormat(date: string | Date | Dayjs) {
-  return dayjs(date).format("YYYY-MM-DD hh:mm:ss");
+  return dayjs(date).format("YYYY-MM-DD HH:mm:ss");
 }
-
-//dayjs(date).format("YYYY-MM-DD hh:mm");
