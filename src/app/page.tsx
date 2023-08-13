@@ -6,14 +6,6 @@ import HomeCategories from "@/components/HomeCategories";
 import { useState } from "react";
 import { Category } from "../types/Category";
 
-// export const CATEGORIES: Category[] = [
-//   "전체",
-//   "운동",
-//   "자기계발",
-//   "취미",
-//   "취미",
-// ];
-
 export default function Home() {
   const [select, setSelect] = useState<Category>("전체");
 

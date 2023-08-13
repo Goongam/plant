@@ -64,14 +64,6 @@ export async function getPosts(
   if (author_id) filter.author = author_id;
 
   if (date) {
-    // searchDate.setHours(searchDate.getHours() + 2);
-
-    // const nextDay = new Date(searchDate);
-
-    // console.log(day_now());
-    // console.log(dayjs(date).format("YYYY-MM-DD"));
-    // console.log(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
-
     filter.createAt = {
       $gte: dayjs(date).format("YYYY-MM-DD"),
       $lt: dayjs(date).add(1, "day").format("YYYY-MM-DD"),
@@ -87,6 +79,8 @@ export async function getPosts(
     })
       .populate("author")
       .then((posts) => {
+        // console.log("스킵:", (page - 1) * showPostCount, "posts:", posts);
+
         return {
           next: posts.length < 5 ? null : page + 1,
           posts: [...posts],

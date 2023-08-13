@@ -2,7 +2,7 @@ import { Post } from "@/service/post";
 import PostCard from "./PostCard";
 import InfiniteScroll from "react-infinite-scroller";
 import Loading from "./ui/Loading";
-import { useInfinitePosts } from "@/hooks/post";
+import { useInfinityPosts } from "@/hooks/post";
 
 interface Props {
   groupId: string;
@@ -10,13 +10,13 @@ interface Props {
 
 export default function GroupPosts({ groupId }: Props) {
   const { data, fetchNextPage, hasNextPage, isFetching } =
-    useInfinitePosts(groupId);
+    useInfinityPosts(groupId);
   return (
     <>
       {data && (
         <InfiniteScroll
           loadMore={() => {
-            fetchNextPage();
+            if (!isFetching) fetchNextPage();
           }}
           hasMore={hasNextPage}
           className="flex flex-col w-full items-center gap-6"

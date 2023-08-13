@@ -1,3 +1,5 @@
+import { Category } from "./types/Category";
+
 export const queryKey = {
   comment: "comments",
   post: "posts",
@@ -24,3 +26,11 @@ export const regions = [
   "기타",
 ];
 export const offlineMeetings = ["전체", "유", "무"];
+
+export const CATEGORIES: Category[] = [
+  "전체",
+  "여행",
+  "운동",
+  "자기계발",
+  "취미",
+];

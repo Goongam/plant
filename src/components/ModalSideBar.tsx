@@ -5,6 +5,10 @@ import NewGroupIcon from "./ui/icons/NewGroupIcon";
 import InfoIcon from "./ui/icons/InfoIcon";
 import ContactIcon from "./ui/icons/ContactIcon";
 import LogoutIcon from "./ui/icons/LogoutIcon";
+import { useState } from "react";
+import ModalPortal from "./ModalPortal";
+import ModalBackground from "./ModalBackground";
+import NewGroupModal from "./NewGroupModal";
 
 interface Props {
   user: User | undefined;
@@ -13,6 +17,13 @@ interface Props {
 const BUTTON_STYLE = "flex justify-start items-center gap-2";
 
 export default function ModalSideBar({ user }: Props) {
+  const [openModal, setOpenModal] = useState(false);
+
+  const newGroup = () => {
+    console.log("그룹생성");
+    setOpenModal(true);
+  };
+
   return (
     <section className="fixed top-16 right-3 bg-white w-40 h-fit flex flex-col items-start p-3">
       <p className="w-full border-b border-neutral-200 p-2">{user?.name}</p>
@@ -21,7 +32,7 @@ export default function ModalSideBar({ user }: Props) {
         <button className={BUTTON_STYLE}>
           <GroupIcon /> 내 그룹 보기
         </button>
-        <button className={BUTTON_STYLE}>
+        <button className={BUTTON_STYLE} onClick={newGroup}>
           <NewGroupIcon /> 그룹생성
         </button>
         <button className={BUTTON_STYLE}>
@@ -38,6 +49,18 @@ export default function ModalSideBar({ user }: Props) {
           로그아웃
         </button>
       </div>
+      {openModal && (
+        <ModalPortal>
+          <ModalBackground
+            onClose={() => {
+              setOpenModal(false);
+            }}
+          >
+            {/* <GroupModalDetail group={group} /> */}
+            <NewGroupModal />
+          </ModalBackground>
+        </ModalPortal>
+      )}
     </section>
   );
 }

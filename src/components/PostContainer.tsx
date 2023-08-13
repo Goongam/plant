@@ -1,6 +1,6 @@
 import { postFilterDate, postFilterUser } from "@/state";
 import GroupPosts from "./GroupPosts";
-import { useInfinitePosts } from "@/hooks/post";
+import { useInfinityPosts } from "@/hooks/post";
 import { day_now } from "@/util/dayjs";
 
 interface Props {
@@ -18,8 +18,7 @@ export default function PostContainer({
   showAllPost,
   groupId,
 }: Props) {
-  const { refetch } = useInfinitePosts(groupId);
-  console.log(day_now());
+  const { refetch } = useInfinityPosts(groupId);
 
   return (
     <>
