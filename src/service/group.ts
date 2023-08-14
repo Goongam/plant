@@ -3,10 +3,10 @@ import { Post } from "./post";
 import { User, getUserIdbyOauthId } from "./user";
 import GroupSchema from "@/schema/group";
 import mongoose from "mongoose";
-import { day_now } from "@/util/dayjs";
+import { dateFormat, day_now, timeFormat } from "@/util/dayjs";
 
 export interface Group {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   end_date: string;
@@ -20,18 +20,44 @@ export interface Group {
   isOffline: boolean;
   inweek: number;
   isSecret: boolean;
+  region: string[];
+  cost: number;
+  active: boolean;
 }
 
-export async function createGroup(name: string) {
+export async function createGroup(
+  {
+    name,
+    description,
+    category,
+    end_date,
+    max_user,
+    isOffline,
+    region,
+    isSecret,
+    cost,
+  }: Group,
+  oauthId: string
+) {
   await connect();
+
+  const id = await getUserIdbyOauthId(oauthId);
+
   const newGroup = new GroupSchema({
     name,
-    description: "설명",
-    end_date: "2023-09-01",
-    users: [],
+    description,
+    end_date: timeFormat(end_date),
+    users: [id],
+    createBy: id,
+    leader: id,
+    max_user,
     posts: [],
     createAt: day_now(),
-    category: "여행",
+    category,
+    isOffline,
+    region,
+    isSecret,
+    cost,
   });
 
   return newGroup.save();

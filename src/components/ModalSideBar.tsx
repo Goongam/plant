@@ -57,7 +57,7 @@ export default function ModalSideBar({ user }: Props) {
             }}
           >
             {/* <GroupModalDetail group={group} /> */}
-            <NewGroupModal />
+            <NewGroupModal setOpenModal={setOpenModal} />
           </ModalBackground>
         </ModalPortal>
       )}

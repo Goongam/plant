@@ -19,9 +19,10 @@ const GroupSchema = new mongoose.Schema<Group, GroupModel>({
     ref: "User",
     require: true,
   },
-  inweek: { type: Number, required: true },
+  inweek: { type: Number, required: false },
   isOffline: { type: Boolean, required: true },
   isSecret: { type: Boolean, required: true },
+  active: { type: Boolean, default: true },
 });
 
 export default (mongoose.models.Group as GroupModel) ||
