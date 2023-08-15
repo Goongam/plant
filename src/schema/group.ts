@@ -23,6 +23,8 @@ const GroupSchema = new mongoose.Schema<Group, GroupModel>({
   isOffline: { type: Boolean, required: true },
   isSecret: { type: Boolean, required: true },
   active: { type: Boolean, default: true },
+  cost: { type: Number, default: 0 },
+  region: { type: String, default: "전체" },
 });
 
 export default (mongoose.models.Group as GroupModel) ||

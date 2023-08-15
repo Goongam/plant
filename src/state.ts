@@ -18,3 +18,22 @@ export const postFilterState = atom<IContentTypes>({
     postFilterUser: undefined,
   },
 });
+
+export interface GroupFilter {
+  end_time?: string;
+  cost?: string;
+  region?: string;
+  isOffline?: string;
+}
+
+export const groupFIlterDeFaultValue = {
+  end_time: "",
+  cost: "전체",
+  region: "전체",
+  isOffline: "전체",
+};
+
+export const groupFilterState = atom<GroupFilter>({
+  key: "groupFilter",
+  default: groupFIlterDeFaultValue,
+});

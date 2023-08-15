@@ -20,7 +20,7 @@ export interface Group {
   isOffline: boolean;
   inweek: number;
   isSecret: boolean;
-  region: string[];
+  region: string[] | string;
   cost: number;
   active: boolean;
 }

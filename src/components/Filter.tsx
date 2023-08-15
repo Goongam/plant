@@ -4,6 +4,8 @@ import { AdmissionFees, offlineMeetings, regions } from "@/constants";
 import { useState, useEffect, useCallback } from "react";
 import DropdownIcon from "./ui/icons/DropdownIcon";
 import DropUpIcon from "./ui/icons/DropUpIcon";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { groupFIlterDeFaultValue, groupFilterState } from "@/state";
 
 const titleStyle = "font-bold text-xl mt-5";
 
@@ -17,27 +19,37 @@ interface Props {
   selectOff: string;
   setSelectOff: (data: string) => void;
 }
-export default function Filter({
-  date,
-  selectFee,
-  selectOff,
-  selectRegion,
-  setDate,
-  setSelectFee,
-  setSelectOff,
-  setSelectRegion,
-}: Props) {
+export default function Filter() {
   const [openFilter, setOpenFilter] = useState(false);
-  const clearFilter = useCallback(() => {
-    setSelectFee(AdmissionFees[0]);
-    setSelectOff(offlineMeetings[0]);
-    setSelectRegion(regions[0]);
-    setDate("");
-  }, [setDate, setSelectFee, setSelectOff, setSelectRegion]);
+  const [render, setRender] = useState(false);
+  const regionList = ["전체", ...regions];
+  const filterValue = useRecoilValue(groupFilterState);
+  const setFilter = useSetRecoilState(groupFilterState);
+
+  const initFilter = useCallback(() => {
+    setFilter(groupFIlterDeFaultValue);
+  }, [setFilter]);
 
   useEffect(() => {
-    clearFilter();
-  }, [clearFilter]);
+    console.log("초기화");
+    setRender(true);
+  }, []);
+
+  const changeEndDate = (value: string) => {
+    setFilter({ ...filterValue, end_time: value });
+  };
+
+  const changeCost = (value: string) => {
+    setFilter({ ...filterValue, cost: value });
+  };
+
+  const changeRegion = (value: string) => {
+    setFilter({ ...filterValue, region: value });
+  };
+
+  const changeOffline = (value: string) => {
+    setFilter({ ...filterValue, isOffline: value });
+  };
 
   return (
     <section
@@ -59,7 +71,7 @@ export default function Filter({
       <div>
         <div className="flex content-between">
           <span className="hidden md:block">필터</span>
-          <button onClick={clearFilter} className="ml-auto">
+          <button onClick={initFilter} className="ml-auto">
             필터초기화
           </button>
         </div>
@@ -70,9 +82,11 @@ export default function Filter({
             className="flex-1"
             type="date"
             onChange={(e) => {
-              setDate(e.target.value);
+              console.log(typeof e.target.value);
+
+              changeEndDate(e.target.value);
             }}
-            value={date}
+            value={filterValue.end_time}
           />
           까지
         </div>
@@ -83,15 +97,17 @@ export default function Filter({
             {AdmissionFees.map((fee) => {
               return (
                 <li key={fee}>
-                  <label>
+                  <label htmlFor={fee} key={fee}>
                     <input
+                      id={fee}
                       type="radio"
                       name="fee"
                       key={fee}
                       value={fee}
-                      checked={fee === selectFee}
+                      // defaultChecked={fee === "전체"}
+                      checked={filterValue.cost === fee}
                       onChange={(e) => {
-                        setSelectFee(e.target.value);
+                        changeCost(e.target.value);
                       }}
                     />
                     <span className="ml-2">{fee}</span>
@@ -107,11 +123,11 @@ export default function Filter({
           <select
             className="w-full"
             onChange={(e) => {
-              setSelectRegion(e.target.value);
+              changeRegion(e.target.value);
             }}
-            value={selectRegion}
+            value={filterValue.region}
           >
-            {regions.map((r) => (
+            {regionList.map((r) => (
               <option key={r}>{r}</option>
             ))}
           </select>
@@ -128,9 +144,9 @@ export default function Filter({
                     name="offline"
                     key={off}
                     value={off}
-                    checked={off === selectOff}
+                    checked={off === filterValue.isOffline}
                     onChange={(e) => {
-                      setSelectOff(e.target.value);
+                      changeOffline(e.target.value);
                     }}
                   />
                   <span className="ml-2">{off}</span>
