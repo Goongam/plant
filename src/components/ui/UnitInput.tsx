@@ -30,11 +30,11 @@ function UnitInput(
     <div
       className={`flex justify-between items-center pr-2 ${
         focus && "border border-sky-300"
-      }`}
+      } ${style}`}
     >
       {text && <div className="w-28 text-gray-400 pl-1">{text}</div>}
       <input
-        className={`w-full h-10 outline-none pl-1 ${style} `}
+        className={`w-full h-10 outline-none pl-1 `}
         type={type}
         // value={initValue}
         placeholder={placeholder}

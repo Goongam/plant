@@ -37,12 +37,14 @@ export default function GroupList({ selectCategory }: Props) {
 
   //필터링
   let groupList = data;
+  //시간 필터링
   if (end_time)
     groupList = groupList?.filter(
       (group) =>
         new Date(group.end_date) <
         new Date(new Date(end_time).getTime() + 24 * 60 * 60 * 1000)
     );
+  //참가비 필터링
   if (cost && cost !== "전체")
     groupList = groupList?.filter((group) => {
       if (cost === "무료") {
@@ -51,9 +53,10 @@ export default function GroupList({ selectCategory }: Props) {
         return group.cost !== 0;
       }
     });
+  //지역 필터링
   if (region && region !== "전체")
     groupList = groupList?.filter((group) => group.region === region);
-
+  //오프라인 필터링
   if (isOffline && isOffline !== "전체")
     groupList = groupList?.filter((group) => {
       if (isOffline === "유") return group.isOffline;

@@ -14,7 +14,7 @@ interface Props {
 }
 export default function GroupModalDetail({ group }: Props) {
   const {
-    id,
+    _id,
     category,
     createAt,
     description,
@@ -38,11 +38,11 @@ export default function GroupModalDetail({ group }: Props) {
     fetch("/api/group/join", {
       method: "post",
       body: JSON.stringify({
-        groupId: id,
+        groupId: _id,
       }),
     })
       .then((res) => {
-        if (res.ok) router.push(`/group/${id}`);
+        if (res.ok) router.push(`/group/${_id}`);
         else throw new Error();
       })
       .catch(() => {
@@ -71,7 +71,7 @@ export default function GroupModalDetail({ group }: Props) {
             className={`${
               user ?? "hidden"
             } mt-auto bg-green-200 rounded-lg w-full h-10 disabled:bg-slate-600 flex justify-center items-center`}
-            href={`/group/${id}`}
+            href={`/group/${_id}`}
           >
             그룹으로 이동하기
           </Link>
