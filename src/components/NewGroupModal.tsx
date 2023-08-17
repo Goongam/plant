@@ -50,6 +50,11 @@ export default function NewGroupModal({ setOpenModal }: Props) {
       return console.log("최소 1명 이상이여야 합니다");
     }
 
+    if (maxUserRef.current && 100 < +maxUserRef.current?.value) {
+      setMaxUserError(true);
+      return console.log("최대 100명까지 가능합니다");
+    }
+
     if (
       costRef.current &&
       (+costRef.current?.value % 500 !== 0 || +costRef.current?.value <= 0)
@@ -59,7 +64,7 @@ export default function NewGroupModal({ setOpenModal }: Props) {
     }
 
     const formdata = new FormData();
-    return;
+
     titleRef.current && formdata.append("name", titleRef.current.value);
     descriptionRef.current &&
       formdata.append("description", descriptionRef.current.value);

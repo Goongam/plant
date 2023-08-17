@@ -1,12 +1,12 @@
 "use client";
-import { Group } from "@/service/group";
+import { Group, SimpleGroup } from "@/service/group";
 import { dateFormat } from "@/util/dayjs";
 import { useState } from "react";
 import ModalPortal from "./ModalPortal";
 import ModalBackground from "./ModalBackground";
 import GroupModalDetail from "./GroupModalDetail";
 interface Props {
-  group: Group;
+  group: SimpleGroup;
 }
 export default function GroupListCard({ group }: Props) {
   const [openModal, setOpenModal] = useState(false);

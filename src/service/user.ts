@@ -9,6 +9,10 @@ export interface User {
   admin: boolean;
 }
 
+export interface UserId {
+  id: string;
+}
+
 interface OauthUser {
   id: string;
   email?: string | null;

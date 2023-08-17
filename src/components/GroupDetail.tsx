@@ -26,7 +26,7 @@ export default function GroupDetail({ groupId }: Props) {
   const { postFilterDate: filterDate, postFilterUser: filterUser } =
     useRecoilValue(postFilterState);
   const setFilter = useSetRecoilState(postFilterState);
-  if (isLoading || !group) return <Loading type="Moon" />;
+  if (isLoading || !group) return <Loading type="Moon" customStyle="mt-3" />;
 
   if (isError) {
     if (!user)

@@ -1,16 +1,17 @@
 "use client";
 
 import useMe from "@/hooks/me";
-import { Group } from "@/service/group";
-import { dateFormat } from "@/util/dayjs";
+import { Group, SimpleGroup } from "@/service/group";
+import { dateFormat, timeFormat } from "@/util/dayjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import PulseLoading from "./ui/PulseLoader";
 import Loading from "./ui/Loading";
+import Avatar from "./Avatar";
 
 interface Props {
-  group: Group;
+  group: SimpleGroup;
 }
 export default function GroupModalDetail({ group }: Props) {
   const {
@@ -22,6 +23,7 @@ export default function GroupModalDetail({ group }: Props) {
     max_user,
     name,
     users,
+    leader,
   } = group;
 
   const [joinLoading, setJoinLoading] = useState(false);
@@ -30,7 +32,6 @@ export default function GroupModalDetail({ group }: Props) {
   const isAlreadyJoin = user ? users.find((u) => user.id === u.id) : false;
 
   const joinHandler = () => {
-    //TODO: 클릭시 로딩...
     if (joinLoading) return;
 
     setJoinLoading(true);
@@ -57,14 +58,21 @@ export default function GroupModalDetail({ group }: Props) {
         <p className="w-full break-words flex-1">{description}</p>
 
         <div>
-          <div>여기에 방장 표시</div>
+          <div>
+            {leader && (
+              <div className="flex gap-1 items-center">
+                <Avatar image={leader.image} size="xs" />
+                <p>{leader.name}</p>
+              </div>
+            )}
+          </div>
           <div>
             {users.length}/{max_user ?? 0} 참여
           </div>
-          <div>여기에 참여인원 표시</div>
+          {/* <div>여기에 참여인원 표시</div> */}
         </div>
 
-        <p>{dateFormat(end_date)}까지</p>
+        <p>{timeFormat(end_date)}까지</p>
 
         {!!isAlreadyJoin ? (
           <Link

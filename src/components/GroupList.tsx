@@ -1,13 +1,11 @@
 "use client";
 
-import { Group, getGroups } from "@/service/group";
+import { Group } from "@/service/group";
 import { useQuery } from "react-query";
 import GroupListCard from "./GroupListCard";
-// import Loading from "./ui/Loading";
 import { Category } from "@/types/Category";
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { groupFilterState } from "@/state";
 
 interface Props {

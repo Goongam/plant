@@ -1,6 +1,6 @@
 import { connect } from "@/lib/mongoose";
 import { Post } from "./post";
-import { User, getUserIdbyOauthId } from "./user";
+import { User, UserId, getUserIdbyOauthId } from "./user";
 import GroupSchema from "@/schema/group";
 import mongoose from "mongoose";
 import { dateFormat, day_now, timeFormat } from "@/util/dayjs";
@@ -25,6 +25,14 @@ export interface Group {
   active: boolean;
 }
 
+export interface SimpleGroup extends Omit<Group, "users"> {
+  users: UserId[];
+}
+
+// function t(a: SimpleGroup) {
+//   const { users } = a;
+//   users[0].
+// }
 export async function createGroup(
   {
     name,
@@ -63,18 +71,48 @@ export async function createGroup(
   return newGroup.save();
 }
 
-export async function getGroups() {
+export async function getPublicGroups() {
   await connect();
-  return GroupSchema.find({}, "", {
-    sort: "createAt",
-  })
-    .populate("users")
+  return (
+    GroupSchema.find(
+      { isSecret: false },
+      "active category createAt description end_date _id id isOffline isSecret leader max_user name users",
+      {
+        sort: "createAt",
+      }
+    )
+      .populate("users leader")
+      // .populate("g")
+      .lean()
+      .then((results) =>
+        results.map((result) => {
+          return { ...result };
+        })
+      )
+  );
+}
+
+export async function getMyGroup(oauthId: string) {
+  await connect();
+  const userId = await getUserIdbyOauthId(oauthId);
+
+  const groups = await GroupSchema.find({}, "")
+    .where("users")
+    .in([userId])
+    .populate("leader users")
     .lean()
     .then((results) =>
       results.map((result) => {
-        return { ...result, id: result._id };
+        return {
+          ...result,
+          _id: result._id.toString(),
+          users: result.users.map((user) => {
+            return { id: user.id };
+          }),
+        };
       })
     );
+  return groups;
 }
 
 export async function getGroup(groupId: string) {

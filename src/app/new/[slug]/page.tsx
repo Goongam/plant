@@ -1,6 +1,4 @@
 import NewPost from "@/components/NewPost";
-import { Group } from "@/service/group";
-import { useQuery } from "react-query";
 
 interface Props {
   params: { slug: string };
