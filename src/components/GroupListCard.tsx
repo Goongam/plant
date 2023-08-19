@@ -15,7 +15,7 @@ export default function GroupListCard({ group }: Props) {
   return (
     <>
       <div
-        className="flex flex-col w-full h-[200px] rounded-md bg-slate-200 p-5"
+        className="flex flex-col w-full h-[200px] rounded-md bg-[#efe8f5] p-5"
         onClick={() => {
           setOpenModal(true);
         }}
@@ -28,7 +28,9 @@ export default function GroupListCard({ group }: Props) {
         <p className="text-2xl mt-2">{`${users.length} / ${max_user ?? 0}`}</p>
         <div className="flex items-end mt-auto">
           {category && (
-            <span className="rounded-xl bg-white p-1 mr-2">{category}</span>
+            <span className="rounded-xl bg-white py-1 px-2 mr-2">
+              {category}
+            </span>
           )}
           <span className="ml-auto">{`${dateFormat(end_date)}까지`}</span>
         </div>

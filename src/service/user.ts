@@ -43,3 +43,10 @@ export async function getUserIdbyOauthId(id: string) {
   const userId = await UserSchema.findOne({ id }, "_id");
   return userId;
 }
+
+export async function getUserInfo(oauthId: string) {
+  await connect();
+  const id = await getUserIdbyOauthId(oauthId);
+
+  return UserSchema.findById(id, "");
+}

@@ -53,7 +53,10 @@ export default function Calander({ groupId }: Props) {
     <>
       <div className="flex flex-row">
         <h2 className="text-2xl w-full">
-          {`${selectDate.getMonth() + 1}월`}
+          <span className=" border-b-2 border-[#4D8295]">
+            {`${selectDate.getMonth() + 1}월`}
+          </span>
+
           <span className="text-gray-400 font-thin text-sm ml-4">
             {selectDate.getFullYear()}
           </span>

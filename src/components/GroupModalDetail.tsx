@@ -78,7 +78,7 @@ export default function GroupModalDetail({ group }: Props) {
           <Link
             className={`${
               user ?? "hidden"
-            } mt-auto bg-green-200 rounded-lg w-full h-10 disabled:bg-slate-600 flex justify-center items-center`}
+            } mt-auto bg-[#00C9A7] rounded-lg w-full h-10 disabled:bg-slate-600 flex justify-center items-center`}
             href={`/group/${_id}`}
           >
             그룹으로 이동하기

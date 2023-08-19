@@ -63,7 +63,7 @@ export default function GroupList({ selectCategory }: Props) {
 
   return (
     <section
-      className={`flex-1  w-full grid grid-cols-1 ${
+      className={`flex-1 grid grid-cols-1 ${
         groupList?.length && "md:grid-cols-2"
       } ${groupList?.length && "lg:grid-cols-3"} gap-5 m-3`}
     >
