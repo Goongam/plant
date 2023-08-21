@@ -15,7 +15,7 @@ export default function GroupListCard({ group }: Props) {
   return (
     <>
       <div
-        className="flex flex-col w-full h-[200px] rounded-md bg-[#efe8f5] p-5"
+        className="flex flex-col w-full h-[200px] rounded-md bg-[#F8F0E5] p-5"
         onClick={() => {
           setOpenModal(true);
         }}
