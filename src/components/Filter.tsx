@@ -53,7 +53,7 @@ export default function Filter() {
 
   return (
     <section
-      className={`bg-[#ffffff] border-b border-t border-[#8364B4] md:mt-1 w-full md:w-52 md:ml-5 flex flex-col gap-3 p-2 ${
+      className={`bg-[#ffffff] border-b border-t border-[#231c12] md:mt-1 w-full md:w-52 md:ml-5 flex flex-col gap-3 p-2 ${
         openFilter ? "h-fit" : "h-10 overflow-hidden"
       } md:h-fit`}
     >

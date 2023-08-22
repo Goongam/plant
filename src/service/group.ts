@@ -118,7 +118,7 @@ export async function getMyGroup(oauthId: string) {
 export async function getGroup(groupId: string) {
   await connect();
   return await GroupSchema.findOne({ _id: groupId }, "")
-    .populate("users")
+    .populate("users leader")
     .lean();
 }
 
@@ -161,3 +161,68 @@ export async function joinGroup(oauthid: string, groupId: string) {
     $push: { users: id },
   });
 }
+
+export async function leaveGroup(oauthId: string, groupId: string) {
+  await connect();
+
+  const id = await getUserIdbyOauthId(oauthId);
+  if (!id?._id) throw new Error("User not Found");
+
+  //방안에 유저 체크
+  const isJoin = await getIsJoinGroup(groupId, id._id);
+  if (!isJoin) throw new Error("Not join this group");
+
+  const group = await getGroup(groupId);
+  if (group?.leader.id === oauthId)
+    throw new Error("leader don't leave group, please change leader");
+
+  return GroupSchema.findByIdAndUpdate(groupId, {
+    $pull: { users: id._id },
+  });
+}
+
+/*
+fetch('/api/group/leave',{
+    method:'post',
+    body:JSON.stringify({
+        groupId: '64dcc148e97e61ca2b162cd2',
+        changeUserOauthId: '2875712214',
+    })
+})
+ */
+
+export async function changeLeader(
+  oauthId: string,
+  groupId: string,
+  changeUserOauthId: string
+) {
+  await connect();
+
+  const my_id = await getUserIdbyOauthId(oauthId);
+  if (!my_id?._id) throw new Error("User not Found");
+
+  const id = await getUserIdbyOauthId(changeUserOauthId);
+  if (!id?._id) throw new Error("User not Found");
+
+  // 방안에 유저 체크
+  const isJoin = await getIsJoinGroup(groupId, id._id);
+  if (!isJoin) throw new Error("Not join this group");
+
+  //리더 체크
+  const group = await getGroup(groupId);
+  if (group?.leader.id !== oauthId) throw new Error("you are not leader");
+
+  return GroupSchema.findByIdAndUpdate(groupId, {
+    $set: { leader: id },
+  });
+}
+
+/*
+fetch('/api/group/leader',{
+    method:'post',
+    body:JSON.stringify({
+        groupId: '64dcc148e97e61ca2b162cd2',
+        changeUserOauthId: '2875712214',
+    })
+})
+ */

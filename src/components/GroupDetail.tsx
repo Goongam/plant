@@ -12,12 +12,20 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import { postFilterState } from "@/state";
 import Participant from "./Participant";
 import PostContainer from "./PostContainer";
+import ModalPortal from "./ModalPortal";
+import ModalBackground from "./ModalBackground";
+import { useState } from "react";
+import LeaveGroupModel from "./LeaveGroupModal";
+import LeaderGroupModel from "./LeaderGroupModal";
 
 interface Props {
   groupId: string;
 }
 
 export default function GroupDetail({ groupId }: Props) {
+  const [openLeaveModal, setOpenLeaveModal] = useState(false);
+  const [openLeaderModal, setOpenLeaderModal] = useState(false);
+
   const { group, isLoading, isError } = useGroup(groupId);
 
   const router = useRouter();
@@ -26,6 +34,9 @@ export default function GroupDetail({ groupId }: Props) {
   const { postFilterDate: filterDate, postFilterUser: filterUser } =
     useRecoilValue(postFilterState);
   const setFilter = useSetRecoilState(postFilterState);
+
+  const isLeader = group?.leader.id === user?.id;
+
   if (isLoading || !group) return <Loading type="Moon" customStyle="mt-3" />;
 
   if (isError) {
@@ -47,6 +58,17 @@ export default function GroupDetail({ groupId }: Props) {
   const showAllPost = () => {
     setFilter({ postFilterDate: undefined, postFilterUser: undefined });
   };
+
+  const leaveGroup = () => {
+    setOpenLeaveModal(true);
+    setOpenLeaderModal(false);
+  };
+
+  const changeLeader = () => {
+    setOpenLeaderModal(true);
+    setOpenLeaveModal(false);
+  };
+
   const { name } = group;
   return (
     <section className="p-5">
@@ -79,9 +101,51 @@ export default function GroupDetail({ groupId }: Props) {
         <div className="w-36 h-fit hidden md:block">
           <div>참여자</div>
           <Participant users={group.users} />
-          <div>채팅</div>
+          <div className="mt-3">채팅</div>
+          <div>
+            <button
+              className="text-red-500 font-bold mt-32"
+              onClick={leaveGroup}
+            >
+              그룹나가기
+            </button>
+          </div>
+          {isLeader && (
+            <div>
+              <button
+                className="text-orange-500 font-bold mt-32"
+                onClick={changeLeader}
+              >
+                그룹장 위임
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      {openLeaveModal && (
+        <ModalPortal>
+          <ModalBackground
+            onClose={() => {
+              setOpenLeaveModal(false);
+            }}
+          >
+            <LeaveGroupModel group={group} />
+          </ModalBackground>
+        </ModalPortal>
+      )}
+
+      {openLeaderModal && (
+        <ModalPortal>
+          <ModalBackground
+            onClose={() => {
+              setOpenLeaderModal(false);
+            }}
+          >
+            <LeaderGroupModel group={group} />
+          </ModalBackground>
+        </ModalPortal>
+      )}
     </section>
   );
 }
