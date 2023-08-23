@@ -2,18 +2,18 @@ import { Post } from "@/service/post";
 import PostCard from "./PostCard";
 import InfiniteScroll from "react-infinite-scroller";
 import Loading from "./ui/Loading";
-import { useInfinityPosts } from "@/hooks/post";
+import { useInfinityUserPosts } from "@/hooks/post";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
 import { useEffect } from "react";
 
 interface Props {
-  groupId: string;
+  userId: string;
 }
 
-export default function GroupPosts({ groupId }: Props) {
+export default function UserPosts({ userId }: Props) {
   const { data, fetchNextPage, hasNextPage, isFetching } =
-    useInfinityPosts(groupId);
+    useInfinityUserPosts(userId);
 
   //페이지 접속시 필터링 초기화
   const setFilter = useSetRecoilState(postFilterState);

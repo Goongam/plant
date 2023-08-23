@@ -91,20 +91,13 @@ export async function getPosts(
   }
 }
 
-export async function getPostsByUser(
-  id: string,
-  groupId?: string,
-  page?: number,
-  date?: string
-) {
+export async function getPostsByUser(id: string, page?: number, date?: string) {
   await connect();
   const author_id = id ? await getUserIdbyOauthId(id) : undefined;
 
-  let filter: { id: any; group?: string; author?: any; createAt?: any } = {
-    id: author_id?._id,
+  let filter: { author?: any; createAt?: any } = {
+    author: author_id,
   };
-
-  if (groupId) filter.group = groupId;
 
   if (date) {
     filter.createAt = {
