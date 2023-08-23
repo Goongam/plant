@@ -13,15 +13,15 @@ import PreviousIcon from "./ui/icons/PreviousIcon";
 import NextIcon from "./ui/icons/NextIcon";
 import { useQueryClient } from "react-query";
 import { Post } from "@/service/post";
-import { usePosts } from "@/hooks/post";
+import { usePostsByGroup } from "@/hooks/post";
 
 interface Props {
   groupId: string;
 }
-export default function Calander({ groupId }: Props) {
+export default function CalanderGroup({ groupId }: Props) {
   const [selectDate, setSelectDate] = useState(new Date());
 
-  const { isError, isLoading, posts } = usePosts(groupId);
+  const { isError, isLoading, posts } = usePostsByGroup(groupId);
 
   const monthStart = startOfMonth(selectDate);
   const monthEnd = endOfMonth(monthStart);

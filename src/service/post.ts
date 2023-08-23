@@ -79,8 +79,6 @@ export async function getPosts(
     })
       .populate("author")
       .then((posts) => {
-        // console.log("스킵:", (page - 1) * showPostCount, "posts:", posts);
-
         return {
           next: posts.length < 5 ? null : page + 1,
           posts: [...posts],
@@ -88,6 +86,48 @@ export async function getPosts(
       });
   } else {
     return PostSchema.find({ group: groupId }, "", {
+      sort: { createAt: -1 },
+    }).populate("author");
+  }
+}
+
+export async function getPostsByUser(
+  id: string,
+  groupId?: string,
+  page?: number,
+  date?: string
+) {
+  await connect();
+  const author_id = id ? await getUserIdbyOauthId(id) : undefined;
+
+  let filter: { id: any; group?: string; author?: any; createAt?: any } = {
+    id: author_id?._id,
+  };
+
+  if (groupId) filter.group = groupId;
+
+  if (date) {
+    filter.createAt = {
+      $gte: dayjs(date).format("YYYY-MM-DD"),
+      $lt: dayjs(date).add(1, "day").format("YYYY-MM-DD"),
+    };
+  }
+
+  if (page) {
+    return PostSchema.find(filter, "", {
+      sort: { createAt: -1 },
+      limit: showPostCount,
+      skip: (page - 1) * showPostCount,
+    })
+      .populate("author")
+      .then((posts) => {
+        return {
+          next: posts.length < 5 ? null : page + 1,
+          posts: [...posts],
+        };
+      });
+  } else {
+    return PostSchema.find({ author: author_id }, "", {
       sort: { createAt: -1 },
     }).populate("author");
   }

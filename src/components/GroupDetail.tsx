@@ -1,6 +1,6 @@
 "use client";
 
-import Calander from "./Calander";
+import Calander from "./CalanderByGroup";
 import GroupPosts from "./GroupPosts";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -35,7 +35,7 @@ export default function GroupDetail({ groupId }: Props) {
     useRecoilValue(postFilterState);
   const setFilter = useSetRecoilState(postFilterState);
 
-  const isLeader = group?.leader.id === user?.id;
+  const isLeader = group?.leader?.id === user?.id;
 
   if (isLoading || !group) return <Loading type="Moon" customStyle="mt-3" />;
 

@@ -6,12 +6,24 @@ import { useRecoilValue } from "recoil";
 const postFetcher = (groupId: string) =>
   fetch("/api/post/" + groupId).then((res) => res.json());
 
-export function usePosts(groupId: string) {
+const postUserFetcher = (userId: string) =>
+  fetch("/api/post/user/" + userId).then((res) => res.json());
+
+export function usePostsByGroup(groupId: string) {
   const {
     data: posts,
     isLoading,
     isError,
   } = useQuery<Post[]>(["posts", groupId], () => postFetcher(groupId));
+  return { posts, isLoading, isError };
+}
+
+export function usePostsByUser(userId: string) {
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = useQuery<Post[]>(["posts-user", userId], () => postUserFetcher(userId));
   return { posts, isLoading, isError };
 }
 
