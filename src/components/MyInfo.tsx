@@ -24,9 +24,11 @@ export default function MyInfo({ user }: Props) {
 
   return (
     <>
-      <div className="bg-[#F8F0E5] rounded-sm flex-1 m-4 flex p-2 gap-2">
+      <div className="bg-[#F8F0E5] rounded-sm flex-1 m-4 flex flex-col md:flex-row p-2 gap-2">
         <div className="flex flex-col items-center gap-2">
-          <Avatar image={user.image} size="l" />
+          <div className="bg-black w-[85px] h-[85px] flex justify-center items-center rounded-full">
+            <Avatar image={user.image} size="l" />
+          </div>
           <p>{user.name}</p>
           <p>{user.email}</p>
         </div>

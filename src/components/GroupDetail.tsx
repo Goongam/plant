@@ -118,6 +118,7 @@ export default function GroupDetail({ groupId }: Props) {
               >
                 그룹장 위임
               </button>
+              <Link href={`/group/setting/${groupId}`}>그룹설정</Link>
             </div>
           )}
         </div>

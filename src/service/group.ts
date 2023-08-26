@@ -122,6 +122,13 @@ export async function getGroup(groupId: string) {
     .lean();
 }
 
+export async function getLeader(groupId: string) {
+  await connect();
+  return await GroupSchema.findOne({ _id: groupId }, "leader")
+    .populate("leader")
+    .lean();
+}
+
 export async function getIsJoinGroup(
   groupId: string,
   userId: mongoose.Types.ObjectId
