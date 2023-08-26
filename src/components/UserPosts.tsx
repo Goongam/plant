@@ -20,6 +20,7 @@ export default function UserPosts({ userId }: Props) {
   useEffect(() => {
     setFilter({ postFilterUser: undefined, postFilterDate: undefined });
   }, [setFilter]);
+
   return (
     <>
       {data && (

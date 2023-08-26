@@ -9,7 +9,7 @@ interface Props {
   showAllPost: () => void;
   groupId: string;
 }
-const POST_HEADER =
+export const POST_HEADER =
   "my-2 p-2 border-b border-black flex justify-between items-center";
 
 export default function PostContainer({
