@@ -71,6 +71,36 @@ export async function createGroup(
   return newGroup.save();
 }
 
+export async function updateGroup(
+  {
+    name,
+    description,
+    category,
+    end_date,
+    max_user,
+    isOffline,
+    region,
+    isSecret,
+    cost,
+  }: Group,
+  groupId: string
+) {
+  await connect();
+  return GroupSchema.findByIdAndUpdate(groupId, {
+    $set: {
+      name,
+      description,
+      end_date: timeFormat(end_date),
+      max_user,
+      category,
+      isOffline,
+      region,
+      isSecret,
+      cost,
+    },
+  });
+}
+
 export async function getPublicGroups() {
   await connect();
   return (
@@ -188,6 +218,18 @@ export async function leaveGroup(oauthId: string, groupId: string) {
   });
 }
 
+export async function withdrawalGroup(
+  userId: string,
+  leaveUserOauthId: string,
+  groupId: string
+) {
+  await connect();
+
+  const group = await getLeader(groupId);
+  if (group?.leader.id !== userId) throw new Error("Authentication Error");
+
+  return leaveGroup(leaveUserOauthId, groupId);
+}
 /*
 fetch('/api/group/leave',{
     method:'post',

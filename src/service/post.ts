@@ -1,5 +1,6 @@
 import { User, getUserIdbyOauthId } from "./user";
 import PostSchema from "@/schema/post";
+import UserSchema from "@/schema/user";
 
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
@@ -78,6 +79,10 @@ export async function getPosts(
       skip: (page - 1) * showPostCount,
     })
       .populate("author")
+      .populate({
+        path: "group",
+        populate: { path: "leader" },
+      })
       .then((posts) => {
         return {
           next: posts.length < 5 ? null : page + 1,
@@ -123,6 +128,17 @@ export async function getPostsByUser(id: string, page?: number, date?: string) {
     return PostSchema.find({ author: author_id }, "", {
       sort: { createAt: -1 },
     }).populate("author");
+  }
+}
+
+export async function deletePost(postId: string, requestUserId: string) {
+  const post = await PostSchema.findById(postId).populate("group author");
+  const leader = await UserSchema.findById(post?.group.leader);
+
+  if (post?.author.id === requestUserId || leader?.id === requestUserId) {
+    return PostSchema.findByIdAndDelete(postId);
+  } else {
+    throw new Error("Authorization Error");
   }
 }
 

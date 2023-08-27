@@ -74,12 +74,22 @@ export default function GroupDetail({ groupId }: Props) {
     <section className="p-5">
       <div className="flex justify-between items-center border-b-4 border-gray-200 pb-2">
         <h2 className="text-2xl font-bold">{name}</h2>
-        <Link
-          href={`/new/${groupId}`}
-          className="rounded-lg bg-green-500 px-3 py-1 font-bold text-white"
-        >
-          새 글 작성
-        </Link>
+        <div>
+          {isLeader && (
+            <Link
+              href={`/group/setting/${groupId}`}
+              className="rounded-lg bg-orange-400 px-3 py-1 font-bold text-white"
+            >
+              그룹설정
+            </Link>
+          )}
+          <Link
+            href={`/new/${groupId}`}
+            className="rounded-lg bg-green-500 px-3 py-1 font-bold text-white ml-1"
+          >
+            새 글 작성
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-row mt-3 gap-4">
@@ -110,17 +120,6 @@ export default function GroupDetail({ groupId }: Props) {
               그룹나가기
             </button>
           </div>
-          {isLeader && (
-            <div>
-              <button
-                className="text-orange-500 font-bold mt-32"
-                onClick={changeLeader}
-              >
-                그룹장 위임
-              </button>
-              <Link href={`/group/setting/${groupId}`}>그룹설정</Link>
-            </div>
-          )}
         </div>
       </div>
 

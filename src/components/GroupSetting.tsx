@@ -17,11 +17,11 @@ export default function GroupSetting({ groupId }: { groupId: string }) {
     },
     {
       name: "유저 설정",
-      component: <GroupUserSetting />,
+      component: <GroupUserSetting groupId={groupId} />,
     },
     {
       name: "포스트 설정",
-      component: <GroupPostSetting />,
+      component: <GroupPostSetting groupId={groupId} />,
     },
   ];
 
@@ -39,7 +39,7 @@ export default function GroupSetting({ groupId }: { groupId: string }) {
           </button>
         ))}
       </div>
-      <div>{settings[settingType].component}</div>
+      <>{settings[settingType].component}</>
     </section>
   );
 }

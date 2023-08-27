@@ -6,6 +6,7 @@ import { useInfinityPosts } from "@/hooks/post";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
 import { useEffect } from "react";
+import useMe from "@/hooks/me";
 
 interface Props {
   groupId: string;
@@ -14,7 +15,7 @@ interface Props {
 export default function GroupPosts({ groupId }: Props) {
   const { data, fetchNextPage, hasNextPage, isFetching } =
     useInfinityPosts(groupId);
-
+  const me = useMe();
   //페이지 접속시 필터링 초기화
   const setFilter = useSetRecoilState(postFilterState);
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function GroupPosts({ groupId }: Props) {
         >
           {data?.pages?.map((page) =>
             page.posts.map((post: Post) => (
-              <PostCard key={post._id} post={post} />
+              <PostCard key={post._id} post={post} me={me} />
             ))
           )}
         </InfiniteScroll>

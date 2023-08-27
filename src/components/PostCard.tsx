@@ -10,21 +10,20 @@ import ModalPortal from "./ModalPortal";
 import ModalBackground from "./ModalBackground";
 import CommentModalDetail from "./CommentModalDetail";
 import { useComment } from "@/hooks/comment";
+import useMe from "@/hooks/me";
+import { User } from "@/service/user";
+import { useGroup } from "@/hooks/group";
 
 interface Props {
   post: Post;
+  me?: User;
 }
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post, me }: Props) {
   const { author, createAt, content, title, images, comments } = post;
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMore, setIsMore] = useState(false);
   const [isClickMore, setIsClickMore] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  // const {
-  //   comments,
-  //   isLoading: commentLoading,
-  //   isError: commentError,
-  // } = useComment(post._id);
 
   useEffect(() => {
     const current = contentRef.current;
@@ -52,13 +51,41 @@ export default function PostCard({ post }: Props) {
   if (!author) {
     return;
   }
+
+  console.log(post.author.id, me?.id);
+
   return (
     <div className="w-full max-w-[552px] h-fit flex flex-row gap-1 rounded-md shadow-md">
       <Avatar image={author?.image} size="s" customClass="m-2" />
 
       <div className="w-full h-full">
-        <div className="flex flex-row items-center gap-4 p-2">
-          {author?.name} · {getTimeAgo(createAt)}
+        <div className="flex flex-row justify-between items-center gap-4 p-2">
+          <p>
+            {author?.name} · {getTimeAgo(createAt)}
+          </p>
+          <div className="flex gap-1">
+            <button
+              className={`${post.author.id === me?.id ? "block" : "hidden"}`}
+            >
+              수정
+            </button>
+            <button
+              //TODO: optimistic update
+              onClick={() => {
+                fetch("/api/post/delete", {
+                  method: "post",
+                  body: JSON.stringify({ postId: post._id }),
+                });
+              }}
+              className={`${
+                post.author.id === me?.id || post.group.leader.id === me?.id
+                  ? "block"
+                  : "hidden"
+              }`}
+            >
+              삭제
+            </button>
+          </div>
         </div>
 
         <div>
