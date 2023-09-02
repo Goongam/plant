@@ -13,6 +13,7 @@ import { useComment } from "@/hooks/comment";
 import useMe from "@/hooks/me";
 import { User } from "@/service/user";
 import { useGroup } from "@/hooks/group";
+import { useRouter } from "next/navigation";
 
 interface Props {
   post: Post;
@@ -25,6 +26,7 @@ export default function PostCard({ post, me }: Props) {
   const [isClickMore, setIsClickMore] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
+  const router = useRouter();
   useEffect(() => {
     const current = contentRef.current;
     const clientHeight = current?.clientHeight;
@@ -47,6 +49,10 @@ export default function PostCard({ post, me }: Props) {
   const handleComment = () => {
     setOpenModal(true);
   };
+
+  const modify = () => {
+    router.push(`/edit/${post._id}`);
+  };
   //TODO: 탈퇴한 사용자 처리
   if (!author) {
     return;
@@ -65,6 +71,7 @@ export default function PostCard({ post, me }: Props) {
           </p>
           <div className="flex gap-1">
             <button
+              onClick={modify}
               className={`${post.author.id === me?.id ? "block" : "hidden"}`}
             >
               수정

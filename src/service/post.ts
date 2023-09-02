@@ -131,6 +131,12 @@ export async function getPostsByUser(id: string, page?: number, date?: string) {
   }
 }
 
+export async function getPost(postId: string) {
+  await connect();
+
+  return PostSchema.findById(postId, "", {});
+}
+
 export async function deletePost(postId: string, requestUserId: string) {
   const post = await PostSchema.findById(postId).populate("group author");
   const leader = await UserSchema.findById(post?.group.leader);

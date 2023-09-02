@@ -11,20 +11,24 @@ import {
   DragEvent,
   ChangeEvent,
   MouseEvent,
+  useEffect,
 } from "react";
 import { useMutation, useQuery } from "react-query";
 import FilesIcon from "./ui/icons/FileIcon";
 import Loading from "./ui/Loading";
 
 interface Props {
-  groupId: string;
+  groupId?: string;
+  type?: "new" | "edit";
+  imgs?: string[];
+  content?: string;
 }
 
 const MAX_IMAGES_LENGTH = 5;
 
-function getImageElement(images: File[]) {
+function getImageElement(images: Array<File | string>) {
   const remain = MAX_IMAGES_LENGTH - images.length;
-  let imageElements: Array<File | undefined> = [...images];
+  let imageElements: Array<File | string | undefined> = [...images];
 
   for (let i = 0; i < remain; i++) {
     imageElements.push(undefined);
@@ -32,13 +36,26 @@ function getImageElement(images: File[]) {
 
   return imageElements;
 }
-export default function NewPost({ groupId }: Props) {
-  const { group, isError, isLoading } = useGroup(groupId);
+export default function NewPost({
+  groupId,
+  type = "new",
+  content,
+  imgs,
+}: Props) {
+  //TODO: ?? "" 삭제
+  const { group, isError, isLoading } = useGroup(groupId ?? "");
   const [dragging, setDragging] = useState(false);
-  const [images, setImages] = useState<File[]>([]);
+  const [images, setImages] = useState<Array<File | string>>([]);
   const [isSuccess, setIsSuccess] = useState(false);
+
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
+  useEffect(() => {
+    if (type === "edit") {
+      if (commentRef.current && content) commentRef.current.value = content;
+      if (imgs) setImages(imgs);
+    }
+  }, [type, content, imgs]);
   const {
     isLoading: mutating,
     isIdle,
@@ -117,7 +134,8 @@ export default function NewPost({ groupId }: Props) {
     if (!comment) return;
     formdata.append("comment", comment);
 
-    formdata.append("group", groupId);
+    //TODO: ?? "" 삭제
+    formdata.append("group", groupId ?? "");
 
     mutate(formdata);
   };
@@ -170,14 +188,15 @@ export default function NewPost({ groupId }: Props) {
           {getImageElement(images).map((img, index) =>
             img ? (
               <div
-                key={`${img.length}${img.name}${index}`}
+                //TODO: key unique하게
+                key={`${img.length}${index}`}
                 className="relative w-full aspect-square"
               >
                 <Image
                   // key={img.name}
                   fill
                   className="object-cover"
-                  src={URL.createObjectURL(img)}
+                  src={typeof img === "string" ? img : URL.createObjectURL(img)}
                   alt="uploadImage"
                 />
                 <button
