@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function GroupPosts({ groupId }: Props) {
-  const { data, fetchNextPage, hasNextPage, isFetching } =
+  const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
     useInfinityPosts(groupId);
   const me = useMe();
   //페이지 접속시 필터링 초기화
@@ -33,7 +33,7 @@ export default function GroupPosts({ groupId }: Props) {
         >
           {data?.pages?.map((page) =>
             page.posts.map((post: Post) => (
-              <PostCard key={post._id} post={post} me={me} />
+              <PostCard key={post._id} post={post} me={me} refresh={refetch} />
             ))
           )}
         </InfiniteScroll>

@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function UserPosts({ userId }: Props) {
-  const { data, fetchNextPage, hasNextPage, isFetching } =
+  const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
     useInfinityUserPosts(userId);
 
   //페이지 접속시 필터링 초기화
@@ -33,7 +33,7 @@ export default function UserPosts({ userId }: Props) {
         >
           {data?.pages?.map((page) =>
             page.posts.map((post: Post) => (
-              <PostCard key={post._id} post={post} />
+              <PostCard key={post._id} post={post} refresh={refetch} />
             ))
           )}
         </InfiniteScroll>

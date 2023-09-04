@@ -18,15 +18,18 @@ import { useRouter } from "next/navigation";
 interface Props {
   post: Post;
   me?: User;
+  refresh?: () => void;
 }
-export default function PostCard({ post, me }: Props) {
-  const { author, createAt, content, title, images, comments } = post;
+export default function PostCard({ post, me, refresh }: Props) {
+  const { author, createAt, content, title, images, comments, group } = post;
+
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMore, setIsMore] = useState(false);
   const [isClickMore, setIsClickMore] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   const router = useRouter();
+
   useEffect(() => {
     const current = contentRef.current;
     const clientHeight = current?.clientHeight;
@@ -77,15 +80,17 @@ export default function PostCard({ post, me }: Props) {
               수정
             </button>
             <button
-              //TODO: optimistic update
               onClick={() => {
                 fetch("/api/post/delete", {
                   method: "post",
                   body: JSON.stringify({ postId: post._id }),
+                }).then(() => {
+                  if (refresh) refresh();
                 });
               }}
+              //TODO: 그룹 없을 때 처리
               className={`${
-                post.author.id === me?.id || post.group.leader.id === me?.id
+                post.author.id === me?.id || post.group?.leader?.id === me?.id
                   ? "block"
                   : "hidden"
               }`}

@@ -1,14 +1,19 @@
 "use client";
 
 import { useMutation } from "react-query";
-import PostForm from "./PostForm";
 import { useState } from "react";
+import PostForm from "./PostForm";
 import { useRouter } from "next/navigation";
 
-export default function NewPost({ groupId }: { groupId: string }) {
+interface Props {
+  postId?: string;
+  content?: string;
+  imgs?: string[];
+}
+
+export default function EditPost({ postId, content, imgs }: Props) {
   const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
-
   const {
     isLoading: mutating,
     isIdle,
@@ -17,14 +22,15 @@ export default function NewPost({ groupId }: { groupId: string }) {
     isError: mutateError,
   } = useMutation(
     (formdata: FormData) =>
-      fetch(`/api/post/new`, {
+      fetch(`/api/post/edit`, {
         method: "post",
         body: formdata,
       }).then((res) => res.json()),
     {
       onSuccess() {
         setIsSuccess(true);
-        router.push(`/group/${groupId}`);
+        router.back();
+        // else router.push("/");
       },
       // onError() {
       //   console.log("에러처리");
@@ -45,16 +51,18 @@ export default function NewPost({ groupId }: { groupId: string }) {
     if (!comment) return;
     formdata.append("comment", comment);
 
-    if (!groupId) return;
-    formdata.append("groupId", groupId);
+    if (!postId) return;
+    formdata.append("postId", postId);
 
     mutate(formdata);
   };
 
   return (
     <PostForm
+      type="edit"
+      content={content}
+      imgs={imgs}
       onSubmit={submit}
-      type="new"
       isSuccess={isSuccess}
       mutateError={mutateError}
       mutating={mutating}

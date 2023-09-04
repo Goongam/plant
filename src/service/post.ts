@@ -48,6 +48,18 @@ export async function AddPost(
   return newPost.save();
 }
 
+export async function EditPost(
+  postId: string,
+  content: string,
+  images?: string[]
+) {
+  await connect();
+
+  return PostSchema.findByIdAndUpdate(postId, {
+    $set: { content: content, images: images },
+  });
+}
+
 export async function getPosts(
   groupId: string,
   page?: number,
@@ -118,6 +130,10 @@ export async function getPostsByUser(id: string, page?: number, date?: string) {
       skip: (page - 1) * showPostCount,
     })
       .populate("author")
+      .populate({
+        path: "group",
+        populate: { path: "leader" },
+      })
       .then((posts) => {
         return {
           next: posts.length < 5 ? null : page + 1,

@@ -16,18 +16,10 @@ export async function POST(req: Request) {
 
     const form = await req.formData();
 
-    const values = form.values();
+    const files = form.getAll("files") as Array<Blob>;
 
-    let files: Blob[] = [];
-
-    for (const v of values) {
-      if (typeof v === "object" && "arrayBuffer" in v) {
-        //이미지
-        files.push(v as Blob);
-      }
-    }
     //group
-    const group = form.get("group") as string;
+    const group = form.get("groupId") as string;
 
     //comment
     const comment = form.get("comment") as string;

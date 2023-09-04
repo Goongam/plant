@@ -1,4 +1,5 @@
 import NewPost from "@/components/NewPost";
+import PostForm from "@/components/PostForm";
 
 interface Props {
   params: { slug: string };
