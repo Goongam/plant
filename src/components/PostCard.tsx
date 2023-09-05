@@ -23,6 +23,8 @@ interface Props {
 export default function PostCard({ post, me, refresh }: Props) {
   const { author, createAt, content, title, images, comments, group } = post;
 
+  console.log(comments);
+
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMore, setIsMore] = useState(false);
   const [isClickMore, setIsClickMore] = useState(false);
@@ -60,8 +62,6 @@ export default function PostCard({ post, me, refresh }: Props) {
   if (!author) {
     return;
   }
-
-  console.log(post.author.id, me?.id);
 
   return (
     <div className="w-full max-w-[552px] h-fit flex flex-row gap-1 rounded-md shadow-md">

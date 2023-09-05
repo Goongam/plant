@@ -120,8 +120,8 @@ export default function PostForm({
           <Loading type="Moon" size={30} />
         </div>
       )}
-      <h2 className="border-b-4 border-gray-400 p-4 pb-8 mx-2 mb-10 font-bold text-2xl">
-        {group?.name} · 새 글 작성
+      <h2 className="border-b-4 border-gray-400 p-4 pb-4 mx-2 mb-10 font-bold text-2xl">
+        {type === "new" ? `${group?.name} · 새 글 작성` : "글 수정"}
       </h2>
       {mutateError && (
         <div className="w-full h-32 bg-red-300 flex justify-center items-center p-5 text-white text-2xl font-bold mb-1">

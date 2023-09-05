@@ -13,6 +13,6 @@ export async function POST(req: Request) {
 
     return AddComment(user.id, comment, postId)
       .then((result) => NextResponse.json(result))
-      .catch((err) => new Response("ERROR", { status: 500 }));
+      .catch((err) => new Response(err, { status: 500 }));
   });
 }
