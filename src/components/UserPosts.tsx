@@ -6,15 +6,17 @@ import { useInfinityUserPosts } from "@/hooks/post";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
 import { useEffect } from "react";
+import useMe from "@/hooks/me";
 
 interface Props {
   userId: string;
 }
 
 export default function UserPosts({ userId }: Props) {
-  const { data, fetchNextPage, hasNextPage, isFetching } =
+  const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
     useInfinityUserPosts(userId);
 
+  const me = useMe();
   //페이지 접속시 필터링 초기화
   const setFilter = useSetRecoilState(postFilterState);
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function UserPosts({ userId }: Props) {
         >
           {data?.pages?.map((page) =>
             page.posts.map((post: Post) => (
-              <PostCard key={post._id} post={post} />
+              <PostCard key={post._id} post={post} me={me} refresh={refetch} />
             ))
           )}
         </InfiniteScroll>

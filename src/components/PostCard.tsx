@@ -13,17 +13,24 @@ import { useComment } from "@/hooks/comment";
 import useMe from "@/hooks/me";
 import { User } from "@/service/user";
 import { useGroup } from "@/hooks/group";
+import { useRouter } from "next/navigation";
 
 interface Props {
   post: Post;
   me?: User;
+  refresh?: () => void;
 }
-export default function PostCard({ post, me }: Props) {
-  const { author, createAt, content, title, images, comments } = post;
+export default function PostCard({ post, me, refresh }: Props) {
+  const { author, createAt, content, title, images, comments, group } = post;
+
+  console.log(comments);
+
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMore, setIsMore] = useState(false);
   const [isClickMore, setIsClickMore] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const current = contentRef.current;
@@ -47,12 +54,14 @@ export default function PostCard({ post, me }: Props) {
   const handleComment = () => {
     setOpenModal(true);
   };
+
+  const modify = () => {
+    router.push(`/edit/${post._id}`);
+  };
   //TODO: 탈퇴한 사용자 처리
   if (!author) {
     return;
   }
-
-  console.log(post.author.id, me?.id);
 
   return (
     <div className="w-full max-w-[552px] h-fit flex flex-row gap-1 rounded-md shadow-md">
@@ -65,20 +74,23 @@ export default function PostCard({ post, me }: Props) {
           </p>
           <div className="flex gap-1">
             <button
+              onClick={modify}
               className={`${post.author.id === me?.id ? "block" : "hidden"}`}
             >
               수정
             </button>
             <button
-              //TODO: optimistic update
               onClick={() => {
                 fetch("/api/post/delete", {
                   method: "post",
                   body: JSON.stringify({ postId: post._id }),
+                }).then(() => {
+                  if (refresh) refresh();
                 });
               }}
+              //TODO: 그룹 없을 때 처리
               className={`${
-                post.author.id === me?.id || post.group.leader.id === me?.id
+                post.author.id === me?.id || post.group?.leader?.id === me?.id
                   ? "block"
                   : "hidden"
               }`}

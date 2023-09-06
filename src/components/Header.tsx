@@ -10,6 +10,7 @@ import ModalSideBar from "./ModalSideBar";
 import Avatar from "./Avatar";
 import useMe from "@/hooks/me";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const user = useMe();
@@ -18,16 +19,15 @@ export default function Header() {
   return (
     <header className="flex items-center justify-center w-full h-16 border-b-[1px] border-neutral-400 bg-[#FFFFFF] sticky top-0 z-30">
       <div className="flex justify-between items-center w-full mx-4">
-        <Image
-          src="/vercel.svg"
-          alt="logo"
-          width={150}
-          height={100}
-          onClick={() => {
-            router.push("/");
-          }}
-          className="cursor-pointer"
-        />
+        <Link href={"/"}>
+          <Image
+            src="/vercel.svg"
+            alt="logo"
+            width={150}
+            height={100}
+            className="cursor-pointer"
+          />
+        </Link>
 
         {user ? (
           // <button onClick={() => setOpenModal((pre) => !pre)}>dd</button>
