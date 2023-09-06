@@ -1,3 +1,4 @@
+import { showPostCount } from "@/constants";
 import { getPosts } from "@/service/post";
 import { withSession } from "@/util/session";
 import { NextRequest, NextResponse } from "next/server";
@@ -5,8 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 interface Context {
   params: { groupId: string; page: string };
 }
-
-export const showPostCount = 5;
 
 export async function GET(req: NextRequest, context: Context) {
   const { groupId, page } = context.params;

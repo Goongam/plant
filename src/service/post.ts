@@ -5,9 +5,9 @@ import UserSchema from "@/schema/user";
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
 
-import { showPostCount } from "@/app/api/post/[groupId]/[page]/route";
 import dayjs from "dayjs";
 import { day_now } from "@/util/dayjs";
+import { showPostCount } from "@/constants";
 
 export interface Comment {
   _id: string;

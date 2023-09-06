@@ -53,7 +53,7 @@ export default function Filter() {
 
   return (
     <section
-      className={`bg-[#ffffff] border-b border-t border-[#231c12] md:mt-1 w-full md:w-52 md:ml-5 flex flex-col gap-3 p-2 ${
+      className={`bg-[#FFFFFF] border-b border-[#231c12] md:border-none md:mt-1 w-full md:w-52 md:ml-5 flex flex-col gap-3 p-2 ${
         openFilter ? "h-fit" : "h-10 overflow-hidden"
       } md:h-fit`}
     >
@@ -79,7 +79,7 @@ export default function Filter() {
         <h2 className={titleStyle}>일시</h2>
         <div className="w-full flex gap-2">
           <input
-            className="flex-1"
+            className="flex-1 bg-[#FFFFFF]"
             type="date"
             onChange={(e) => {
               console.log(typeof e.target.value);
@@ -121,7 +121,7 @@ export default function Filter() {
         <h2 className={titleStyle}>지역</h2>
         <div>
           <select
-            className="w-full"
+            className="w-full bg-[#FFFFFF]"
             onChange={(e) => {
               changeRegion(e.target.value);
             }}

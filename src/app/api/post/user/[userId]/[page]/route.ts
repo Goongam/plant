@@ -6,8 +6,6 @@ interface Context {
   params: { groupId: string; page: string };
 }
 
-export const showPostCount = 5;
-
 export async function GET(req: NextRequest, context: Context) {
   const { page } = context.params;
 

@@ -12,7 +12,7 @@ interface Props {
 export default function HomeCategories({ select, handleSelect }: Props) {
   return (
     <section
-      className="w-full h-20 bg-[#FFF3DA] sticky top-16 flex justify-center items-center gap-5"
+      className="w-full h-20 bg-[#f5ffe6] sticky top-16 flex justify-center items-center gap-5"
       style={{ scrollbarGutter: "stable" }}
     >
       {["전체", ...CATEGORIES].map((cateogry) => (

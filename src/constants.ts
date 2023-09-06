@@ -5,7 +5,7 @@ export const queryKey = {
   post: "posts",
   group: "group-data",
 };
-
+export const showPostCount = 5;
 export const AdmissionFees = ["전체", "무료", "유료"];
 export const regions = [
   "서울",

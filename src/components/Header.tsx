@@ -17,11 +17,11 @@ export default function Header() {
   const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
   return (
-    <header className="flex items-center justify-center w-full h-16 border-b-[1px] border-neutral-400 bg-[#FFFFFF] sticky top-0 z-30">
+    <header className="flex items-center justify-center w-full h-16 border-b-[1px] border-[#CAED9E] bg-[#FFFFFF] sticky top-0 z-30">
       <div className="flex justify-between items-center w-full mx-4">
         <Link href={"/"}>
           <Image
-            src="/vercel.svg"
+            src="/Logo.png"
             alt="logo"
             width={150}
             height={100}
