@@ -25,23 +25,23 @@ server: vercel
 <ol style="font-weight:bold">
 - 카카오 로그인
 - 그룹 보기 및 필터링
-<br><img src="https://github.com/Goongam/plant/assets/59019137/9c750e33-0288-4fa9-8fa6-857bb87ceaef" width="600" style="margin-bottom:10px"/>
+<br><img src="https://github.com/Goongam/plant/assets/59019137/9c750e33-0288-4fa9-8fa6-857bb87ceaef" width="500" style="margin-bottom:10px"/>
   <br><br><br><br><br><br>
 
 - 그룹 생성
-<br><img src="https://github.com/Goongam/plant/assets/59019137/5292b796-890a-4143-b0e4-e07f46f6dc7a" width="600"/><br><br><br><br><br><br>
+<br><img src="https://github.com/Goongam/plant/assets/59019137/5292b796-890a-4143-b0e4-e07f46f6dc7a" width="350"/><br><br><br><br><br><br>
 - 그룹 정보 수정
   1. 그룹 상세 정보 변경
-<br><img src="https://github.com/Goongam/plant/assets/59019137/fee7bd17-a6d1-41b0-b801-91806b67be89" width="600"/><br><br><br><br><br><br>
+<br><img src="https://github.com/Goongam/plant/assets/59019137/fee7bd17-a6d1-41b0-b801-91806b67be89" width="500"/><br><br><br><br><br><br>
   3. 참가자 관리
-<br><img src="https://github.com/Goongam/plant/assets/59019137/b85b5e0c-ba39-46a5-98bd-fcc2741c1ab4" width="600"/><br><br><br><br><br><br>
+<br><img src="https://github.com/Goongam/plant/assets/59019137/b85b5e0c-ba39-46a5-98bd-fcc2741c1ab4" width="500"/><br><br><br><br><br><br>
 
 - 포스트 작성 및 수정 & 삭제
-<br><img src="https://github.com/Goongam/plant/assets/59019137/25968779-6bdf-48f2-9890-40ac9c7db6be" width="600"/><br><br><br><br><br><br>
+<br><img src="https://github.com/Goongam/plant/assets/59019137/25968779-6bdf-48f2-9890-40ac9c7db6be" width="500"/><br><br><br><br><br><br>
 - 포스트 달력
-<br><img src="https://github.com/Goongam/plant/assets/59019137/cf879466-8fb9-4e68-bb12-e5a509252d99" width="600"/><br><br><br><br><br><br>
+<br><img src="https://github.com/Goongam/plant/assets/59019137/cf879466-8fb9-4e68-bb12-e5a509252d99" width="700"/><br><br><br><br><br><br>
 - 댓글 작성
-<br><img src="https://github.com/Goongam/plant/assets/59019137/e77be5b4-b43a-41ca-b040-8ac64b726979" width="600"/><br><br><br><br><br><br>
+<br><img src="https://github.com/Goongam/plant/assets/59019137/e77be5b4-b43a-41ca-b040-8ac64b726979" width="300"/><br><br><br><br><br><br>
 </ol>
 
 ## 추가될 기능
