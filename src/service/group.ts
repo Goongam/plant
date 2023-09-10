@@ -189,10 +189,15 @@ export async function joinGroup(oauthid: string, groupId: string) {
 
   if (!id?._id) throw new Error("User not Found");
 
+  //인원체크
+  const group = await getGroup(groupId);
+  if (group && group?.max_user <= group?.users.length)
+    throw new Error("그룹에 더이상 참여할 수 없습니다");
+
   //방안에 유저 체크
   const isJoin = await getIsJoinGroup(groupId, id._id);
 
-  if (isJoin) throw new Error("Already join this group");
+  if (isJoin) throw new Error("이미 그룹에 참여하고 있습니다.");
 
   return GroupSchema.findByIdAndUpdate(groupId, {
     $push: { users: id },
@@ -210,6 +215,7 @@ export async function leaveGroup(oauthId: string, groupId: string) {
   if (!isJoin) throw new Error("Not join this group");
 
   const group = await getGroup(groupId);
+
   if (group?.leader.id === oauthId)
     throw new Error("leader don't leave group, please change leader");
 

@@ -48,6 +48,7 @@ export default function GroupModalDetail({ group }: Props) {
       })
       .catch(() => {
         setJoinLoading(false);
+        alert("그룹에 참가할 수 없습니다.");
       });
   };
   return (

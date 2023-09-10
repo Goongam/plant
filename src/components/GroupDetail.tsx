@@ -113,12 +113,14 @@ export default function GroupDetail({ groupId }: Props) {
           <Participant users={group.users} />
           <div className="mt-3">채팅</div>
           <div>
-            <button
-              className="text-red-500 font-bold mt-32"
-              onClick={leaveGroup}
-            >
-              그룹나가기
-            </button>
+            {user?.id !== group.leader.id && (
+              <button
+                className="text-red-500 font-bold mt-32"
+                onClick={leaveGroup}
+              >
+                그룹나가기
+              </button>
+            )}
           </div>
         </div>
       </div>

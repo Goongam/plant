@@ -4,6 +4,7 @@ import StyleInput from "./ui/StyleInput";
 import { Group } from "@/service/group";
 import { useRouter } from "next/navigation";
 import Loading from "./ui/Loading";
+import useMe from "@/hooks/me";
 
 export default function LeaveGroupModel({ group }: { group: Group }) {
   const [input, setInput] = useState("");
@@ -21,9 +22,13 @@ export default function LeaveGroupModel({ group }: { group: Group }) {
         groupId: group._id,
       }),
     })
-      .then(() => {
-        alert("탈퇴 되었습니다");
-        router.push("/");
+      .then((res) => {
+        if (res.ok) {
+          alert("탈퇴 되었습니다");
+          router.push("/");
+        } else {
+          alert("탈퇴에 실패하였습니다.");
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -55,7 +60,7 @@ export default function LeaveGroupModel({ group }: { group: Group }) {
               : "bg-red-200/50 text-black/30 cursor-default"
           }`}
         >
-          {loading ? <Loading type="Beat" size={20} /> : "탈퇴하기"}
+          {loading ? <Loading type="Beat" size={13} /> : "탈퇴하기"}
         </button>
       </div>
     </section>
