@@ -53,6 +53,7 @@ export default function NewPost({ groupId }: { groupId: string }) {
 
   return (
     <PostForm
+      groupId={groupId}
       onSubmit={submit}
       type="new"
       isSuccess={isSuccess}
