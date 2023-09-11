@@ -78,11 +78,23 @@ export default function GroupDetail({ groupId }: Props) {
           {isLeader && (
             <Link
               href={`/group/setting/${groupId}`}
-              className="rounded-lg bg-orange-400 px-3 py-1 font-bold text-white"
+              className="rounded-lg bg-red-400 px-3 py-1 font-bold text-white"
             >
               그룹설정
             </Link>
           )}
+          <button
+            className="rounded-lg bg-orange-400 px-3 py-1 font-bold text-white ml-1"
+            onClick={() => {
+              fetch("/api/schedule/new", {
+                method: "post",
+                body: JSON.stringify({ groupId }),
+              });
+            }}
+          >
+            일정 추가
+          </button>
+
           <Link
             href={`/new/${groupId}`}
             className="rounded-lg bg-green-500 px-3 py-1 font-bold text-white ml-1"

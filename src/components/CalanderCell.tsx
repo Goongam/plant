@@ -6,10 +6,11 @@ import ArticleIcon from "./ui/icons/ArticleIcon";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
 import CalanderAvatar from "./CalanderAvatar";
+import { useSchedule } from "@/hooks/schedule";
 
 interface Props {
   date: Date;
-
+  groupId: string;
   isSameMonth: boolean;
   posts: Post[] | undefined;
 }
@@ -21,11 +22,24 @@ function getUniqueUser(todayPosts: Post[] | undefined): User[] {
   });
   return [...map.values()];
 }
-export default function CalanderCell({ date, isSameMonth, posts }: Props) {
+export default function CalanderCell({
+  date,
+  isSameMonth,
+  posts,
+  groupId,
+}: Props) {
   const setFilter = useSetRecoilState(postFilterState);
+
+  const { schedules } = useSchedule(groupId);
 
   const day = date.getDate();
   const today = dateFormat(date);
+
+  const hasSchedule = schedules?.find(
+    (schedule) =>
+      new Date(schedule.startDate).getDate() <= day &&
+      day <= new Date(schedule.endDate).getDate()
+  );
 
   const todayPosts = posts?.filter((post) => {
     return dateFormat(post.createAt) === today;
@@ -53,7 +67,7 @@ export default function CalanderCell({ date, isSameMonth, posts }: Props) {
     <div
       className={`flex flex-col relative w-full h-20 border border-gray-200 ${
         !isSameMonth && "text-gray-200"
-      }`}
+      } ${hasSchedule && "bg-yellow-200"}`}
     >
       <div className="flex flex-col items-start md:items-center md:flex-row relative overflow-visible">
         <span className="cursor-pointer" onClick={handleClickDate}>

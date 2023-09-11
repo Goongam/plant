@@ -14,6 +14,7 @@ import NextIcon from "./ui/icons/NextIcon";
 import { useQueryClient } from "react-query";
 import { Post } from "@/service/post";
 import { usePostsByGroup } from "@/hooks/post";
+import { useSchedule } from "@/hooks/schedule";
 
 interface Props {
   groupId: string;
@@ -77,6 +78,7 @@ export default function CalanderGroup({ groupId }: Props) {
               date={date}
               isSameMonth={isSameMonth(date, monthStart)}
               posts={posts}
+              groupId={groupId}
             />
           ))
         )}
