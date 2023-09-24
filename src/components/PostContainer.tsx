@@ -10,8 +10,7 @@ interface Props {
   showAllPost: () => void;
   groupId: string;
 }
-export const POST_HEADER =
-  "my-2 p-2 border-b border-black flex justify-between items-center";
+export const POST_HEADER = "my-2 p-2 flex justify-between items-center";
 
 export default function PostContainer({
   filterDate,
@@ -20,18 +19,6 @@ export default function PostContainer({
   groupId,
 }: Props) {
   const { refetch } = useInfinityPosts(groupId);
-
-  const { schedules } = useSchedule(groupId);
-
-  const today = filterDate && new Date(filterDate).getDate();
-  let todaySchedules;
-  if (today) {
-    todaySchedules = schedules?.filter(
-      (schedule) =>
-        new Date(schedule.startDate).getDate() <= today &&
-        today <= new Date(schedule.endDate).getDate()
-    );
-  }
 
   return (
     <>
@@ -56,13 +43,7 @@ export default function PostContainer({
           <p onClick={() => refetch()}>새로고침</p>
         </div>
       )}
-      {today && (
-        <div>
-          {todaySchedules?.map((sc) => (
-            <div key={sc._id}>{sc.startDate}</div>
-          ))}
-        </div>
-      )}
+
       <GroupPosts groupId={groupId} />
     </>
   );

@@ -19,6 +19,7 @@ import LeaveGroupModel from "./LeaveGroupModal";
 import LeaderGroupModel from "./LeaderGroupModal";
 import Modal from "./Modal";
 import ScheduleModal from "./ScheduleModal";
+import PostAndSchedule from "./PostAndSchedule";
 
 interface Props {
   groupId: string;
@@ -33,10 +34,6 @@ export default function GroupDetail({ groupId }: Props) {
 
   const router = useRouter();
   const user = useMe();
-
-  const { postFilterDate: filterDate, postFilterUser: filterUser } =
-    useRecoilValue(postFilterState);
-  const setFilter = useSetRecoilState(postFilterState);
 
   const isLeader = group?.leader?.id === user?.id;
 
@@ -57,10 +54,6 @@ export default function GroupDetail({ groupId }: Props) {
     alert("이 그룹에 가입되어 있지 않습니다");
     router.push("/");
   }
-
-  const showAllPost = () => {
-    setFilter({ postFilterDate: undefined, postFilterUser: undefined });
-  };
 
   const leaveGroup = () => {
     setOpenLeaveModal(true);
@@ -110,19 +103,11 @@ export default function GroupDetail({ groupId }: Props) {
 
       <div className="flex flex-row mt-3 gap-4">
         <div className="flex flex-col flex-1 w-full">
-          {/* {group?.users.map((user) => (
-        <Avatar image={user.image} key={user.id} size="s" />
-      ))} */}
-
           <div>
             <Calander groupId={groupId} />
           </div>
-          <PostContainer
-            groupId={groupId}
-            showAllPost={showAllPost}
-            filterDate={filterDate}
-            filterUser={filterUser}
-          />
+          {/* TODO: 일정 container */}
+          <PostAndSchedule groupId={groupId} />
         </div>
         <div className="w-36 h-fit hidden md:block">
           <div>참여자</div>
