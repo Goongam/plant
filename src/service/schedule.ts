@@ -3,6 +3,7 @@ import { Group } from "./group";
 import { User, getUserIdbyOauthId } from "./user";
 import ScheduleSchema from "@/schema/schedule";
 import { connect } from "@/lib/mongoose";
+import { timeFormat } from "@/util/dayjs";
 
 export interface Schedule {
   groupId: Group;
@@ -16,17 +17,25 @@ export interface Schedule {
   _id: string;
 }
 
-export async function AddSchedule(groupId: string, oauthId: string) {
+export async function AddSchedule(
+  groupId: string,
+  oauthId: string,
+  title: string,
+  description: string,
+  startDate: string,
+  endDate: string,
+  isAllMember?: string
+) {
   await connect();
   const id = await getUserIdbyOauthId(oauthId);
 
   const newSchedule = new ScheduleSchema({
     groupId,
-    title: "일정 제목",
-    content: "일정 세부내용",
+    title,
+    content: description,
     createBy: id,
-    startDate: dayjs("2023-09-13").format("YYYY-MM-DD"),
-    endDate: dayjs("2023-09-15").format("YYYY-MM-DD"),
+    startDate: timeFormat(startDate),
+    endDate: timeFormat(endDate),
     isAllMember: true,
     members: [id],
   });

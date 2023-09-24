@@ -17,6 +17,8 @@ import ModalBackground from "./ModalBackground";
 import { useState } from "react";
 import LeaveGroupModel from "./LeaveGroupModal";
 import LeaderGroupModel from "./LeaderGroupModal";
+import Modal from "./Modal";
+import ScheduleModal from "./ScheduleModal";
 
 interface Props {
   groupId: string;
@@ -25,6 +27,7 @@ interface Props {
 export default function GroupDetail({ groupId }: Props) {
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
   const [openLeaderModal, setOpenLeaderModal] = useState(false);
+  const [openScheduleModal, setOpenScheduleModal] = useState(false);
 
   const { group, isLoading, isError } = useGroup(groupId);
 
@@ -86,10 +89,11 @@ export default function GroupDetail({ groupId }: Props) {
           <button
             className="rounded-lg bg-orange-400 px-3 py-1 font-bold text-white ml-1"
             onClick={() => {
-              fetch("/api/schedule/new", {
-                method: "post",
-                body: JSON.stringify({ groupId }),
-              });
+              // fetch("/api/schedule/new", {
+              //   method: "post",
+              //   body: JSON.stringify({ groupId }),
+              // });
+              setOpenScheduleModal(true);
             }}
           >
             일정 추가
@@ -160,6 +164,10 @@ export default function GroupDetail({ groupId }: Props) {
           </ModalBackground>
         </ModalPortal>
       )}
+
+      <Modal isOpen={openScheduleModal} setClose={setOpenScheduleModal}>
+        <ScheduleModal groupId={groupId} />
+      </Modal>
     </section>
   );
 }

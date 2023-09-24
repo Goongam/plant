@@ -67,7 +67,8 @@ export default function CalanderCell({
     <div
       className={`flex flex-col relative w-full h-20 border border-gray-200 ${
         !isSameMonth && "text-gray-200"
-      } ${hasSchedule && "bg-yellow-200"}`}
+      } ${hasSchedule && "bg-yellow-200"}
+      ${today === dateFormat(new Date()) && "border-green-600"}`}
     >
       <div className="flex flex-col items-start md:items-center md:flex-row relative overflow-visible">
         <span className="cursor-pointer" onClick={handleClickDate}>
