@@ -14,6 +14,8 @@ import NextIcon from "./ui/icons/NextIcon";
 import { useQueryClient } from "react-query";
 import { Post } from "@/service/post";
 import { usePostsByUser } from "@/hooks/post";
+import { useAllScheduleByUser } from "@/hooks/schedule";
+import useMe from "@/hooks/me";
 
 interface Props {
   userId: string;
@@ -23,8 +25,8 @@ export default function CalanderUser({ userId }: Props) {
 
   const { isError, isLoading, posts } = usePostsByUser(userId);
 
-  //TODO: User별 스케쥴 가져오기
-  // const { schedules } = useAllSchedule(groupId);
+  const me = useMe();
+  const { schedules } = useAllScheduleByUser(me?.id);
 
   const monthStart = startOfMonth(selectDate);
   const monthEnd = endOfMonth(monthStart);
@@ -81,6 +83,7 @@ export default function CalanderUser({ userId }: Props) {
               date={date}
               isSameMonth={isSameMonth(date, monthStart)}
               posts={posts}
+              schedules={schedules}
             />
           ))
         )}

@@ -107,9 +107,8 @@ export default function GroupDetail({ groupId }: Props) {
             <Calander groupId={groupId} />
           </div>
           {/* TODO: 일정 container */}
-          <div className="w-full max-w-[700px] mx-auto">
-            <PostAndSchedule groupId={groupId} />
-          </div>
+
+          <PostAndSchedule groupId={groupId} />
         </div>
         <div className="w-36 h-fit hidden md:block">
           <div>참여자</div>

@@ -3,12 +3,13 @@ import PostContainer from "./PostContainer";
 import { postFilterState } from "@/state";
 import { useState } from "react";
 import ScheduleContainer from "./ScheduleContainer";
+import UserPosts from "./UserPosts";
 import PostAndScheduleBTN from "./PostAndScheduleBTN";
 
 interface Props {
-  groupId: string;
+  userId: string;
 }
-export default function PostAndSchedule({ groupId }: Props) {
+export default function PostAndScheduleByUser({ userId }: Props) {
   const { postFilterDate: filterDate, postFilterUser: filterUser } =
     useRecoilValue(postFilterState);
   const setFilter = useSetRecoilState(postFilterState);
@@ -29,18 +30,15 @@ export default function PostAndSchedule({ groupId }: Props) {
         />
       </div>
       {showContainer === "post" ? (
-        <PostContainer
-          groupId={groupId}
-          showAllPost={showAllPost}
-          filterDate={filterDate}
-          filterUser={filterUser}
-        />
+        <UserPosts userId={userId} showAllPost={showAllPost} />
       ) : (
-        <ScheduleContainer
-          groupId={groupId}
-          filterDate={filterDate}
-          showAllSchedule={showAllPost}
-        />
+        // TODO: 유저 스케쥴
+        <div>유저 스케쥴</div>
+        // <ScheduleContainer
+        //   groupId={groupId}
+        //   filterDate={filterDate}
+        //   showAllSchedule={showAllPost}
+        // />
       )}
     </div>
   );

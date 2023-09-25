@@ -76,6 +76,21 @@ export function useSchedule(groupId: string) {
   };
 }
 
+export function useAllScheduleByUser(userId?: string) {
+  const {
+    data: schedules,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<Schedule[]>(
+    ["schedule-user", userId],
+    () => fetch(`/api/schedule/user/${userId}/`).then((res) => res.json()),
+    {}
+  );
+
+  return { schedules };
+}
+
 export function useScheduleMutate(groupId: string) {
   const { refetch } = useSchedule(groupId);
   const { mutate, isLoading, isError } = useMutation(

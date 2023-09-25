@@ -23,8 +23,6 @@ interface Props {
 export default function PostCard({ post, me, refresh }: Props) {
   const { author, createAt, content, title, images, comments, group } = post;
 
-  console.log(comments);
-
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMore, setIsMore] = useState(false);
   const [isClickMore, setIsClickMore] = useState(false);

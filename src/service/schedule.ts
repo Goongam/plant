@@ -118,3 +118,20 @@ export async function getSchedules(
     );
   }
 }
+
+export async function getSchedulesByUser(userId: string) {
+  await connect();
+  const id = await getUserIdbyOauthId(userId);
+
+  return (
+    ScheduleSchema.find({}, "")
+      .where("members")
+      .in([id])
+      .populate("groupId createBy members")
+      // .populate({
+      //   path: "members",
+      //   populate: { path: "leader" },
+      // })
+      .lean()
+  );
+}

@@ -8,6 +8,7 @@ import { postFilterState } from "@/state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { POST_HEADER } from "./PostContainer";
 import { useInfinityUserPosts } from "@/hooks/post";
+import PostAndScheduleByUser from "./PostAndScheduleByUser";
 
 interface Props {
   user: User;
@@ -36,27 +37,8 @@ export default function MyInfo({ user }: Props) {
           <CalanderUser userId={user.id} />
         </div>
       </div>
-      <div>
-        {filterDate ? (
-          <div className={`${POST_HEADER} mx-4 mb-4`}>
-            <div className="flex font-bold text-2xl ">
-              <p>
-                {filterDate &&
-                  `${new Date(filterDate).getMonth() + 1}월 ${new Date(
-                    filterDate
-                  ).getDate()}일`}
-              </p>
-            </div>
-            <div onClick={showAllPost}>전체보기</div>
-          </div>
-        ) : (
-          <div className={`${POST_HEADER} mx-4 mb-4`}>
-            <div className="flex font-bold text-2xl ">전체 포스트</div>
-            <p onClick={() => refetch()}>새로고침</p>
-          </div>
-        )}
-        <UserPosts userId={user.id} />
-      </div>
+
+      <PostAndScheduleByUser userId={user.id} />
     </>
   );
 }
