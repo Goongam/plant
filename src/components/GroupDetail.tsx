@@ -102,12 +102,14 @@ export default function GroupDetail({ groupId }: Props) {
       </div>
 
       <div className="flex flex-row mt-3 gap-4">
-        <div className="flex flex-col flex-1 w-full">
+        <div className="flex flex-col flex-1 w-full ">
           <div>
             <Calander groupId={groupId} />
           </div>
           {/* TODO: 일정 container */}
-          <PostAndSchedule groupId={groupId} />
+          <div className="w-full max-w-[700px] mx-auto">
+            <PostAndSchedule groupId={groupId} />
+          </div>
         </div>
         <div className="w-36 h-fit hidden md:block">
           <div>참여자</div>

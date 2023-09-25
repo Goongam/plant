@@ -14,7 +14,7 @@ import NextIcon from "./ui/icons/NextIcon";
 import { useQueryClient } from "react-query";
 import { Post } from "@/service/post";
 import { usePostsByGroup } from "@/hooks/post";
-import { useSchedule } from "@/hooks/schedule";
+import { useAllSchedule, useSchedule } from "@/hooks/schedule";
 
 interface Props {
   groupId: string;
@@ -23,6 +23,8 @@ export default function CalanderGroup({ groupId }: Props) {
   const [selectDate, setSelectDate] = useState(new Date());
 
   const { isError, isLoading, posts } = usePostsByGroup(groupId);
+
+  const { schedules } = useAllSchedule(groupId);
 
   const monthStart = startOfMonth(selectDate);
   const monthEnd = endOfMonth(monthStart);
@@ -78,7 +80,8 @@ export default function CalanderGroup({ groupId }: Props) {
               date={date}
               isSameMonth={isSameMonth(date, monthStart)}
               posts={posts}
-              groupId={groupId}
+              // groupId={groupId}
+              schedules={schedules}
             />
           ))
         )}

@@ -23,6 +23,9 @@ export default function CalanderUser({ userId }: Props) {
 
   const { isError, isLoading, posts } = usePostsByUser(userId);
 
+  //TODO: User별 스케쥴 가져오기
+  // const { schedules } = useAllSchedule(groupId);
+
   const monthStart = startOfMonth(selectDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -73,6 +76,7 @@ export default function CalanderUser({ userId }: Props) {
         {rows.map((row) =>
           row.map((date, i) => (
             <CalanderCell
+              // groupId={groupId}
               key={i}
               date={date}
               isSameMonth={isSameMonth(date, monthStart)}

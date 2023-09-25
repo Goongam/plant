@@ -6,13 +6,15 @@ import ArticleIcon from "./ui/icons/ArticleIcon";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
 import CalanderAvatar from "./CalanderAvatar";
-import { useSchedule } from "@/hooks/schedule";
+import { useAllSchedule, useSchedule } from "@/hooks/schedule";
+import { Schedule } from "@/service/schedule";
 
 interface Props {
   date: Date;
-  groupId: string;
+  groupId?: string;
   isSameMonth: boolean;
   posts: Post[] | undefined;
+  schedules?: Schedule[];
 }
 
 function getUniqueUser(todayPosts: Post[] | undefined): User[] {
@@ -27,18 +29,17 @@ export default function CalanderCell({
   isSameMonth,
   posts,
   groupId,
+  schedules,
 }: Props) {
   const setFilter = useSetRecoilState(postFilterState);
-
-  const { schedules } = useSchedule(groupId);
 
   const day = date.getDate();
   const today = dateFormat(date);
 
   const hasSchedule = schedules?.find(
     (schedule) =>
-      new Date(schedule.startDate).getDate() <= day &&
-      day <= new Date(schedule.endDate).getDate()
+      dateFormat(schedule.startDate) <= today &&
+      today <= dateFormat(schedule.endDate)
   );
 
   const todayPosts = posts?.filter((post) => {

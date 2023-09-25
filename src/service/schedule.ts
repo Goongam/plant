@@ -59,3 +59,62 @@ export async function getSchedule(groupId: string, oauthId: string) {
       .lean()
   );
 }
+
+const showScheduleCount = 5;
+
+export async function getSchedules(
+  groupId: string,
+  userId: string,
+  page: number,
+  date?: string
+) {
+  await connect();
+  const id = await getUserIdbyOauthId(userId);
+
+  let filter: {
+    groupId: string;
+    members?: any;
+    endDate?: any;
+    startDate?: any;
+  } = {
+    groupId,
+  };
+
+  if (date) {
+    filter.startDate = {
+      $lt: dayjs(date).add(1, "day").format("YYYY-MM-DD"),
+    };
+    filter.endDate = {
+      $gte: dayjs(date).format("YYYY-MM-DD"),
+    };
+  }
+
+  if (page) {
+    return ScheduleSchema.find(filter, "", {
+      sort: { startDate: -1 },
+      limit: showScheduleCount,
+      skip: (page - 1) * showScheduleCount,
+    })
+      .where("members")
+      .in([id])
+      .populate("groupId createBy members")
+      .then((sc) => {
+        return {
+          next: sc.length < 5 ? null : page + 1,
+          schedules: [...sc],
+        };
+      });
+  } else {
+    return (
+      ScheduleSchema.find({ groupId }, "")
+        .where("members")
+        .in([id])
+        .populate("groupId createBy members")
+        // .populate({
+        //   path: "members",
+        //   populate: { path: "leader" },
+        // })
+        .lean()
+    );
+  }
+}

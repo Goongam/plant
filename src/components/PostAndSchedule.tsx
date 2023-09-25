@@ -47,7 +47,11 @@ export default function PostAndSchedule({ groupId }: Props) {
           filterUser={filterUser}
         />
       ) : (
-        <ScheduleContainer groupId={groupId} filterDate={filterDate} />
+        <ScheduleContainer
+          groupId={groupId}
+          filterDate={filterDate}
+          showAllSchedule={showAllPost}
+        />
       )}
     </>
   );
