@@ -13,8 +13,11 @@ interface Props {
   date: Date;
   groupId?: string;
   isSameMonth: boolean;
-  posts: Post[] | undefined;
+  posts?: Post[] | undefined;
   schedules?: Schedule[];
+  onSchedule?: boolean;
+  isPrevSchedule?: boolean;
+  isNextSchedule?: boolean;
 }
 
 function getUniqueUser(todayPosts: Post[] | undefined): User[] {
@@ -30,6 +33,9 @@ export default function CalanderCell({
   posts,
   groupId,
   schedules,
+  onSchedule,
+  isNextSchedule,
+  isPrevSchedule,
 }: Props) {
   const setFilter = useSetRecoilState(postFilterState);
 
@@ -47,6 +53,8 @@ export default function CalanderCell({
   });
 
   const handleClickDate = () => {
+    //스케쥴 선택 모드일 경우 return
+    if (onSchedule) return;
     setFilter({
       postFilterDate: today,
     });
@@ -69,7 +77,13 @@ export default function CalanderCell({
       className={`flex flex-col relative w-full h-20 border border-gray-200 ${
         !isSameMonth && "text-gray-200"
       } ${hasSchedule && "bg-yellow-200"}
-      ${today === dateFormat(new Date()) && "border-green-600"}`}
+      ${today === dateFormat(new Date()) && "border-green-600"}
+      ${
+        onSchedule &&
+        `border-2 border-y-yellow-800  ${
+          !isNextSchedule && "border-r-yellow-800"
+        } ${!isPrevSchedule && "border-l-yellow-800"}`
+      }`}
     >
       <div className="flex flex-col items-start md:items-center md:flex-row relative overflow-visible">
         <span className="cursor-pointer" onClick={handleClickDate}>
