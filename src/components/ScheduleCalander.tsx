@@ -85,6 +85,8 @@ export default function ScheduleCalander({
 
       //추가
     } else setScheduleDates([...scheduleDates, formatDate].sort());
+
+    setDragDates([]);
   };
 
   const combineDragToSchedule = () => {
@@ -148,15 +150,17 @@ export default function ScheduleCalander({
                 date={date}
                 isSameMonth={isSameMonth(date, monthStart)}
                 onSchedule={
-                  scheduleDates.includes(dateFormat(date))
-                  //   || dragDates.includes(dateFormat(date))
+                  scheduleDates.includes(dateFormat(date)) ||
+                  dragDates.includes(dateFormat(date))
                 }
-                isNextSchedule={scheduleDates.includes(
-                  dateFormat(addDays(date, 1))
-                )}
-                isPrevSchedule={scheduleDates.includes(
-                  dateFormat(addDays(date, -1))
-                )}
+                isNextSchedule={
+                  scheduleDates.includes(dateFormat(addDays(date, 1))) ||
+                  dragDates.includes(dateFormat(addDays(date, 1)))
+                }
+                isPrevSchedule={
+                  scheduleDates.includes(dateFormat(addDays(date, -1))) ||
+                  dragDates.includes(dateFormat(addDays(date, -1)))
+                }
               />
             </div>
           ))
