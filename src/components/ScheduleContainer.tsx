@@ -1,23 +1,38 @@
 import { useSchedule } from "@/hooks/schedule";
-import { postFilterDate, postFilterUser } from "@/state";
+import { postFilterDate } from "@/state";
 import { POST_HEADER } from "./PostContainer";
 import { Schedule } from "@/service/schedule";
 import Loading from "./ui/Loading";
-import GroupSchedule from "./GroupSchedule";
+import InfiniteScroll from "react-infinite-scroller";
+import ScheduleCard from "./ScheduleCard";
+import { InfiniteData } from "react-query";
 
 interface Props {
   // filterUser?: postFilterUser;
   filterDate?: postFilterDate;
   showAllSchedule: () => void;
-  groupId: string;
+  data:
+    | InfiniteData<any>
+    | undefined
+    | { pages: [{ schedules: Schedule[]; next: number }] };
+  refetch: () => void;
+  isFetching: boolean;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => void;
 }
 
 export default function ScheduleContainer({
-  groupId,
+  data,
+  fetchNextPage,
+  hasNextPage,
+  isFetching,
+  refetch,
   filterDate,
   showAllSchedule,
 }: Props) {
-  const { refetch } = useSchedule(groupId);
+  // const { data, fetchNextPage, isFetching, hasNextPage, refetch } =
+  //   useSchedule(groupId);
+
   return (
     <section>
       {
@@ -47,7 +62,22 @@ export default function ScheduleContainer({
           )}
         </div>
       }
-      <GroupSchedule groupId={groupId} />
+      <InfiniteScroll
+        loadMore={() => {
+          if (!isFetching) fetchNextPage();
+        }}
+        hasMore={hasNextPage}
+        className="flex flex-col w-full justify-center items-center gap-6"
+      >
+        {data?.pages[0].schedules.length
+          ? data.pages.map((page: { schedules: Schedule[]; next: number }) =>
+              page.schedules.map((schedule) => (
+                <ScheduleCard key={schedule._id} schedule={schedule} />
+              ))
+            )
+          : !isFetching && <div>일정이 없어요</div>}
+        {isFetching && <Loading size={20} type="Moon" />}
+      </InfiniteScroll>
     </section>
   );
 }

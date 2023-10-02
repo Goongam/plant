@@ -1,14 +1,26 @@
-import { postFilterDate, postFilterUser } from "@/state";
-import GroupPosts from "./GroupPosts";
+import { postFilterDate, postFilterState, postFilterUser } from "@/state";
+// import GroupPosts from "./GroupPosts";
 import { useInfinityPosts } from "@/hooks/post";
 import { day_now } from "@/util/dayjs";
 import { useSchedule } from "@/hooks/schedule";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import useMe from "@/hooks/me";
+import { InfiniteData } from "react-query";
+import InfiniteScroll from "react-infinite-scroller";
+import PostCard from "./PostCard";
+import { Post } from "@/service/post";
+import Loading from "./ui/Loading";
 
 interface Props {
   filterUser?: postFilterUser;
   filterDate?: postFilterDate;
   showAllPost: () => void;
-  groupId: string;
+  data: InfiniteData<any> | undefined;
+  refetch: () => void;
+  isFetching: boolean;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => void;
 }
 export const POST_HEADER = "my-2 p-2 flex justify-between items-center";
 
@@ -16,9 +28,19 @@ export default function PostContainer({
   filterDate,
   filterUser,
   showAllPost,
-  groupId,
+  data,
+  fetchNextPage,
+  hasNextPage,
+  isFetching,
+  refetch,
 }: Props) {
-  const { refetch } = useInfinityPosts(groupId);
+  const me = useMe();
+
+  //페이지 접속시 필터링 초기화
+  const setFilter = useSetRecoilState(postFilterState);
+  useEffect(() => {
+    setFilter({ postFilterUser: undefined, postFilterDate: undefined });
+  }, [setFilter]);
 
   return (
     <>
@@ -44,7 +66,29 @@ export default function PostContainer({
         </div>
       )}
 
-      <GroupPosts groupId={groupId} />
+      <>
+        {data && (
+          <InfiniteScroll
+            loadMore={() => {
+              if (!isFetching) fetchNextPage();
+            }}
+            hasMore={hasNextPage}
+            className="flex flex-col w-full items-center gap-6"
+          >
+            {data?.pages?.map((page) =>
+              page.posts.map((post: Post) => (
+                <PostCard
+                  key={post._id}
+                  post={post}
+                  me={me}
+                  refresh={refetch}
+                />
+              ))
+            )}
+          </InfiniteScroll>
+        )}
+        {isFetching && <Loading type="Moon" />}
+      </>
     </>
   );
 }
