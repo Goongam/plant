@@ -7,8 +7,9 @@ import { timeFormat } from "@/util/dayjs";
 
 export interface Schedule {
   groupId: Group;
-  startDate: string;
-  endDate: string;
+  // startDate: string;
+  // endDate: string;
+  dates: string[];
   title: string;
   content: string;
   isAllMember: boolean;
@@ -22,8 +23,9 @@ export async function AddSchedule(
   oauthId: string,
   title: string,
   description: string,
-  startDate: string,
-  endDate: string,
+  // startDate: string,
+  // endDate: string,
+  dates: string[],
   isAllMember?: string
 ) {
   await connect();
@@ -34,8 +36,9 @@ export async function AddSchedule(
     title,
     content: description,
     createBy: id,
-    startDate: timeFormat(startDate),
-    endDate: timeFormat(endDate),
+    // startDate: timeFormat(startDate),
+    // endDate: timeFormat(endDate),
+    dates,
     isAllMember: true,
     members: [id],
   });
@@ -74,19 +77,13 @@ export async function getSchedules(
   let filter: {
     groupId: string;
     members?: any;
-    endDate?: any;
-    startDate?: any;
+    dates?: any;
   } = {
     groupId,
   };
 
   if (date) {
-    filter.startDate = {
-      $lt: dayjs(date).add(1, "day").format("YYYY-MM-DD"),
-    };
-    filter.endDate = {
-      $gte: dayjs(date).format("YYYY-MM-DD"),
-    };
+    filter.dates = date;
   }
 
   if (page) {
@@ -119,19 +116,54 @@ export async function getSchedules(
   }
 }
 
-export async function getSchedulesByUser(userId: string) {
+export async function getSchedulesByUser(
+  userId: string,
+  page?: number,
+  date?: string
+) {
   await connect();
   const id = await getUserIdbyOauthId(userId);
 
-  return (
-    ScheduleSchema.find({}, "")
-      .where("members")
-      .in([id])
-      .populate("groupId createBy members")
-      // .populate({
-      //   path: "members",
-      //   populate: { path: "leader" },
-      // })
-      .lean()
-  );
+  let filter: {
+    dates?: any;
+  } = {};
+  if (date) {
+    filter.dates = date;
+  }
+
+  if (page) {
+    return (
+      ScheduleSchema.find(filter, "", {
+        sort: { startDate: -1 },
+        limit: showScheduleCount,
+        skip: (page - 1) * showScheduleCount,
+      })
+        .where("members")
+        .in([id])
+        .populate("groupId createBy members")
+        // .populate({
+        //   path: "members",
+        //   populate: { path: "leader" },
+        // })
+        .lean()
+        .then((sc) => {
+          return {
+            next: sc.length < 5 ? null : page + 1,
+            schedules: [...sc],
+          };
+        })
+    );
+  } else {
+    return (
+      ScheduleSchema.find({}, "")
+        .where("members")
+        .in([id])
+        .populate("groupId createBy members")
+        // .populate({
+        //   path: "members",
+        //   populate: { path: "leader" },
+        // })
+        .lean()
+    );
+  }
 }

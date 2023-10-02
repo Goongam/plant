@@ -11,8 +11,9 @@ const ScheduleSchema = new mongoose.Schema<Schedule, ScheduleModel>({
   },
   title: { type: String, required: true, maxlength: 50 },
   content: { type: String, required: true, maxlength: 200 },
-  startDate: { type: String, required: true },
-  endDate: { type: String, required: true },
+  // startDate: { type: String, required: true },
+  // endDate: { type: String, required: true },
+  dates: [{type:String, required:true}],
   groupId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group",

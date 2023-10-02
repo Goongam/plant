@@ -2,8 +2,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import PostContainer from "./PostContainer";
 import { postFilterState } from "@/state";
 import { useState } from "react";
-import ScheduleContainer from "./ScheduleContainer";
-import UserPosts from "./UserPosts";
+import UserPostsContainer from "./UserPosts";
 import PostAndScheduleBTN from "./PostAndScheduleBTN";
 
 interface Props {
@@ -30,15 +29,10 @@ export default function PostAndScheduleByUser({ userId }: Props) {
         />
       </div>
       {showContainer === "post" ? (
-        <UserPosts userId={userId} showAllPost={showAllPost} />
+        <UserPostsContainer userId={userId} showAllPost={showAllPost} />
       ) : (
         // TODO: 유저 스케쥴
         <div>유저 스케쥴</div>
-        // <ScheduleContainer
-        //   groupId={groupId}
-        //   filterDate={filterDate}
-        //   showAllSchedule={showAllPost}
-        // />
       )}
     </div>
   );

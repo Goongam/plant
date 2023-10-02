@@ -15,11 +15,13 @@ export async function POST(req: Request) {
     //comment
     const description = form.get("description") as string;
     //comment
-    const startDate = form.get("startData") as string;
+    // const startDate = form.get("startData") as string;
     //comment
-    const endDate = form.get("endDate") as string;
+    // const endDate = form.get("endDate") as string;
 
-    return AddSchedule(group, user.id, title, description, startDate, endDate)
+    const dates = form.getAll("dates") as string[];
+
+    return AddSchedule(group, user.id, title, description, dates)
       .then((res) => NextResponse.json(res))
       .catch((err) => new Response(err, { status: 500 }));
   });

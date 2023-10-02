@@ -3,7 +3,7 @@
 import { User } from "@/service/user";
 import Avatar from "./Avatar";
 import CalanderUser from "./CalanderByUser";
-import UserPosts from "./UserPosts";
+import UserPostsContainer from "./UserPosts";
 import { postFilterState } from "@/state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { POST_HEADER } from "./PostContainer";

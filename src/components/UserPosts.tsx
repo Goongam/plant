@@ -14,7 +14,7 @@ interface Props {
   showAllPost: () => void;
 }
 
-export default function UserPosts({ userId, showAllPost }: Props) {
+export default function UserPostsContainer({ userId, showAllPost }: Props) {
   const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
     useInfinityUserPosts(userId);
 

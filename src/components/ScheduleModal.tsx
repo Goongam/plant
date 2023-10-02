@@ -2,6 +2,7 @@ import { FormEvent, useRef, useState } from "react";
 import StyleInput from "./ui/StyleInput";
 import Loading from "./ui/Loading";
 import { useScheduleMutate } from "@/hooks/schedule";
+import ScheduleCalander from "./ScheduleCalander";
 
 /*
     groupId,
@@ -23,6 +24,8 @@ export default function ScheduleModal({ groupId }: { groupId: string }) {
   const { isError, isLoading: loading, mutate } = useScheduleMutate(groupId);
 
   const [isEndDateError, setIsEndDateError] = useState(false);
+
+  const [scheduleDates, setScheduleDates] = useState<string[]>([]);
 
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -57,15 +60,23 @@ export default function ScheduleModal({ groupId }: { groupId: string }) {
       formdata.append("startData", startDateRef.current.value);
     endDateRef.current && formdata.append("endDate", endDateRef.current.value);
 
+    scheduleDates.forEach((date) => {
+      formdata.append("dates", date);
+    });
+
     mutate(formdata);
   };
 
   return (
-    <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3">
+    <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3 overflow-y-scroll">
       <p className="font-bold">일정 추가</p>
+      <ScheduleCalander
+        scheduleDates={scheduleDates}
+        setScheduleDates={setScheduleDates}
+      />
       <form
         onSubmit={clickSubmit}
-        className="flex flex-col h-full justify-between"
+        className="flex flex-col h-full justify-between mt-4"
       >
         <div className="flex flex-col [&>*:first-child]:rounded-t-md [&>*]:border-x [&>*]:border-t [&>*:last-child]:rounded-b-md [&>*:last-child]:border-b">
           <StyleInput placeholder="일정 제목" required ref={titleRef} />
@@ -75,26 +86,6 @@ export default function ScheduleModal({ groupId }: { groupId: string }) {
             required
             ref={descriptionRef}
           ></textarea>
-
-          <div className="flex">
-            <p className="text-gray-400 w-28">시작일</p>
-            <input
-              type={`datetime-local`}
-              className={`w-full ${FOCUS}`}
-              required
-              ref={startDateRef}
-            />
-          </div>
-
-          <div className={`flex ${isEndDateError && "border-red-300"}`}>
-            <p className="text-gray-400 w-28">종료일</p>
-            <input
-              type={`datetime-local`}
-              className={`w-full ${FOCUS}`}
-              required
-              ref={endDateRef}
-            />
-          </div>
 
           <div className={`${CENTER}`}>
             <p className="text-gray-400 w-28">전체 일정 여부</p>

@@ -26,18 +26,6 @@ export function useSchedule(groupId: string) {
   const me = useMe();
   const { postFilterDate: filterDate, postFilterUser: filterUser } =
     useRecoilValue(postFilterState);
-  // const {
-  //   data: schedules,
-  //   isLoading,
-  //   isError,
-  //   refetch,
-  // } = useQuery<Schedule[]>(
-  //   ["schedule", groupId, me?.id],
-  //   () => fetcher(groupId, me?.id),
-  //   {}
-  // );
-
-  // const {} = useInfiniteQuery(['schedule',groupId],)
 
   const {
     data, //데이터
@@ -89,6 +77,46 @@ export function useAllScheduleByUser(userId?: string) {
   );
 
   return { schedules };
+}
+
+export function useScheduleByUser(userId?: string) {
+  const { postFilterDate: filterDate } = useRecoilValue(postFilterState);
+
+  const {
+    data, //데이터
+    fetchNextPage, //pageParam에 저장된 다음url을 불러옴
+    hasNextPage, //pageParam에 url이 저장되 있는지 확인
+    isLoading,
+    isError,
+    error,
+    isFetching,
+    refetch,
+  } = useInfiniteQuery(
+    ["schedule-infinity-user", userId, filterDate ? filterDate : ""], //쿼리키
+    ({
+      pageParam = `/api/schedule/user/${userId}/1?${
+        filterDate ? `date=${filterDate}&` : ""
+      }`,
+    }) => fetcher(pageParam), //실제 데이터 불러옴
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage.next
+          ? `/api/schedule/user/${userId}/${lastPage.next}?${
+              filterDate ? `date=${filterDate}&` : ""
+            }`
+          : undefined, //pageParam 관리함수
+    }
+  );
+
+  return {
+    data,
+    isLoading,
+    isError,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  };
 }
 
 export function useScheduleMutate(groupId: string) {

@@ -6,7 +6,6 @@ import ArticleIcon from "./ui/icons/ArticleIcon";
 import { useSetRecoilState } from "recoil";
 import { postFilterState } from "@/state";
 import CalanderAvatar from "./CalanderAvatar";
-import { useAllSchedule, useSchedule } from "@/hooks/schedule";
 import { Schedule } from "@/service/schedule";
 
 interface Props {
@@ -42,10 +41,8 @@ export default function CalanderCell({
   const day = date.getDate();
   const today = dateFormat(date);
 
-  const hasSchedule = schedules?.find(
-    (schedule) =>
-      dateFormat(schedule.startDate) <= today &&
-      today <= dateFormat(schedule.endDate)
+  const hasSchedule = schedules?.find((schedule) =>
+    schedule.dates?.includes(today)
   );
 
   const todayPosts = posts?.filter((post) => {
