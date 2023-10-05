@@ -1,7 +1,6 @@
 "use client";
 
 import Calander from "./CalanderByGroup";
-import GroupPosts from "./GroupPosts";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import useMe from "@/hooks/me";
@@ -50,9 +49,6 @@ export default function GroupDetail({ groupId }: Props) {
           로그인 하러가기
         </button>
       );
-    //TODO: 로그인O, joinX -> 가입 신청 페이지로 이동
-    alert("이 그룹에 가입되어 있지 않습니다");
-    router.push("/");
   }
 
   const leaveGroup = () => {

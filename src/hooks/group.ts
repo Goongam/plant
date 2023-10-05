@@ -23,9 +23,10 @@ export function useGroup(groupId: string) {
     {
       onError(err) {
         //TODO: 에러 toast만들기
-        // alert(err);
-
-        router.back();
+        alert(err);
+        //TODO: 로그인O, joinX -> 가입 신청 페이지로 이동
+        // alert("이 그룹에 가입되어 있지 않습니다");
+        router.push("/");
       },
       retry: 0,
       retryDelay: 1000,
