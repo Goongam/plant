@@ -12,8 +12,9 @@ import Avatar from "./Avatar";
 
 interface Props {
   group: SimpleGroup;
+  closeModal: () => void;
 }
-export default function GroupModalDetail({ group }: Props) {
+export default function GroupModalDetail({ group, closeModal }: Props) {
   const {
     _id,
     category,
@@ -36,20 +37,38 @@ export default function GroupModalDetail({ group }: Props) {
 
     setJoinLoading(true);
 
-    fetch("/api/group/join", {
+    fetch("/api/alarm/new", {
       method: "post",
       body: JSON.stringify({
         groupId: _id,
       }),
-    })
-      .then((res) => {
-        if (res.ok) router.push(`/group/${_id}`);
-        else throw new Error();
-      })
-      .catch(() => {
+    }).then((res) => {
+      if (res.ok) {
+        // setJoinLoading(false);
+        closeModal();
+        alert("가입 신청 되었습니다.");
+      } else {
         setJoinLoading(false);
-        alert("그룹에 참가할 수 없습니다.");
-      });
+        alert("이미 신청 대기 중인 그룹입니다");
+      }
+    });
+
+    //강제가입 api
+
+    // fetch("/api/group/join", {
+    //   method: "post",
+    //   body: JSON.stringify({
+    //     groupId: _id,
+    //   }),
+    // })
+    //   .then((res) => {
+    //     if (res.ok) router.push(`/group/${_id}`);
+    //     else throw new Error();
+    //   })
+    //   .catch(() => {
+    //     setJoinLoading(false);
+    //     alert("그룹에 참가할 수 없습니다.");
+    //   });
   };
   return (
     <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3">
@@ -94,7 +113,7 @@ export default function GroupModalDetail({ group }: Props) {
             {joinLoading ? (
               <Loading type="Pulse" size={10} color="#369fb6" />
             ) : (
-              "참가하기"
+              "참가신청"
             )}
           </button>
         )}

@@ -40,9 +40,13 @@ export default function ModalSideBar({ user }: Props) {
         <Link href={"/info"} className={BUTTON_STYLE}>
           <InfoIcon /> 내 정보
         </Link>
+        <Link href={"/notification"} className={BUTTON_STYLE}>
+          <ContactIcon /> 알림
+        </Link>
         <button className={BUTTON_STYLE}>
           <ContactIcon /> 문의
         </button>
+
         <button
           className={`w-full border-t border-neutral-200 text-start mt-1 pt-2 ${BUTTON_STYLE}`}
           onClick={() => signOut()}

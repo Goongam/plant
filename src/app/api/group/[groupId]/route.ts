@@ -15,7 +15,7 @@ export async function GET(req: NextRequest, context: Context) {
       .then((groupData) => {
         const isJoin = groupData?.users.find((u) => user.id === u.id);
         if (isJoin) return NextResponse.json(groupData);
-        else return new Response("you don't join this group", { status: 401 });
+        else return new Response("you didn't join this group", { status: 401 });
       })
       .catch((err) => new Response(err, { status: 400 }));
   });

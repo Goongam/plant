@@ -42,7 +42,12 @@ export default function GroupListCard({ group }: Props) {
               setOpenModal(false);
             }}
           >
-            <GroupModalDetail group={group} />
+            <GroupModalDetail
+              group={group}
+              closeModal={() => {
+                setOpenModal(false);
+              }}
+            />
           </ModalBackground>
         </ModalPortal>
       )}
