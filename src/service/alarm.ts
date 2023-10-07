@@ -5,6 +5,7 @@ import { connect } from "@/lib/mongoose";
 import { day_now } from "@/util/dayjs";
 
 export interface Alarm {
+  _id: string;
   type: "join" | "common";
   content: string;
   createAt: string;
@@ -12,6 +13,13 @@ export interface Alarm {
   from?: User;
   groupId?: Group;
 }
+
+export interface ResponseAlarms {
+  alarms: Alarm[];
+  totalAlarms: number;
+}
+
+const showAlarmCount = 5;
 
 export async function newJoinAlarm(userId: string, groupId: string) {
   await connect();
@@ -38,4 +46,30 @@ export async function newJoinAlarm(userId: string, groupId: string) {
     type: "join",
     groupId: group?._id,
   }).save();
+}
+
+export async function getAlarm(userId: string, page: number) {
+  await connect();
+
+  const user = await getUserIdbyOauthId(userId);
+
+  const totalAlarms = await AlarmSchema.countDocuments({
+    to: user,
+  });
+  return AlarmSchema.find(
+    {
+      to: user,
+    },
+    "",
+    {
+      sort: { createAt: -1 },
+      limit: showAlarmCount,
+      skip: (page - 1) * showAlarmCount,
+    }
+  )
+    .populate("to from groupId")
+    .lean()
+    .then((data) => {
+      return { alarms: data, totalAlarms };
+    });
 }
