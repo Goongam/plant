@@ -1,8 +1,10 @@
-import { Group, getGroup, getLeader } from "./group";
+import { Group, getGroup, getIsJoinGroup, getLeader } from "./group";
 import { User, getUserIdbyOauthId, getUserInfo } from "./user";
 import AlarmSchema from "../schema/alarm";
 import { connect } from "@/lib/mongoose";
 import { day_now } from "@/util/dayjs";
+import { Types, connection } from "mongoose";
+import GroupSchema from "@/schema/group";
 
 export interface Alarm {
   _id: string;
@@ -72,4 +74,52 @@ export async function getAlarm(userId: string, page: number) {
     .then((data) => {
       return { alarms: data, totalAlarms };
     });
+}
+
+export async function acceptJoin(alarmId: string) {
+  const session = await connection.startSession();
+
+  try {
+    await session
+      .withTransaction(async () => {
+        const alarm = await AlarmSchema.findOneAndDelete(
+          { _id: alarmId },
+          {
+            session: session,
+          }
+        );
+
+        if (!alarm) throw new Error("찾을 수 없는 요청");
+
+        if (!alarm.groupId) throw new Error("그룹 에러");
+
+        if (!alarm.from) throw new Error("사용자 에러");
+        //인원체크
+        const group = await getGroup(alarm.groupId._id);
+
+        if (group && group?.max_user <= group?.users.length)
+          throw new Error("그룹에 더이상 참여할 수 없습니다");
+
+        // 방안에 유저 체크
+        const isJoin = await getIsJoinGroup(alarm.groupId._id, alarm.from);
+
+        if (isJoin) throw new Error("이미 그룹에 참여하고 있습니다.");
+
+        return GroupSchema.findByIdAndUpdate(
+          alarm.groupId._id,
+          {
+            $push: { users: alarm.from },
+          },
+          { session: session }
+        );
+      })
+      .then(() => session.endSession());
+  } catch (e: any) {
+    await session.endSession();
+    throw new Error(e);
+  }
+}
+
+export async function declineJoin(alarmId: string) {
+  return AlarmSchema.findOneAndDelete({ _id: alarmId });
 }

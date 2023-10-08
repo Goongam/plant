@@ -28,9 +28,13 @@ export async function AddComment(
       })
         .save()
         .then((res) =>
-          PostSchema.findByIdAndUpdate(postId, {
-            $push: { comments: res._id },
-          })
+          PostSchema.findByIdAndUpdate(
+            postId,
+            {
+              $push: { comments: res._id },
+            },
+            { session: session }
+          )
         )
         .then((result) => {
           returnValue = result;

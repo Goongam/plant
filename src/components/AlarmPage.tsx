@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import Loading from "./ui/Loading";
 import { getTimeAgo } from "@/util/timeago";
+import JoinRequest from "./alarms/JoinRequest";
 
 const fetcher = (page: number): Promise<ResponseAlarms> =>
   fetch(`/api/alarm/${page}`).then((res) => res.json());
@@ -27,37 +28,29 @@ export default function AlarmPage() {
   const { alarms, totalAlarms } = data;
 
   const maxPage = totalAlarms / 5;
+  // const maxPage = 24;
 
   const pageArray = [];
-  for (let i = 1; i <= maxPage; i++) {
+  for (
+    let i = Math.max(page - 5, 1);
+    i <= Math.min(Math.ceil(maxPage), page + 5);
+    i++
+  ) {
     pageArray.push(i);
   }
 
   return (
     <section className="flex flex-col gap-2 p-2 max-w-2xl m-auto">
       {alarms.map((alarm) => (
-        // TODO: 알람 타입별 컴포넌트화
-        <div key={alarm._id} className="flex border-black h-28">
-          <div className="w-full h-full flex flex-col border p-1 shadow-md rounded-md">
-            <div>{alarm.groupId?.name}</div>
-            <div className="flex">{alarm.from?.name}님의 그룹 초대 요청</div>
-            <div className="mr-auto mt-auto mb-1">
-              {getTimeAgo(alarm.createAt)}
-            </div>
-          </div>
-          <div className="w-32 h-full flex flex-col ml-1 ">
-            <button className="flex-1 bg-green-300 shadow-md rounded-md">
-              수락
-            </button>
-            <button className="flex-1 bg-red-400 mt-1 shadow-md rounded-md">
-              거절
-            </button>
-          </div>
-        </div>
+        // TODO: 쪽지 기능 컴포넌트
+        <JoinRequest key={alarm._id} alarm={alarm} refetch={refetch} />
       ))}
 
       {/* 페이지버튼 */}
-      <div className="flex gap-1">
+      <div className="flex gap-1 justify-center">
+        <button onClick={() => setPage(1)} className="mr-2">
+          {"<<"}
+        </button>
         {pageArray.map((i) => (
           <button
             key={i}
@@ -69,6 +62,9 @@ export default function AlarmPage() {
             {i}
           </button>
         ))}
+        <button onClick={() => setPage(maxPage)} className="ml-2">
+          {">>"}
+        </button>
       </div>
     </section>
   );
