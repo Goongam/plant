@@ -1,7 +1,8 @@
 import { User, getUserIdbyOauthId } from "./user";
 import PostSchema from "@/schema/post";
 import UserSchema from "@/schema/user";
-
+// import GroupSchema from "@/schema/group";
+require("@/schema/group");
 import { connect } from "@/lib/mongoose";
 import { Group } from "./group";
 

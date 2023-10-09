@@ -58,10 +58,6 @@ export default function GroupDetail({ groupId }: Props) {
     setOpenLeaderModal(false);
   };
 
-  // TODO: url생성
-  // const encodeData = encode("64dcc148e97e61ca2b162cd2@2023-10-21");
-  // console.log(encodeData);
-
   const { name } = group;
   return (
     <section className="p-5">

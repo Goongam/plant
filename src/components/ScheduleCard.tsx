@@ -18,10 +18,11 @@ export default function ScheduleCard({ schedule }: Props) {
   const { handleMore, handleSimple, isClickMore, hasMore } =
     useMoreText(contentRef);
 
+  //TODO: 일정 수정
   return (
     <div className="w-full max-w-[552px] rounded-md shadow-md p-2">
       <div className="flex justify-between border-b border-black">
-        <p className="">일정시작일: {dates[0]}</p>
+        {dates && <p className="">일정시작일: {dates[0]}</p>}
         <SlCalender
           size={20}
           onClick={() => {

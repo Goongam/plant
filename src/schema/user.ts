@@ -26,7 +26,7 @@ UserSchema.pre("deleteOne", function (next) {
   //TODO: 코멘트도 자동삭제 되도록
   //TODO: 회원탈퇴 기능 만들어서 작동 테스트 하기: https://stackoverflow.com/questions/11904159/automatically-remove-referencing-objects-on-deletion-in-mongodb
   try {
-    PostSchema.deleteOne({ author: userId }, next);
+    PostSchema.deleteMany({ author: userId }, next);
   } catch (err) {
     next();
   }

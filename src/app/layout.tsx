@@ -24,7 +24,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // TODO: 커스텀 스크롤바하기
     <html lang="en" style={{ scrollbarGutter: "stable", overflowY: "scroll" }}>
       <body className={`${sans.className}`}>
         <AuthContext>
