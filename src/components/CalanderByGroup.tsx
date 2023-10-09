@@ -24,7 +24,7 @@ export default function CalanderGroup({ groupId }: Props) {
 
   const { isError, isLoading, posts } = usePostsByGroup(groupId);
 
-  const { schedules } = useAllSchedule(groupId);
+  const { schedules, refetch } = useAllSchedule(groupId);
 
   const monthStart = startOfMonth(selectDate);
   const monthEnd = endOfMonth(monthStart);

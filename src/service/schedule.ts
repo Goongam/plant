@@ -3,7 +3,7 @@ import { Group } from "./group";
 import { User, getUserIdbyOauthId } from "./user";
 import ScheduleSchema from "@/schema/schedule";
 import { connect } from "@/lib/mongoose";
-import { timeFormat } from "@/util/dayjs";
+import { dateFormat, timeFormat } from "@/util/dayjs";
 
 export interface Schedule {
   groupId: Group;
@@ -80,6 +80,7 @@ export async function getSchedules(
     dates?: any;
   } = {
     groupId,
+    dates: { $gt: dateFormat(new Date()) },
   };
 
   if (date) {

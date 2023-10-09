@@ -153,7 +153,10 @@ export default function GroupDetail({ groupId }: Props) {
       )}
 
       <Modal isOpen={openScheduleModal} setClose={setOpenScheduleModal}>
-        <ScheduleModal groupId={groupId} />
+        <ScheduleModal
+          groupId={groupId}
+          closeModal={() => setOpenScheduleModal(false)}
+        />
       </Modal>
 
       <Modal isOpen={openInviteModal} setClose={setOpenInviteModal}>

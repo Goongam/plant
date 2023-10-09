@@ -19,7 +19,7 @@ export function useAllSchedule(groupId: string) {
     {}
   );
 
-  return { schedules };
+  return { schedules, refetch };
 }
 
 export function useSchedule(groupId: string) {
@@ -119,8 +119,11 @@ export function useScheduleByUser(userId?: string) {
   };
 }
 
-export function useScheduleMutate(groupId: string) {
+export function useScheduleMutate(groupId: string, closeModal: () => void) {
   const { refetch } = useSchedule(groupId);
+
+  const { refetch: refetchAll } = useAllSchedule(groupId);
+
   const { mutate, isLoading, isError } = useMutation(
     ["schedule"],
     (data: FormData) =>
@@ -131,6 +134,8 @@ export function useScheduleMutate(groupId: string) {
     {
       onSuccess: () => {
         refetch();
+        refetchAll();
+        closeModal();
       },
     }
   );

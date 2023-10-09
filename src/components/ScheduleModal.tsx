@@ -20,10 +20,21 @@ import ScheduleCalander from "./ScheduleCalander";
 const FOCUS = "focus:border focus:border-sky-300 outline-none";
 const CENTER = "flex gap-3 p-1 items-center";
 
-export default function ScheduleModal({ groupId }: { groupId: string }) {
-  const { isError, isLoading: loading, mutate } = useScheduleMutate(groupId);
+export default function ScheduleModal({
+  groupId,
+  closeModal,
+}: {
+  groupId: string;
+  closeModal: () => void;
+}) {
+  const {
+    isError,
+    isLoading: loading,
+    mutate,
+  } = useScheduleMutate(groupId, closeModal);
 
   const [isEndDateError, setIsEndDateError] = useState(false);
+  const [isScheduleError, setIsScheduleError] = useState(false);
 
   const [scheduleDates, setScheduleDates] = useState<string[]>([]);
 
@@ -39,7 +50,14 @@ export default function ScheduleModal({ groupId }: { groupId: string }) {
   const clickSubmit = (e: FormEvent) => {
     e.preventDefault();
     setIsEndDateError(false);
+    setIsScheduleError(false);
+
     if (loading) return;
+
+    if (!scheduleDates.length) {
+      setIsScheduleError(true);
+      return;
+    }
 
     if (
       startDateRef.current &&
@@ -70,10 +88,13 @@ export default function ScheduleModal({ groupId }: { groupId: string }) {
   return (
     <section className="flex flex-col w-full max-w-sm md:max-w-xl h-[500px] md:h-[700px] bg-white rounded-md p-3 overflow-y-scroll">
       <p className="font-bold">일정 추가</p>
-      <ScheduleCalander
-        scheduleDates={scheduleDates}
-        setScheduleDates={setScheduleDates}
-      />
+
+      <div className={`w-full ${isScheduleError && "border border-red-300"}`}>
+        <ScheduleCalander
+          scheduleDates={scheduleDates}
+          setScheduleDates={setScheduleDates}
+        />
+      </div>
       <form
         onSubmit={clickSubmit}
         className="flex flex-col h-full justify-between mt-4"
@@ -92,7 +113,11 @@ export default function ScheduleModal({ groupId }: { groupId: string }) {
             <input type="checkbox" ref={isAllMemberRef} />
           </div>
         </div>
-
+        {isError && (
+          <div className="w-full flex items-center justify-center h-16 bg-red-200  font-bold rounded-md ">
+            일정 추가에 문제가 발생하였습니다. 잠시후 다시 시도해주세요
+          </div>
+        )}
         <button className="w-full h-10 bg-green-300 rounded-md cursor-pointer p-1 mt-2">
           {loading ? (
             <Loading type="Pulse" size={10} color="white" customStyle="h-10" />
