@@ -164,7 +164,7 @@ export async function getIsJoinGroup(
   userId: mongoose.Types.ObjectId | User
 ) {
   await connect();
-  const inuser = await GroupSchema.findOne({ _id: groupId }, "")
+  const inuser = await GroupSchema.findOne({ _id: groupId })
     .where("users")
     .in([userId]);
 

@@ -19,6 +19,7 @@ import LeaderGroupModel from "./LeaderGroupModal";
 import Modal from "./Modal";
 import ScheduleModal from "./ScheduleModal";
 import PostAndSchedule from "./PostAndSchedule";
+import InviteModal from "./InviteModal";
 
 interface Props {
   groupId: string;
@@ -28,6 +29,7 @@ export default function GroupDetail({ groupId }: Props) {
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
   const [openLeaderModal, setOpenLeaderModal] = useState(false);
   const [openScheduleModal, setOpenScheduleModal] = useState(false);
+  const [openInviteModal, setOpenInviteModal] = useState(false);
 
   const { group, isLoading, isError } = useGroup(groupId);
 
@@ -56,10 +58,9 @@ export default function GroupDetail({ groupId }: Props) {
     setOpenLeaderModal(false);
   };
 
-  const changeLeader = () => {
-    setOpenLeaderModal(true);
-    setOpenLeaveModal(false);
-  };
+  // TODO: url생성
+  // const encodeData = encode("64dcc148e97e61ca2b162cd2@2023-10-21");
+  // console.log(encodeData);
 
   const { name } = group;
   return (
@@ -68,9 +69,19 @@ export default function GroupDetail({ groupId }: Props) {
         <h2 className="text-2xl font-bold">{name}</h2>
         <div>
           {isLeader && (
+            <button
+              onClick={() => {
+                setOpenInviteModal(true);
+              }}
+              className="rounded-lg bg-blue-300 px-3 py-1 font-bold text-white"
+            >
+              초대코드 생성
+            </button>
+          )}
+          {isLeader && (
             <Link
               href={`/group/setting/${groupId}`}
-              className="rounded-lg bg-red-400 px-3 py-1 font-bold text-white"
+              className="rounded-lg bg-red-400 px-3 py-1 font-bold text-white ml-1"
             >
               그룹설정
             </Link>
@@ -78,10 +89,6 @@ export default function GroupDetail({ groupId }: Props) {
           <button
             className="rounded-lg bg-orange-400 px-3 py-1 font-bold text-white ml-1"
             onClick={() => {
-              // fetch("/api/schedule/new", {
-              //   method: "post",
-              //   body: JSON.stringify({ groupId }),
-              // });
               setOpenScheduleModal(true);
             }}
           >
@@ -102,8 +109,6 @@ export default function GroupDetail({ groupId }: Props) {
           <div>
             <Calander groupId={groupId} />
           </div>
-          {/* TODO: 일정 container */}
-
           <PostAndSchedule groupId={groupId} />
         </div>
         <div className="w-36 h-fit hidden md:block">
@@ -149,6 +154,10 @@ export default function GroupDetail({ groupId }: Props) {
 
       <Modal isOpen={openScheduleModal} setClose={setOpenScheduleModal}>
         <ScheduleModal groupId={groupId} />
+      </Modal>
+
+      <Modal isOpen={openInviteModal} setClose={setOpenInviteModal}>
+        <InviteModal groupId={groupId} />
       </Modal>
     </section>
   );

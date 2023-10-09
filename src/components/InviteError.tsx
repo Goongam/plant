@@ -2,14 +2,23 @@
 
 import { useRouter } from "next/navigation";
 
+import { useState, useEffect } from "react";
+
 interface Props {
   msg?: string;
   url: string;
 }
 export default function InviteError({ msg, url }: Props) {
-  if (msg) alert(msg);
+  const [t, st] = useState("");
   const router = useRouter();
-  router.push(url);
+
+  useEffect(() => {
+    if (msg) {
+      alert(msg);
+    }
+
+    router.push(url);
+  }, [t, router, msg, url]);
 
   return <></>;
 }
