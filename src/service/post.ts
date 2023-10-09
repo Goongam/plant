@@ -14,7 +14,7 @@ export interface Comment {
   _id: string;
   author: User;
   content: string;
-  postId: Post;
+  postId: Post | string;
   createAt: Date | string;
 }
 export interface Post {

@@ -16,10 +16,6 @@ export default function CommentLine({ comment }: { comment: Comment }) {
         <p className="text-xs">
           <span className="font-bold">{comment.author.name}</span>
           <time className="text-black/40 ml-1">
-            {/* TODO: 
-        1. 댓글 추가 만들기
-        2. DB에서 날짜 가져오기
-        3. 댓글 여러개 일때 css, infinity scroll 구현 */}
             {getTimeAgo(comment.createAt)}
           </time>
         </p>
