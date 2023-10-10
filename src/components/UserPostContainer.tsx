@@ -1,7 +1,5 @@
 import { postFilterDate, postFilterUser } from "@/state";
-import GroupPosts from "./GroupPosts";
 import { useInfinityPosts } from "@/hooks/post";
-import { day_now } from "@/util/dayjs";
 
 interface Props {
   filterDate?: postFilterDate;
@@ -38,7 +36,6 @@ export default function UserPostContainer({
           <p onClick={() => refetch()}>새로고침</p>
         </div>
       )}
-      {/* <GroupPosts groupId={groupId} /> */}
     </>
   );
 }
