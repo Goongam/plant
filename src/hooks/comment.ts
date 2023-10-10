@@ -30,13 +30,6 @@ export function useComment(
   const quertClient = useQueryClient();
   const me = useMe();
 
-  // const {
-  //   data: comments,
-  //   isLoading,
-  //   isError,
-  //   refetch,
-  // } = useQuery<Comment[]>(["comment", postId], () => fetcher(postId));
-
   const {
     data: comments,
     isLoading,
@@ -55,7 +48,6 @@ export function useComment(
   );
 
   //mutate
-
   const { mutate: updateComment, isError: updateError } = useMutation(
     ["comment", postId],
     AddComment,

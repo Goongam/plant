@@ -39,6 +39,7 @@ export default function CommentModalDetail({ post }: { post: Post }) {
                 코멘트 추가 중 에러가 발생하였습니다. 잠시후 다시 시도해주세요
               </div>
             )}
+            {/* TODO: 한번에 다 받아오는거 수정 */}
             <InfiniteScroll
               loadMore={() => {
                 if (!isFetching) fetchNextPage();
