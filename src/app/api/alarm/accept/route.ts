@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     if (!alarmId) return new Response("Bad Request", { status: 401 });
 
     return acceptJoin(alarmId)
-      .then((result) => NextResponse.json(result))
+      .then((result) => NextResponse.json({}))
       .catch((err) => new Response(err, { status: 500 }));
   });
 }

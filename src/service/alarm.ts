@@ -80,7 +80,7 @@ export async function acceptJoin(alarmId: string) {
   const session = await connection.startSession();
 
   try {
-    await session
+    return await session
       .withTransaction(async () => {
         const alarm = await AlarmSchema.findOneAndDelete(
           { _id: alarmId },
