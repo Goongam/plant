@@ -80,7 +80,7 @@ export async function getSchedules(
     dates?: any;
   } = {
     groupId,
-    dates: { $gt: dateFormat(new Date()) },
+    dates: { $gte: dateFormat(new Date()) },
   };
 
   if (date) {
