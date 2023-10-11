@@ -185,7 +185,10 @@ export async function getIsJoinGroup(
 
 export async function joinGroup(oauthid: string, groupId: string) {
   await connect();
+  console.log(oauthid);
+
   const id = await getUserIdbyOauthId(oauthid);
+  console.log(id?._id);
 
   if (!id?._id) throw new Error("User not Found");
 
