@@ -21,16 +21,17 @@ export default function ScheduleCard({ schedule }: Props) {
   //TODO: 일정 수정
   return (
     <div className="w-full max-w-[552px] rounded-md shadow-md p-2">
-      <div className="flex justify-between border-b border-black">
+      <div className="flex justify-between border-b border-black py-1 pt-2 mb-1">
         {dates && <p className="">일정시작일: {dates[0]}</p>}
         <SlCalender
           size={20}
           onClick={() => {
             setIsModal(true);
           }}
+          className="ml-auto cursor-pointer"
         />
       </div>
-      <p className="font-bold text-xl">{title}</p>
+      <p className="font-bold text-xl mb-1">{title}</p>
       {/* <div ref={contentRef} className="h-24 overflow-y-scroll">{content}</div> */}
       <div
         ref={contentRef}

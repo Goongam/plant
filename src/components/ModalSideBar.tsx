@@ -11,6 +11,7 @@ import ModalBackground from "./ModalBackground";
 import NewGroupModal from "./NewGroupModal";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import MessageIcon from "./ui/icons/MessageIcon";
 
 interface Props {
   user: User | undefined;
@@ -41,7 +42,7 @@ export default function ModalSideBar({ user }: Props) {
           <InfoIcon /> 내 정보
         </Link>
         <Link href={"/notification"} className={BUTTON_STYLE}>
-          <ContactIcon /> 알림
+          <MessageIcon /> 알림
         </Link>
         <button className={BUTTON_STYLE}>
           <ContactIcon /> 문의

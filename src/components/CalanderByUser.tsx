@@ -55,7 +55,7 @@ export default function CalanderUser({ userId }: Props) {
   };
 
   return (
-    <>
+    <section className="p-1">
       <div className="flex flex-row">
         <h2 className="text-2xl w-full">
           <span className=" border-b-2 border-[#4D8295]">
@@ -88,6 +88,6 @@ export default function CalanderUser({ userId }: Props) {
           ))
         )}
       </div>
-    </>
+    </section>
   );
 }
