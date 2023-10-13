@@ -7,10 +7,10 @@ import RecoilContext from "@/context/RecoilContext";
 
 export const metadata = {
   title: {
-    default: "GF",
-    template: "GF | %s",
+    default: "PLANT",
+    template: "PLANT | %s",
   },
-  description: "GF",
+  description: "PLANT",
   icons: {
     icon: "/favicon.ico",
   },

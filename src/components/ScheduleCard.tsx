@@ -6,11 +6,16 @@ import { useState, useRef } from "react";
 import ScheduleCalander from "./ScheduleCalander";
 import Modal from "./Modal";
 import { useMoreText } from "@/hooks/moreText";
+import useMe from "@/hooks/me";
 interface Props {
   schedule: Schedule;
 }
 export default function ScheduleCard({ schedule }: Props) {
-  const { content, groupId, isAllMember, title, members, dates } = schedule;
+  const { content, groupId, isAllMember, title, members, dates, createBy } =
+    schedule;
+
+  const me = useMe();
+
   const [scheduleDates, setScheduleDates] = useState<string[]>(dates);
   const [isModal, setIsModal] = useState(false);
 
@@ -18,18 +23,26 @@ export default function ScheduleCard({ schedule }: Props) {
   const { handleMore, handleSimple, isClickMore, hasMore } =
     useMoreText(contentRef);
 
+  const deleteSchedule = () => {
+    // TODO: 삭제 mutate, optimistic opdate
+  };
   //TODO: 일정 수정
   return (
     <div className="w-full max-w-[552px] rounded-md shadow-md p-2">
       <div className="flex justify-between border-b border-black py-1 pt-2 mb-1">
         {dates && <p className="">일정시작일: {dates[0]}</p>}
-        <SlCalender
-          size={20}
-          onClick={() => {
-            setIsModal(true);
-          }}
-          className="ml-auto cursor-pointer"
-        />
+        <div className="flex gap-1 ml-auto">
+          {createBy.id === me?.id && (
+            <button onClick={deleteSchedule}>삭제</button>
+          )}
+          <SlCalender
+            size={20}
+            onClick={() => {
+              setIsModal(true);
+            }}
+            className="cursor-pointer"
+          />
+        </div>
       </div>
       <p className="font-bold text-xl mb-1">{title}</p>
       {/* <div ref={contentRef} className="h-24 overflow-y-scroll">{content}</div> */}
