@@ -39,9 +39,10 @@ export default function GroupList({ selectCategory }: Props) {
   if (end_time)
     groupList = groupList?.filter(
       (group) =>
-        new Date(group.end_date) <
-        new Date(new Date(end_time).getTime() + 24 * 60 * 60 * 1000)
+        new Date(group.end_date).getTime() <
+        new Date(new Date(end_time).getTime()).getTime()
     );
+
   //참가비 필터링
   if (cost && cost !== "전체")
     groupList = groupList?.filter((group) => {
@@ -68,10 +69,21 @@ export default function GroupList({ selectCategory }: Props) {
       } ${groupList?.length && "lg:grid-cols-3"} gap-5 m-3`}
     >
       {groupList?.length ? (
-        groupList?.map((group, index) => {
-          if (group.category === selectCategory || selectCategory === "전체")
-            return <GroupListCard key={`${group._id}${index}`} group={group} />;
-        })
+        groupList
+          ?.sort(
+            (A, B) =>
+              new Date(A.end_date).getTime() - new Date(B.end_date).getTime()
+          )
+          .filter(
+            (group) =>
+              0 < new Date(group.end_date).getTime() - new Date().getTime()
+          )
+          .map((group, index) => {
+            if (group.category === selectCategory || selectCategory === "전체")
+              return (
+                <GroupListCard key={`${group._id}${index}`} group={group} />
+              );
+          })
       ) : (
         <div className="w-full h-full flex flex-col justify-center items-center">
           <p>선택하신 방을 찾을 수 없습니다</p>

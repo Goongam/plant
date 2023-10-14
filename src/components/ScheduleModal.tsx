@@ -3,6 +3,8 @@ import StyleInput from "./ui/StyleInput";
 import Loading from "./ui/Loading";
 import { useScheduleMutate } from "@/hooks/schedule";
 import ScheduleCalander from "./ScheduleCalander";
+import { useGroup } from "@/hooks/group";
+import useMe from "@/hooks/me";
 
 /*
     groupId,
@@ -37,6 +39,9 @@ export default function ScheduleModal({
   const [isScheduleError, setIsScheduleError] = useState(false);
 
   const [scheduleDates, setScheduleDates] = useState<string[]>([]);
+
+  const { group } = useGroup(groupId);
+  const me = useMe();
 
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -77,6 +82,8 @@ export default function ScheduleModal({
     startDateRef.current &&
       formdata.append("startData", startDateRef.current.value);
     endDateRef.current && formdata.append("endDate", endDateRef.current.value);
+    isAllMemberRef.current &&
+      formdata.append("allMember", `${isAllMemberRef.current.checked}`);
 
     scheduleDates.forEach((date) => {
       formdata.append("dates", date);
@@ -110,7 +117,11 @@ export default function ScheduleModal({
 
           <div className={`${CENTER}`}>
             <p className="text-gray-400 w-28">전체 일정 여부</p>
-            <input type="checkbox" ref={isAllMemberRef} />
+            <input
+              type="checkbox"
+              ref={isAllMemberRef}
+              disabled={group?.leader.id !== me?.id}
+            />
           </div>
         </div>
         {isError && (

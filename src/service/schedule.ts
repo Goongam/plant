@@ -26,7 +26,7 @@ export async function AddSchedule(
   // startDate: string,
   // endDate: string,
   dates: string[],
-  isAllMember?: string
+  isAllMember: boolean
 ) {
   await connect();
   const id = await getUserIdbyOauthId(oauthId);
@@ -39,7 +39,7 @@ export async function AddSchedule(
     // startDate: timeFormat(startDate),
     // endDate: timeFormat(endDate),
     dates,
-    isAllMember: true,
+    isAllMember,
     members: [id],
   });
   return newSchedule.save();
@@ -88,13 +88,20 @@ export async function getSchedules(
   }
 
   if (page) {
-    return ScheduleSchema.find(filter, "", {
-      sort: { startDate: -1 },
-      limit: showScheduleCount,
-      skip: (page - 1) * showScheduleCount,
-    })
-      .where("members")
-      .in([id])
+    return ScheduleSchema.find(
+      {
+        $or: [
+          { ...filter, isAllMember: true },
+          { ...filter, members: id },
+        ],
+      },
+      "",
+      {
+        sort: { startDate: -1 },
+        limit: showScheduleCount,
+        skip: (page - 1) * showScheduleCount,
+      }
+    )
       .populate("groupId createBy members")
       .then((sc) => {
         return {
@@ -167,4 +174,17 @@ export async function getSchedulesByUser(
         .lean()
     );
   }
+}
+
+export async function deleteSchedule(scheduleId: string, userId: string) {
+  await connect();
+
+  const user = await getUserIdbyOauthId(userId);
+
+  return ScheduleSchema.findOneAndDelete({
+    createBy: user,
+    _id: scheduleId,
+  }).catch((err) => {
+    throw new Error("삭제에 실패했습니다.");
+  });
 }

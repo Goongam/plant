@@ -159,7 +159,9 @@ export async function deletePost(postId: string, requestUserId: string) {
   const leader = await UserSchema.findById(post?.group.leader);
 
   if (post?.author.id === requestUserId || leader?.id === requestUserId) {
-    return PostSchema.findByIdAndDelete(postId);
+    return PostSchema.findByIdAndDelete(postId).catch(() => {
+      throw new Error("삭제에 실패하였습니다.");
+    });
   } else {
     throw new Error("Authorization Error");
   }

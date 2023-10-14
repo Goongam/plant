@@ -56,19 +56,19 @@ export default function PostCard({ post, me, refresh }: Props) {
   const modify = () => {
     router.push(`/edit/${post._id}`);
   };
-  //TODO: 탈퇴한 사용자 처리
-  if (!author) {
-    return;
-  }
 
   return (
     <div className="w-full max-w-[552px] h-fit flex flex-row gap-1 rounded-md shadow-md">
-      <Avatar image={author?.image} size="s" customClass="m-2" />
+      <Avatar
+        image={author ? author.image : "/avatar_common.jpg"}
+        size="s"
+        customClass="m-2"
+      />
 
       <div className="w-full h-full">
         <div className="flex flex-row justify-between items-center gap-4 p-2">
           <p>
-            {author?.name} · {getTimeAgo(createAt)}
+            {author ? author.name : "탈퇴한 사용자"} · {getTimeAgo(createAt)}
           </p>
           <div className="flex gap-1">
             <button
@@ -82,8 +82,12 @@ export default function PostCard({ post, me, refresh }: Props) {
                 fetch("/api/post/delete", {
                   method: "post",
                   body: JSON.stringify({ postId: post._id }),
-                }).then(() => {
-                  if (refresh) refresh();
+                }).then((res) => {
+                  if (res.ok) {
+                    if (refresh) refresh();
+                  } else {
+                    alert("삭제에 실패하였습니다.");
+                  }
                 });
               }}
               //TODO: 그룹 없을 때 처리

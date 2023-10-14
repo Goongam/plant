@@ -72,7 +72,11 @@ export default function ScheduleContainer({
         {data?.pages[0].schedules.length
           ? data.pages.map((page: { schedules: Schedule[]; next: number }) =>
               page.schedules.map((schedule) => (
-                <ScheduleCard key={schedule._id} schedule={schedule} />
+                <ScheduleCard
+                  key={schedule._id}
+                  schedule={schedule}
+                  refetch={refetch}
+                />
               ))
             )
           : !isFetching && <div>일정이 없어요</div>}

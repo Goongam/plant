@@ -9,8 +9,9 @@ import { useMoreText } from "@/hooks/moreText";
 import useMe from "@/hooks/me";
 interface Props {
   schedule: Schedule;
+  refetch: () => void;
 }
-export default function ScheduleCard({ schedule }: Props) {
+export default function ScheduleCard({ schedule, refetch }: Props) {
   const { content, groupId, isAllMember, title, members, dates, createBy } =
     schedule;
 
@@ -24,7 +25,19 @@ export default function ScheduleCard({ schedule }: Props) {
     useMoreText(contentRef);
 
   const deleteSchedule = () => {
-    // TODO: 삭제 mutate, optimistic opdate
+    fetch(`/api/schedule/delete`, {
+      method: "post",
+      body: JSON.stringify({
+        scheduleId: schedule._id,
+      }),
+    }).then(async (res) => {
+      if (res.ok) {
+        alert("삭제되었습니다");
+        refetch();
+      } else {
+        alert(await res.text());
+      }
+    });
   };
   //TODO: 일정 수정
   return (

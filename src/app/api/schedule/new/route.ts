@@ -19,9 +19,12 @@ export async function POST(req: Request) {
     //comment
     // const endDate = form.get("endDate") as string;
 
+    const isAllMember =
+      (form.get("allMember") as string) === "true" ? true : false;
+
     const dates = form.getAll("dates") as string[];
 
-    return AddSchedule(group, user.id, title, description, dates)
+    return AddSchedule(group, user.id, title, description, dates, isAllMember)
       .then((res) => NextResponse.json(res))
       .catch((err) => new Response(err, { status: 500 }));
   });
