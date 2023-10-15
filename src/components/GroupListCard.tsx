@@ -7,15 +7,18 @@ import ModalBackground from "./ModalBackground";
 import GroupModalDetail from "./GroupModalDetail";
 interface Props {
   group: SimpleGroup;
+  active?: boolean;
 }
-export default function GroupListCard({ group }: Props) {
+export default function GroupListCard({ group, active = true }: Props) {
   const [openModal, setOpenModal] = useState(false);
   const { category, end_date, max_user, name, users, description } = group;
 
   return (
     <>
       <div
-        className="flex flex-col w-full h-[200px] rounded-md bg-[#FFFFFF] border border-[#d8d5c7] shadow-md p-5"
+        className={`flex flex-col w-full h-[200px] rounded-md border border-[#d8d5c7] shadow-md p-5 ${
+          active ? "bg-[#FFFFFF]" : "bg-gray-300"
+        }`}
         onClick={() => {
           setOpenModal(true);
         }}

@@ -23,9 +23,18 @@ export default function MyGroups() {
         groups?.length && "md:grid-cols-2"
       } ${groups?.length && "lg:grid-cols-3"} gap-5 p-3`}
     >
-      {groups.map((group) => (
-        <GroupListCard key={group._id} group={group} />
-      ))}
+      {groups
+        .sort((A, B) => {
+          if (new Date(B.end_date) >= new Date()) return 1;
+          else return -1;
+        })
+        .map((group) => (
+          <GroupListCard
+            key={group._id}
+            group={group}
+            active={new Date(group.end_date) >= new Date()}
+          />
+        ))}
     </div>
   );
 }
