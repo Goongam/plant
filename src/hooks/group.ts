@@ -22,7 +22,7 @@ export function useGroup(groupId: string) {
       }),
     {
       onError(err) {
-        alert(err);
+        alert("그룹정보를 가져오는데 실패하였습니다");
         router.push("/");
       },
       retry: 0,

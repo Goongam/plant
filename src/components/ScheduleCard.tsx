@@ -35,7 +35,8 @@ export default function ScheduleCard({ schedule, refetch }: Props) {
         alert("삭제되었습니다");
         refetch();
       } else {
-        alert(await res.text());
+        // alert(await res.text());
+        alert("오류로 인해 삭제에 실패하였습니다.");
       }
     });
   };

@@ -16,7 +16,7 @@ export default function JoinRequest({ alarm, refetch }: Props) {
         refetch();
       } else {
         // alert(res)
-        alert(await res.text());
+        alert("오류로 인해 가입에 실패하였습니다.");
         refetch();
       }
     });
