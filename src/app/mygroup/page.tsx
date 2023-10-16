@@ -5,7 +5,12 @@ import { redirect } from "next/navigation";
 import { AuthOption } from "../api/auth/[...nextauth]/route";
 import GroupListCard from "@/components/GroupListCard";
 import MyGroups from "@/components/MyGroups";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "내 그룹",
+  description: "내 그룹 보기",
+};
 export default async function MyGroup() {
   const session = await getServerSession(AuthOption);
 

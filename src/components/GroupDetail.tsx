@@ -110,7 +110,7 @@ export default function GroupDetail({ groupId }: Props) {
         <div className="w-36 h-fit hidden md:block">
           <div>참여자</div>
           <Participant users={group.users} />
-          <div className="mt-3">채팅</div>
+
           <div>
             {user?.id !== group.leader.id && (
               <button

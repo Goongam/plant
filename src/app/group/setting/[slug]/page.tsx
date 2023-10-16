@@ -3,6 +3,13 @@ import GroupSetting from "@/components/GroupSetting";
 import { Group, getGroup, getLeader } from "@/service/group";
 import { getServerSession } from "next-auth";
 
+export async function generateMetadata({ params }: Props) {
+  const group = await getGroup(params.slug);
+  return {
+    title: `${group?.name} 설정`,
+  };
+}
+
 interface Props {
   params: { slug: string };
 }

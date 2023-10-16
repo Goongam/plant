@@ -67,7 +67,7 @@ export default function PostContainer({
       )}
 
       <>
-        {data && (
+        {!!data?.pages[0].posts.length ? (
           <InfiniteScroll
             loadMore={() => {
               if (!isFetching) fetchNextPage();
@@ -86,8 +86,11 @@ export default function PostContainer({
               ))
             )}
           </InfiniteScroll>
+        ) : isFetching ? (
+          <Loading type="Moon" />
+        ) : (
+          <div className="text-center">포스트가 없어요</div>
         )}
-        {isFetching && <Loading type="Moon" />}
       </>
     </>
   );

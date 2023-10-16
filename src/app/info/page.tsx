@@ -1,7 +1,12 @@
 import { getServerSession } from "next-auth";
 import { AuthOption } from "../api/auth/[...nextauth]/route";
 import MyInfo from "@/components/MyInfo";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "내 정보",
+  description: "내 정보 보기",
+};
 export default async function Info() {
   const session = await getServerSession(AuthOption);
 

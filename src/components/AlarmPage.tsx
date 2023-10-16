@@ -23,7 +23,8 @@ export default function AlarmPage() {
   }, [page, refetch]);
 
   if (isLoading) return <Loading type="Moon" />;
-  if (!data) return <section>알람이 없어요</section>;
+  if (!data?.alarms.length)
+    return <section className="text-center my-10">받은 알람이 없어요</section>;
 
   const { alarms, totalAlarms } = data;
 

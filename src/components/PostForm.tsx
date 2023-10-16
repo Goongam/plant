@@ -116,12 +116,14 @@ export default function PostForm({
   return (
     <section className="w-full h-full flex-col items-center">
       {(mutating || isSuccess) && (
-        <div className="absolute w-full h-full top-0 bg-slate-300/75 flex justify-center items-center z-50">
+        <div className="fixed w-full h-full top-0 bg-slate-300/75 flex justify-center items-center z-50">
           <Loading type="Moon" size={30} />
         </div>
       )}
       <h2 className="border-b-4 border-gray-400 p-4 pb-4 mx-2 mb-10 font-bold text-2xl">
-        {type === "new" ? `${group?.name} · 새 글 작성` : "글 수정"}
+        {type === "new" && group?.name
+          ? `${group?.name} · 새 글 작성`
+          : "글 수정"}
       </h2>
       {mutateError && (
         <div className="w-full h-32 bg-red-300 flex justify-center items-center p-5 text-white text-2xl font-bold mb-1">
@@ -141,13 +143,14 @@ export default function PostForm({
         />
         <label
           htmlFor="input-form"
-          className="flex justify-center items-center w-full h-52 bg-slate-100"
+          className="flex flex-col justify-center items-center w-full h-52 bg-slate-100"
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
           <FilesIcon />
+          <p className="text-gray-600">드래그해서 이미지 추가</p>
         </label>
         <div className="w-full grid grid-cols-5">
           {getImageElement(images).map((img, index) =>

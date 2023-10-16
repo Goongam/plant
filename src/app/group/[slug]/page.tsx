@@ -1,6 +1,12 @@
 import GroupDetail from "@/components/GroupDetail";
-import { useQuery } from "react-query";
+import { getGroup } from "@/service/group";
 
+export async function generateMetadata({ params }: Props) {
+  const group = await getGroup(params.slug);
+  return {
+    title: `${group?.name}`,
+  };
+}
 interface Props {
   params: { slug: string };
 }

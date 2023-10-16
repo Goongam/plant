@@ -47,7 +47,7 @@ export default function UserPostsContainer({ userId, showAllPost }: Props) {
           <p onClick={() => refetch()}>새로고침</p>
         </div>
       )}
-      {data && (
+      {data ? (
         <InfiniteScroll
           loadMore={() => {
             if (!isFetching) fetchNextPage();
@@ -61,8 +61,11 @@ export default function UserPostsContainer({ userId, showAllPost }: Props) {
             ))
           )}
         </InfiniteScroll>
+      ) : isFetching ? (
+        <Loading type="Moon" />
+      ) : (
+        <div className="text-center">포스트가 없어요</div>
       )}
-      {isFetching && <Loading type="Moon" />}
     </>
   );
 }
