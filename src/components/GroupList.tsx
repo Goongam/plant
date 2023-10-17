@@ -71,13 +71,16 @@ export default function GroupList({ selectCategory }: Props) {
       {groupList?.length ? (
         groupList
           ?.sort(
+            //시간 빠른순
             (A, B) =>
               new Date(A.end_date).getTime() - new Date(B.end_date).getTime()
           )
           .filter(
+            //만료된 그룹 x
             (group) =>
               0 < new Date(group.end_date).getTime() - new Date().getTime()
           )
+          .filter((group) => group.active)
           .map((group, index) => {
             if (group.category === selectCategory || selectCategory === "전체")
               return (

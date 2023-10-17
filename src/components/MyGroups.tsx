@@ -24,6 +24,7 @@ export default function MyGroups() {
       } ${groups?.length && "lg:grid-cols-3"} gap-5 p-3`}
     >
       {groups
+        .filter((group) => group.active)
         .sort((A, B) => {
           if (new Date(B.end_date) >= new Date()) return 1;
           else return -1;

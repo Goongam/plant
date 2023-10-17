@@ -4,6 +4,7 @@ import { User, UserId, getUserIdbyOauthId } from "./user";
 import GroupSchema from "@/schema/group";
 import mongoose from "mongoose";
 import { dateFormat, day_now, timeFormat } from "@/util/dayjs";
+import ScheduleSchema from "@/schema/schedule";
 
 export interface Group {
   _id: string;
@@ -272,6 +273,35 @@ export async function changeLeader(
 
   return GroupSchema.findByIdAndUpdate(groupId, {
     $set: { leader: id },
+  });
+}
+
+export async function deleteGroup(groupId: string, userId: string) {
+  await connect();
+
+  const group = await getGroup(groupId);
+
+  if (userId !== group?.leader.id) throw new Error("Authentication Error2");
+
+  if (group.users.length >= 2)
+    throw new Error("유저가 2명이상 참가 중", { cause: 400 });
+
+  const session = await mongoose.startSession();
+  return session.withTransaction(async () => {
+    //1.일정삭제
+    //2.active false로 바꾸기
+
+    await GroupSchema.findOneAndUpdate(
+      { _id: groupId },
+      { $set: { active: false } },
+      { session: session }
+    );
+
+    return ScheduleSchema.deleteMany(
+      { groupId: groupId },
+      { session: session }
+    );
+    // return GroupSchema.findByIdAndUpdate()
   });
 }
 
