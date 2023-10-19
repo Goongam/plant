@@ -28,7 +28,7 @@ export default function GroupSetting({ groupId }: { groupId: string }) {
 
   return (
     <section className="w-full h-full flex mt-4 gap-3">
-      <div className="h-full w-40 border-r border-black flex flex-col justify-center items-center gap-2">
+      <div className="w-40 border-r border-black flex flex-col items-center gap-2">
         {settings.map((setting, index) => (
           <button
             className={`${

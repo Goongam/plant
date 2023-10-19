@@ -20,6 +20,7 @@ import Modal from "./Modal";
 import ScheduleModal from "./ScheduleModal";
 import PostAndSchedule from "./PostAndSchedule";
 import InviteModal from "./InviteModal";
+import InviteError from "./InviteError";
 
 interface Props {
   groupId: string;
@@ -38,6 +39,9 @@ export default function GroupDetail({ groupId }: Props) {
 
   const isLeader = group?.leader?.id === user?.id;
 
+  if (group?.active === false) {
+    return <InviteError url="/" msg="폐쇄된 그룹입니다." />;
+  }
   if (isLoading || !group) return <Loading type="Moon" customStyle="mt-3" />;
 
   if (isError) {
