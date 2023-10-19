@@ -28,7 +28,7 @@ server: vercel
 <br><img src="https://github.com/Goongam/plant/assets/59019137/9c750e33-0288-4fa9-8fa6-857bb87ceaef" width="500" style="margin-bottom:10px"/>
   <br><br><br><br><br><br>
 
-- 그룹 생성
+- 그룹 생성 / 삭제
 <br><img src="https://github.com/Goongam/plant/assets/59019137/5292b796-890a-4143-b0e4-e07f46f6dc7a" width="350"/><br><br><br><br><br><br>
 - 그룹 정보 수정
   1. 그룹 상세 정보 변경
@@ -45,6 +45,4 @@ server: vercel
 </ol>
 
 ## 추가될 기능
-- 그룹 삭제(그룹 삭제 조건과 그룹 내 남아있는 포스트의 처리 방법 고안 필요 )
 - 필터링 기능 추가
-- 카카오 알림톡
