@@ -21,6 +21,7 @@ interface Props {
   isFetching: boolean;
   hasNextPage: boolean | undefined;
   fetchNextPage: () => void;
+  showGroupName?: boolean;
 }
 export const POST_HEADER = "my-2 p-2 flex justify-between items-center";
 
@@ -33,6 +34,7 @@ export default function PostContainer({
   hasNextPage,
   isFetching,
   refetch,
+  showGroupName = false,
 }: Props) {
   const me = useMe();
 
@@ -82,6 +84,7 @@ export default function PostContainer({
                   post={post}
                   me={me}
                   refresh={refetch}
+                  showGroupName={showGroupName}
                 />
               ))
             )}

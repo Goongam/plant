@@ -59,6 +59,7 @@ export default function PostAndScheduleByUser({ userId }: Props) {
           hasNextPage={PostHasNextPage}
           isFetching={PostIsFetching}
           refetch={PostRefetch}
+          showGroupName={true}
         />
       ) : (
         <ScheduleContainer
@@ -69,6 +70,7 @@ export default function PostAndScheduleByUser({ userId }: Props) {
           refetch={refetch}
           showAllSchedule={showAllPost}
           filterDate={filterDate}
+          showGroupName={true}
         />
       )}
     </div>

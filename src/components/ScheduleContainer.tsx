@@ -19,6 +19,7 @@ interface Props {
   isFetching: boolean;
   hasNextPage: boolean | undefined;
   fetchNextPage: () => void;
+  showGroupName?: boolean;
 }
 
 export default function ScheduleContainer({
@@ -29,6 +30,7 @@ export default function ScheduleContainer({
   refetch,
   filterDate,
   showAllSchedule,
+  showGroupName = false,
 }: Props) {
   // const { data, fetchNextPage, isFetching, hasNextPage, refetch } =
   //   useSchedule(groupId);
@@ -76,6 +78,7 @@ export default function ScheduleContainer({
                   key={schedule._id}
                   schedule={schedule}
                   refetch={refetch}
+                  showGroupName={showGroupName}
                 />
               ))
             )
