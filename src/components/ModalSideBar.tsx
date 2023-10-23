@@ -9,7 +9,6 @@ import { useState } from "react";
 import ModalPortal from "./ModalPortal";
 import ModalBackground from "./ModalBackground";
 import NewGroupModal from "./NewGroupModal";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import MessageIcon from "./ui/icons/MessageIcon";
 
@@ -44,9 +43,9 @@ export default function ModalSideBar({ user }: Props) {
         <Link href={"/notification"} className={BUTTON_STYLE}>
           <MessageIcon /> 알림
         </Link>
-        <button className={BUTTON_STYLE}>
+        <Link href={"/contact"} className={BUTTON_STYLE}>
           <ContactIcon /> 문의
-        </button>
+        </Link>
 
         <button
           className={`w-full border-t border-neutral-200 text-start mt-1 pt-2 ${BUTTON_STYLE}`}
