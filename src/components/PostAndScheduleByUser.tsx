@@ -42,7 +42,7 @@ export default function PostAndScheduleByUser({ userId }: Props) {
   } = useScheduleByUser(userId);
 
   return (
-    <div className="w-full max-w-[700px] mx-auto">
+    <div className="w-full max-w-[700px] mx-auto px-3">
       <div className="flex mt-2">
         <PostAndScheduleBTN
           setShowContainer={setShowContainer}

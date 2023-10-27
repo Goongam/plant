@@ -67,7 +67,7 @@ export default function GroupDetail({ groupId }: Props) {
     <section className="p-5">
       <div className="flex justify-between items-center border-b-4 border-gray-200 pb-2">
         <h2 className="text-2xl font-bold">{name}</h2>
-        <div>
+        <div className="flex gap-1 text-sm sm:text-base">
           {isLeader && (
             <button
               onClick={() => {
@@ -81,13 +81,13 @@ export default function GroupDetail({ groupId }: Props) {
           {isLeader && (
             <Link
               href={`/group/setting/${groupId}`}
-              className="rounded-lg bg-red-400 px-3 py-1 font-bold text-white ml-1"
+              className="rounded-lg bg-red-400 px-3 py-1 font-bold text-white flex items-center justify-center"
             >
               그룹설정
             </Link>
           )}
           <button
-            className="rounded-lg bg-orange-400 px-3 py-1 font-bold text-white ml-1"
+            className="rounded-lg bg-orange-400 px-3 py-1 font-bold text-white"
             onClick={() => {
               setOpenScheduleModal(true);
             }}
@@ -97,7 +97,7 @@ export default function GroupDetail({ groupId }: Props) {
 
           <Link
             href={`/new/${groupId}`}
-            className="rounded-lg bg-green-500 px-3 py-1 font-bold text-white ml-1"
+            className="rounded-lg bg-green-500 px-3 py-1 font-bold text-white ml-1 flex items-center justify-center"
           >
             새 글 작성
           </Link>
