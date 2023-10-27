@@ -69,31 +69,28 @@ export default function PostContainer({
       )}
 
       <>
-        {!!data?.pages[0].posts.length ? (
-          <InfiniteScroll
-            loadMore={() => {
-              if (!isFetching) fetchNextPage();
-            }}
-            hasMore={hasNextPage}
-            className="flex flex-col w-full items-center gap-6"
-          >
-            {data?.pages?.map((page) =>
-              page.posts.map((post: Post) => (
-                <PostCard
-                  key={post._id}
-                  post={post}
-                  me={me}
-                  refresh={refetch}
-                  showGroupName={showGroupName}
-                />
-              ))
-            )}
-          </InfiniteScroll>
-        ) : isFetching ? (
-          <Loading type="Moon" />
-        ) : (
-          <div className="text-center">포스트가 없어요</div>
-        )}
+        <InfiniteScroll
+          loadMore={() => {
+            if (!isFetching) fetchNextPage();
+          }}
+          hasMore={hasNextPage}
+          className="flex flex-col w-full items-center gap-6"
+        >
+          {!!data?.pages[0].posts.length
+            ? data?.pages?.map((page) =>
+                page.posts.map((post: Post) => (
+                  <PostCard
+                    key={post._id}
+                    post={post}
+                    me={me}
+                    refresh={refetch}
+                    showGroupName={showGroupName}
+                  />
+                ))
+              )
+            : !isFetching && <div className="text-center">포스트가 없어요</div>}
+          {isFetching && <Loading type="Moon" />}
+        </InfiniteScroll>
       </>
     </>
   );
