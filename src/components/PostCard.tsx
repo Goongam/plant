@@ -66,7 +66,7 @@ export default function PostCard({
 
   return (
     <div className="w-full max-w-[552px] h-fit flex flex-col">
-      {showGroupName && (
+      {showGroupName && group && (
         <Link
           className="ml-auto text-sm"
           href={`/group/${group._id}`}
