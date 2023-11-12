@@ -20,7 +20,13 @@ export const AuthOption: NextAuthOptions = {
       return session;
     },
     async signIn({ user: { id, name, email, image } }) {
-      AddUser({ id, email, name, image });
+      try {
+        await AddUser({ id, email, name, image });
+      } catch (error) {
+        console.error(error);
+
+        return false;
+      }
       return true;
     },
 
