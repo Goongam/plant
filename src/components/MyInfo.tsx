@@ -31,7 +31,7 @@ export default function MyInfo({ user }: Props) {
             <Avatar image={user.image} size="l" />
           </div>
           <p>{user.name}</p>
-          <p>{user.email}</p>
+          <p>{user.email ?? ""}</p>
         </div>
         <div className="bg-white w-full">
           <CalanderUser userId={user.id} />
