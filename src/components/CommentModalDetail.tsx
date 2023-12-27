@@ -1,10 +1,5 @@
 import { useComment } from "@/hooks/comment";
 import { Comment, Post } from "@/service/post";
-import Avatar from "./Avatar";
-import { getTimeAgo } from "@/util/timeago";
-import { useMoreText } from "@/hooks/moreText";
-import { useRef } from "react";
-import useMe from "@/hooks/me";
 import AddCommentInput from "./AddCommentInput";
 import CommentLine from "./CommentLine";
 import Loading from "./ui/Loading";

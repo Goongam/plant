@@ -1,13 +1,11 @@
 import { Schedule } from "@/service/schedule";
-import { dateFormat } from "@/util/dayjs";
-import { getTimeAgo } from "@/util/timeago";
 import { SlCalender } from "react-icons/sl";
 import { useState, useRef } from "react";
 import ScheduleCalander from "./ScheduleCalander";
 import Modal from "./Modal";
-import { useMoreText } from "@/hooks/moreText";
 import useMe from "@/hooks/me";
 import Link from "next/link";
+import MoreText from "./ui/MoreText";
 interface Props {
   schedule: Schedule;
   refetch: () => void;
@@ -25,10 +23,6 @@ export default function ScheduleCard({
 
   const [scheduleDates, setScheduleDates] = useState<string[]>(dates);
   const [isModal, setIsModal] = useState(false);
-
-  const contentRef = useRef(null);
-  const { handleMore, handleSimple, isClickMore, hasMore } =
-    useMoreText(contentRef);
 
   const deleteSchedule = () => {
     fetch(`/api/schedule/delete`, {
@@ -72,23 +66,7 @@ export default function ScheduleCard({
           </div>
         </div>
         <p className="font-bold text-xl mb-1">{title}</p>
-        {/* <div ref={contentRef} className="h-24 overflow-y-scroll">{content}</div> */}
-        <div
-          ref={contentRef}
-          className={`line-clamp-3 ${isClickMore && "line-clamp-none"}`}
-        >
-          {content}
-        </div>
-        {hasMore && !isClickMore && (
-          <button onClick={handleMore} className="text-start text-black/40">
-            더보기
-          </button>
-        )}
-        {hasMore && isClickMore && (
-          <button onClick={handleSimple} className="text-start text-black/40">
-            간략히보기
-          </button>
-        )}
+        <MoreText>{content}</MoreText>
         <Modal isOpen={isModal} setClose={setIsModal}>
           <div className="bg-white w-full sm:max-w-[500px] md:max-w-[700px] p-2">
             <ScheduleCalander
