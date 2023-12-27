@@ -15,6 +15,7 @@ import { User } from "@/service/user";
 import { useGroup } from "@/hooks/group";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import MoreText from "./ui/MoreText";
 
 interface Props {
   post: Post;
@@ -30,32 +31,10 @@ export default function PostCard({
 }: Props) {
   const { author, createAt, content, title, images, comments, group } = post;
 
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [isMore, setIsMore] = useState(false);
-  const [isClickMore, setIsClickMore] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   const router = useRouter();
 
-  useEffect(() => {
-    const current = contentRef.current;
-    const clientHeight = current?.clientHeight;
-    const scrollHeight = current?.scrollHeight;
-
-    if (!clientHeight || !scrollHeight) return;
-
-    if (clientHeight === scrollHeight) setIsMore(true); //초과x
-    else setIsMore(false); //초과됨
-  }, [content, contentRef, isMore]);
-
-  const handleMore = () => {
-    setIsClickMore(true);
-    setIsMore(true);
-  };
-  const handleSimple = () => {
-    setIsClickMore(false);
-    setIsMore(false);
-  };
   const handleComment = () => {
     setOpenModal(true);
   };
@@ -116,26 +95,8 @@ export default function PostCard({
             </div>
           </div>
 
-          <div>
-            <div
-              ref={contentRef}
-              className={`w-full line-clamp-4 mt-1 mb-5 ${
-                isMore && "line-clamp-none"
-              }`}
-            >
-              {content}
-            </div>
-
-            {!isMore && content && (
-              <button onClick={handleMore} className="text-black/30">
-                더보기
-              </button>
-            )}
-            {isMore && content && isClickMore && (
-              <button onClick={handleSimple} className="text-black/30">
-                간략히보기
-              </button>
-            )}
+          <div className="p-1">
+            <MoreText>{content}</MoreText>
           </div>
 
           {images && <PostImages images={post.images} />}
