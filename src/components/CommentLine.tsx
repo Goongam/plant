@@ -9,7 +9,7 @@ export default function CommentLine({ comment }: { comment: Comment }) {
   return (
     <div key={comment._id} className="flex flex-row gap-3 items-start">
       <Avatar image={comment.author.image} size="s" />
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-1">
         <p className="text-xs">
           <span className="font-bold">{comment.author.name}</span>
           <time className="text-black/40 ml-1">
